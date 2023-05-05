@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/react'
 import { Box, Button, Container, Link, Typography, styled } from '@mui/joy'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import reactLogo from '~/assets/react.svg'
 import viteLogo from '/vite.svg'
 
 const Logo = styled('img')({
@@ -33,7 +33,7 @@ const ReactLogo = styled(Logo)({
   animation: `${spin} infinite 20s linear`,
 })
 
-function App() {
+export default function Home() {
   const [count, setCount] = useState(0)
 
   return (
@@ -69,5 +69,3 @@ function App() {
     </Container>
   )
 }
-
-export default App
