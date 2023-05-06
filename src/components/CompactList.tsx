@@ -24,13 +24,25 @@ function CompactListItem({ story }: CompactListItemProps) {
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
 
+  const upvoteStory = () => {
+    window.location.href = `https://news.ycombinator.com/vote?id=${story.id}&how=up&goto=news`
+  }
+
   const scoreAndUpvoteButton = (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       width={{ xs: '4rem', sm: '8rem' }}
       sx={{ alignItems: 'center', justifyContent: 'space-between' }}
     >
-      <IconButton variant="plain" color="neutral" disabled>
+      <IconButton
+        variant="plain"
+        color="neutral"
+        onClick={(ev) => {
+          ev.stopPropagation()
+          ev.preventDefault()
+          upvoteStory()
+        }}
+      >
         <ArrowUpward />
       </IconButton>
       <Typography level="body2" sx={{ mx: 'auto', fontWeight: 'lg' }}>

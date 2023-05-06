@@ -1,3 +1,5 @@
+import db from '~/db'
+
 export type ItemId = number
 export type UnixTime = number
 
@@ -102,4 +104,36 @@ export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<
   if (!response.ok) throw response
   const item = await response.json()
   return item as unknown as Item
+}
+
+export async function fetchOrGetItemFromDB(id: ItemId, aborter?: AbortController): Promise<Item> {
+  const maybeItem = await db.items.get(id)
+
+  if (maybeItem) return maybeItem
+
+  const item = await fetchItem(id, aborter)
+
+  await db.items.add(item)
+
+  return item
+}
+
+export async function fetchItems(ids: ItemId[], aborter?: AbortController): Promise<Item[]> {
+  const maybeItems = await db.items.bulkGet(ids)
+
+  const missingItems = [] as Item[]
+
+  const items = await Promise.all(
+    maybeItems.map(async (maybeItem, i) => {
+      if (maybeItem) return maybeItem
+
+      const item = await fetchItem(ids[i], aborter)
+      missingItems.push(item)
+      return item
+    })
+  )
+
+  await db.items.bulkAdd(missingItems)
+
+  return items
 }

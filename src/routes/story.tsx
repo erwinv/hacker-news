@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Container,
   LinearProgress,
   List,
@@ -10,12 +11,15 @@ import {
 } from '@mui/joy'
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import fetchStory, { StoryWithComments } from '~/api/story'
+import fetchComments, { CommentTree } from '~/api/comments'
+import { Story } from '~/api/common'
+import fetchStory from '~/api/story'
 import { ignoreAbortError } from '~/fns'
 
 export default function Story() {
   const { id } = useParams()
-  const [story, setStory] = useState<StoryWithComments>()
+  const [story, setStory] = useState<Story>()
+  const [comments, setComments] = useState<CommentTree[]>()
 
   useEffect(() => {
     const storyId = Number(id)
@@ -38,6 +42,26 @@ export default function Story() {
     }
   }, [id])
 
+  useEffect(() => {
+    if (!story) return
+
+    let aborted = false
+    const aborter = new AbortController()
+
+    fetchComments(story, aborter)
+      .then((comments) => {
+        if (!aborted) {
+          setComments(comments)
+        }
+      })
+      .catch(ignoreAbortError)
+
+    return () => {
+      aborted = true
+      aborter.abort()
+    }
+  }, [story])
+
   if (!story) return <LinearProgress />
 
   return (
@@ -45,23 +69,27 @@ export default function Story() {
       <Stack sx={{ mt: 2, gap: 2 }}>
         <Typography level="h3">{story.title}</Typography>
         <List>
-          {story.comments.map((comment, i) => (
-            <Fragment key={comment.id}>
-              {i === 0 ? null : <ListDivider />}
-              <ListItem>
-                <ListItemContent
-                  sx={(theme) => {
-                    const typographyLevel = theme.typography.body1
-                    return {
-                      ...typographyLevel,
-                      '& a': typographyLevel,
-                    }
-                  }}
-                  dangerouslySetInnerHTML={{ __html: comment.text }}
-                />
-              </ListItem>
-            </Fragment>
-          ))}
+          {!comments ? (
+            <CircularProgress />
+          ) : (
+            comments.map((comment, i) => (
+              <Fragment key={comment.id}>
+                {i === 0 ? null : <ListDivider />}
+                <ListItem>
+                  <ListItemContent
+                    sx={(theme) => {
+                      const typographyLevel = theme.typography.body1
+                      return {
+                        ...typographyLevel,
+                        '& a': typographyLevel,
+                      }
+                    }}
+                    dangerouslySetInnerHTML={{ __html: comment.text }}
+                  />
+                </ListItem>
+              </Fragment>
+            ))
+          )}
         </List>
       </Stack>
     </Container>
