@@ -78,10 +78,15 @@ export default function Story() {
                 <ListItem>
                   <ListItemContent
                     sx={(theme) => {
-                      const typographyLevel = theme.typography.body1
+                      const { body1, body2, body3 } = theme.typography
                       return {
-                        ...typographyLevel,
-                        '& a': typographyLevel,
+                        ...body1,
+                        '& a': body2,
+                        '& pre': {
+                          overflowX: 'auto',
+                          backgroundColor: theme.palette.neutral.softBg,
+                        },
+                        '& code': { ...body3, fontFamily: 'monospace' },
                       }
                     }}
                     dangerouslySetInnerHTML={{ __html: comment.text }}
