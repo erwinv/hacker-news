@@ -35,7 +35,7 @@ export interface Job extends BaseItem {
   type: 'job'
 
   by: string
-  url: string
+  url?: string
   title: string
   text?: string
   score: number
@@ -100,6 +100,6 @@ export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<
     signal: aborter?.signal,
   })
   if (!response.ok) throw response
-  const item = response.json() as unknown as Item
-  return item
+  const item = await response.json()
+  return item as unknown as Item
 }

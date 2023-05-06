@@ -1,4 +1,5 @@
-import { ItemId, TopStory, fetchItem, hackerNewsApiBaseUrl, isTopStory } from '~/api/common'
+import { Item, ItemId, TopStory, fetchItem, hackerNewsApiBaseUrl, isTopStory } from '~/api/common'
+import db from '~/db'
 import { take } from '~/fns'
 
 export default async function fetchTopStories(
@@ -13,11 +14,24 @@ export default async function fetchTopStories(
 
   if (!response.ok) throw response
 
-  const storyIds = (await response.json()) as ItemId[]
+  const storyIds = take((await response.json()) as ItemId[], n)
 
-  const paginatedIds = take(storyIds, n)
+  const items = await db.items.bulkGet(storyIds)
+    .then(async (ids) => {
+      const missingItems = [] as Item[]
 
-  const items = await Promise.all(paginatedIds.map((id) => fetchItem(id, aborter)))
+      const items = await Promise.all(ids.map(async (maybeItem, i) => {
+        if (maybeItem) return maybeItem
+
+        const item = await fetchItem(storyIds[i], aborter)
+        missingItems.push(item)
+        return item
+      }))
+
+      await db.items.bulkAdd(missingItems)
+
+      return items
+    })
 
   return items.filter(isTopStory).filter((story) => !story.deleted && !story.dead)
 }

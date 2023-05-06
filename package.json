@@ -7,13 +7,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "s3cmd --no-mime-magic --acl-public sync --delete-removed ./dist/ s3://hackernews.erwinv.dev/"
   },
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/joy": "5.0.0-alpha.78",
+    "dexie": "^3.2.3",
+    "dexie-react-hooks": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1"

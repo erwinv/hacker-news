@@ -11,6 +11,7 @@ import {
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import fetchStory, { StoryWithComments } from '~/api/story'
+import { ignoreAbortError } from '~/fns'
 
 export default function Story() {
   const { id } = useParams()
@@ -23,11 +24,13 @@ export default function Story() {
     let aborted = false
     const aborter = new AbortController()
 
-    fetchStory(storyId, aborter).then((story) => {
-      if (!aborted) {
-        setStory(story)
-      }
-    })
+    fetchStory(storyId, aborter)
+      .then((story) => {
+        if (!aborted) {
+          setStory(story)
+        }
+      })
+      .catch(ignoreAbortError)
 
     return () => {
       aborted = true

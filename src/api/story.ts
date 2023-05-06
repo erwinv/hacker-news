@@ -1,6 +1,6 @@
 import { Comment, Story, fetchItem, isComment, isStory } from '~/api/common'
 
-type CommentWithComments = Comment & {
+interface CommentWithComments extends Comment {
   comments: CommentWithComments[]
 }
 

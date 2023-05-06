@@ -2,7 +2,7 @@ import { keyframes } from '@emotion/react'
 import { Box, Button, Container, Link, Typography, styled } from '@mui/joy'
 import { useState } from 'react'
 import reactLogo from '~/assets/react.svg'
-import viteLogo from '/vite.svg'
+import viteLogo from '~/assets/vite.svg'
 
 const Logo = styled('img')({
   height: '6em',

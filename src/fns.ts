@@ -27,3 +27,8 @@ export function extractSite(href: string) {
       return domain
   }
 }
+
+export function ignoreAbortError(error: Error) {
+  const isAbortError = error instanceof DOMException && error.name === 'AbortError'
+  if (!isAbortError) throw error
+}

@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemContent,
   ListItemDecorator,
+  Stack,
   Typography,
 } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
@@ -21,7 +22,30 @@ interface CompactListItemProps {
 
 function CompactListItem({ story }: CompactListItemProps) {
   const navigate = useNavigate()
-  const site = extractSite(story.url)
+  const site = story.url && extractSite(story.url)
+
+  const scoreAndUpvoteButton = (
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      width={{ xs: '4rem', sm: '8rem' }}
+      sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+    >
+      <IconButton variant="plain" color="neutral" disabled>
+        <ArrowUpward />
+      </IconButton>
+      <Typography level="body2" sx={{ mx: 'auto', fontWeight: 'lg' }}>
+        {story.score}
+      </Typography>
+      <IconButton
+        variant="plain"
+        size="lg"
+        color="neutral"
+        sx={{ display: { xs: 'none', sm: 'block' } }}
+      >
+        {story.type === 'story' ? <ArticleOutlined /> : <WorkOutline />}
+      </IconButton>
+    </Stack>
+  )
 
   const commentsButton =
     story.type !== 'story' ? null : (
@@ -32,9 +56,10 @@ function CompactListItem({ story }: CompactListItemProps) {
         onClick={() => {
           navigate(`/story/${story.id}`)
         }}
-        sx={{ width: 80, justifyContent: 'start' }}
       >
-        <Typography level="body3">{story.descendants}</Typography>
+        <Typography level="body3" sx={{ display: 'inline-block', width: '16px' }}>
+          {story.descendants}
+        </Typography>
       </Button>
     )
 
@@ -42,24 +67,18 @@ function CompactListItem({ story }: CompactListItemProps) {
     <ListItem endAction={commentsButton}>
       <ListItemButton
         onClick={() => {
-          window.location.href = story.url
+          if (story.url) {
+            window.location.href = story.url
+          } else {
+            navigate(`/${story.type}/${story.id}`)
+          }
         }}
       >
-        <ListItemDecorator>
-          <IconButton variant="plain" color="neutral" disabled>
-            <ArrowUpward />
-          </IconButton>
-          <Typography level="body2" sx={{ mx: 'auto', fontWeight: 'lg' }}>
-            {story.score}
-          </Typography>
-          <IconButton variant="plain" size="lg" color="neutral">
-            {story.type === 'story' ? <ArticleOutlined /> : <WorkOutline />}
-          </IconButton>
-        </ListItemDecorator>
+        <ListItemDecorator>{scoreAndUpvoteButton}</ListItemDecorator>
         <ListItemContent sx={{ pr: 6 }}>
           <Typography level="body2" variant="plain" color="neutral" sx={{ fontWeight: 'lg' }}>
             {story.title}
-            <SiteSubmissionsLink site={site} />
+            {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
           <Typography level="body3">
             Posted by <UserLink username={story.by} />
@@ -78,7 +97,10 @@ export default function CompactList({ stories }: CompactListProps) {
   return (
     <List
       sx={{
-        '--ListItemDecorator-size': '8rem',
+        '--ListItemDecorator-size': {
+          xs: '4rem',
+          sm: '8rem',
+        },
       }}
     >
       {stories.map((story) => (
