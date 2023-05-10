@@ -21,7 +21,10 @@ export function extractSite(href: string) {
     case 'github.com':
     case 'twitter.com':
       return domain + '/' + url.pathname.split('/')[1]?.toLowerCase()
+    case 'fly.dev':
     case 'github.io':
+    case 'google.com':
+    case 'netlify.app':
       return url.hostname
     default:
       return domain

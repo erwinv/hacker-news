@@ -26,7 +26,7 @@ export interface Story extends BaseItem {
 export interface Comment extends BaseItem {
   type: 'comment'
 
-  parent: Story['id']
+  parent: Story['id'] | Comment['id']
   kids?: Comment['id'][]
 
   by: string
@@ -92,6 +92,10 @@ export type TopStory = Story | Job
 
 export function isTopStory(x: Item): x is TopStory {
   return isStory(x) || isJob(x)
+}
+
+export function isParent(x: Item): x is Story | Comment {
+  return isStory(x) || isComment(x)
 }
 
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')

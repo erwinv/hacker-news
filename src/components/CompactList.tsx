@@ -20,7 +20,7 @@ interface CompactListItemProps {
   story: TopStory
 }
 
-function CompactListItem({ story }: CompactListItemProps) {
+export function CompactListItem({ story }: CompactListItemProps) {
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
 
