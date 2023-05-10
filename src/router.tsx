@@ -1,24 +1,107 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import Home from '~/routes/home.tsx'
-import TopStories from '~/routes/top-stories'
+import AppLayout from './components/AppLayout'
+import Job from './routes/job'
+import Stories from './routes/stories'
 import Story from './routes/story'
+import TopStory from './routes/topStory'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Outlet />,
+    element: (
+      <AppLayout
+        navPages={[
+          ['Top', '/top'],
+          ['New', '/new'],
+          ['Best', '/best'],
+          ['Ask', '/ask'],
+          ['Show', '/show'],
+          ['Job', '/job'],
+        ]}
+        indexRoute="/top"
+      >
+        <Outlet />
+      </AppLayout>
+    ),
     children: [
       {
-        index: true,
-        element: <TopStories />,
+        path: 'top',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="top" />,
+          },
+          {
+            path: 'story/:id',
+            element: <TopStory />,
+          },
+        ],
       },
       {
-        path: 'top-stories',
-        element: <TopStories />,
+        path: 'new',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="new" />,
+          },
+          {
+            path: 'story/:id',
+            element: <Story />,
+          },
+        ],
       },
       {
-        path: 'story/:id',
-        element: <Story />,
+        path: 'best',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="best" />,
+          },
+          {
+            path: 'story/:id',
+            element: <Story />,
+          },
+        ],
+      },
+      {
+        path: 'ask',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="ask" />,
+          },
+          {
+            path: 'story/:id',
+            element: <Story />,
+          },
+        ],
+      },
+      {
+        path: 'show',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="show" />,
+          },
+          {
+            path: 'story/:id',
+            element: <Story />,
+          },
+        ],
+      },
+      {
+        path: 'job',
+        children: [
+          {
+            index: true,
+            element: <Stories kind="job" />,
+          },
+          {
+            path: ':id',
+            element: <Job />,
+          },
+        ],
       },
       {
         path: 'vite',

@@ -94,7 +94,9 @@ export function isTopStory(x: Item): x is TopStory {
   return isStory(x) || isJob(x)
 }
 
-export function isParent(x: Item): x is Story | Comment {
+export type Parent = Story | Comment
+
+export function isParent(x: Item): x is Parent {
   return isStory(x) || isComment(x)
 }
 

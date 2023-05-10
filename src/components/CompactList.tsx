@@ -1,16 +1,14 @@
-import { ArrowUpward, ArticleOutlined, ModeCommentOutlined, WorkOutline } from '@mui/icons-material'
+import { ModeCommentOutlined } from '@mui/icons-material'
 import {
   Button,
-  IconButton,
+  LinearProgress,
   List,
   ListItem,
   ListItemButton,
   ListItemContent,
-  ListItemDecorator,
-  Stack,
   Typography,
 } from '@mui/joy'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { TopStory } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
@@ -18,55 +16,24 @@ import UserLink from './UserLink'
 
 interface CompactListItemProps {
   story: TopStory
+  number?: number
 }
 
-export function CompactListItem({ story }: CompactListItemProps) {
+export function CompactListItem({ story, number = NaN }: CompactListItemProps) {
   const navigate = useNavigate()
+  const location = useLocation()
   const site = story.url && extractSite(story.url)
+  const storyRoute = `story/${story.id}`
 
-  const upvoteStory = () => {
-    window.location.href = `https://news.ycombinator.com/vote?id=${story.id}&how=up&goto=news`
-  }
-
-  const scoreAndUpvoteButton = (
-    <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      width={{ xs: '4rem', sm: '8rem' }}
-      sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-    >
-      <IconButton
-        variant="plain"
-        color="neutral"
-        onClick={(ev) => {
-          ev.stopPropagation()
-          ev.preventDefault()
-          upvoteStory()
-        }}
-      >
-        <ArrowUpward />
-      </IconButton>
-      <Typography level="body2" sx={{ mx: 'auto', fontWeight: 'lg' }}>
-        {story.score}
-      </Typography>
-      <IconButton
-        variant="plain"
-        size="lg"
-        color="neutral"
-        sx={{ display: { xs: 'none', sm: 'block' } }}
-      >
-        {story.type === 'story' ? <ArticleOutlined /> : <WorkOutline />}
-      </IconButton>
-    </Stack>
-  )
-
-  const commentsButton =
+  const goToCommentsButton =
     story.type !== 'story' ? null : (
       <Button
         variant="plain"
         color="neutral"
         startDecorator={<ModeCommentOutlined />}
+        disabled={location.pathname.endsWith(storyRoute)}
         onClick={() => {
-          navigate(`/story/${story.id}`)
+          navigate(storyRoute)
         }}
       >
         <Typography level="body3" sx={{ display: 'inline-block', width: '16px' }}>
@@ -76,18 +43,23 @@ export function CompactListItem({ story }: CompactListItemProps) {
     )
 
   return (
-    <ListItem endAction={commentsButton}>
+    <ListItem endAction={goToCommentsButton}>
       <ListItemButton
         onClick={() => {
           if (story.url) {
-            window.location.href = story.url
+            window.open(story.url, '_blank')
           } else {
             navigate(`/${story.type}/${story.id}`)
           }
         }}
+        sx={{ alignItems: 'start' }}
       >
-        <ListItemDecorator>{scoreAndUpvoteButton}</ListItemDecorator>
-        <ListItemContent sx={{ pr: 6 }}>
+        {Number.isNaN(number) ? null : (
+          <Typography level="body3" sx={{ mt: 0.5, mr: 3 }}>
+            {number}.
+          </Typography>
+        )}
+        <ListItemContent sx={{ pr: 4 }}>
           <Typography level="body2" variant="plain" color="neutral" sx={{ fontWeight: 'lg' }}>
             {story.title}
             {!site ? null : <SiteSubmissionsLink site={site} />}
@@ -102,21 +74,17 @@ export function CompactListItem({ story }: CompactListItemProps) {
 }
 
 interface CompactListProps {
-  stories: TopStory[]
+  stories?: TopStory[]
+  numbered?: boolean
 }
 
-export default function CompactList({ stories }: CompactListProps) {
+export default function CompactList({ stories, numbered = false }: CompactListProps) {
+  if (!stories) return <LinearProgress />
+
   return (
-    <List
-      sx={{
-        '--ListItemDecorator-size': {
-          xs: '4rem',
-          sm: '8rem',
-        },
-      }}
-    >
-      {stories.map((story) => (
-        <CompactListItem key={story.id} story={story} />
+    <List>
+      {stories.map((story, i) => (
+        <CompactListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
       ))}
     </List>
   )

@@ -1,35 +1,47 @@
-import { Comment, Story, fetchItems, isComment, isParent, isStory } from '~/api/common'
+import { Comment, ItemId, Story, fetchItems } from '~/api/common'
 
 export interface CommentTree extends Comment {
-  comments: CommentTree[]
+  commentTrees: CommentTree[]
 }
 
-export default async function fetchComments(
-  parent: Story | Comment,
+export default async function fetchCommentTrees(
+  story: Story,
   aborter?: AbortController
 ): Promise<CommentTree[]> {
-  if (isStory(parent)) {
-    await prefetchDescendants(parent, aborter)
-  }
+  const descendants = await prefetchDescendants(story, aborter)
 
-  const comments = await fetchItems(parent.kids ?? [], aborter).then((items) =>
-    items.filter(isComment)
-  )
+  const comments = (story.kids ?? []).map((id) => descendants.get(id)!)
 
-  return Promise.all(
-    comments
-      .filter((comment) => !comment.deleted && !comment.dead)
-      .map(async (comment: Comment) => {
-        return { ...comment, comments: await fetchComments(comment) }
-      })
-  )
+  return comments
+    .filter((comment) => !comment.deleted && !comment.dead)
+    .map((comment: Comment) => {
+      return { ...comment, commentTrees: fetchNestedCommentTrees(comment, descendants) }
+    })
+}
+
+function fetchNestedCommentTrees(
+  comment: Comment,
+  descendants: Map<ItemId, Comment>
+): CommentTree[] {
+  const childComments = (comment.kids ?? []).map((id) => descendants.get(id)!)
+  return childComments
+    .filter((comment) => !comment.deleted && !comment.dead)
+    .map((childComment: Comment) => {
+      return { ...childComment, commentTrees: fetchNestedCommentTrees(childComment, descendants) }
+    })
 }
 
 export async function prefetchDescendants(parent: Story | Comment, aborter?: AbortController) {
-  let ids = parent.kids ?? []
+  const descendants = new Map<ItemId, Comment>()
 
+  let ids = parent.kids ?? []
   while (ids.length > 0) {
-    const kids = await fetchItems(ids, aborter)
-    ids = kids.filter(isParent).flatMap((kid) => kid.kids ?? [])
+    const kids = (await fetchItems(ids, aborter)) as Comment[]
+    for (const kid of kids) {
+      descendants.set(kid.id, kid)
+    }
+    ids = kids.flatMap((parent) => parent.kids ?? [])
   }
+
+  return descendants
 }

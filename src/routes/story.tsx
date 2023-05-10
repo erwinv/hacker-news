@@ -1,61 +1,46 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  LinearProgress,
-  List,
-  ListItem,
-  ListItemContent,
-  Stack,
-  Typography,
-} from '@mui/joy'
+import { CircularProgress, Container, LinearProgress, List, Stack } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import fetchComments, { CommentTree } from '~/api/comments'
+import fetchCommentTrees, { CommentTree } from '~/api/comments'
 import { Story } from '~/api/common'
 import fetchStory from '~/api/story'
+import CommentThread from '~/components/CommentThread'
 import { CompactListItem } from '~/components/CompactList'
 import { ignoreAbortError } from '~/fns'
 
-interface CommentProps {
-  comment: CommentTree
+interface StoryCommentsProps {
+  story: Story
 }
 
-function Comment({ comment }: CommentProps) {
-  const childComments = comment.comments
+export function StoryComments({ story }: StoryCommentsProps) {
+  const [comments, setComments] = useState<CommentTree[]>()
+
+  useEffect(() => {
+    if (!story) return
+
+    let aborted = false
+    const aborter = new AbortController()
+
+    fetchCommentTrees(story, aborter)
+      .then((comments) => {
+        if (!aborted) {
+          setComments(comments)
+        }
+      })
+      .catch(ignoreAbortError)
+
+    return () => {
+      aborted = true
+      aborter.abort()
+    }
+  }, [story])
+
+  if (!comments) return <CircularProgress />
 
   return (
     <>
-      <ListItem>
-        <ListItemContent>
-          <Typography level="body3" sx={{ fontWeight: 'lg', mb: 1 }}>
-            {comment.by}
-          </Typography>
-          <Box
-            sx={(theme) => {
-              const { body2, body3, body4 } = theme.typography
-              return {
-                ...body2,
-                '& a': body3,
-                '& pre': {
-                  overflowX: 'auto',
-                  backgroundColor: theme.palette.neutral.softBg,
-                },
-                '& code': { ...body4, fontFamily: 'monospace' },
-              }
-            }}
-            dangerouslySetInnerHTML={{ __html: comment.text }}
-          />
-        </ListItemContent>
-      </ListItem>
-      {childComments.length < 1 ? null : (
-        <ListItem nested>
-          <List>
-            {childComments.map((childComment) => (
-              <Comment key={childComment.id} comment={childComment} />
-            ))}
-          </List>
-        </ListItem>
+      {comments.map((comment) => <CommentThread key={comment.id} commentTree={comment} />) ?? (
+        <CircularProgress />
       )}
     </>
   )
@@ -64,7 +49,6 @@ function Comment({ comment }: CommentProps) {
 export default function Story() {
   const { id } = useParams()
   const [story, setStory] = useState<Story>()
-  const [comments, setComments] = useState<CommentTree[]>()
 
   useEffect(() => {
     const storyId = Number(id)
@@ -87,31 +71,7 @@ export default function Story() {
     }
   }, [id])
 
-  useEffect(() => {
-    if (!story) return
-
-    let aborted = false
-    const aborter = new AbortController()
-
-    fetchComments(story, aborter)
-      .then((comments) => {
-        if (!aborted) {
-          setComments(comments)
-        }
-      })
-      .catch(ignoreAbortError)
-
-    return () => {
-      aborted = true
-      aborter.abort()
-    }
-  }, [story])
-
   if (!story) return <LinearProgress />
-
-  const commentsList = comments?.map((comment) => (
-    <Comment key={comment.id} comment={comment} />
-  )) ?? <CircularProgress />
 
   return (
     <Container maxWidth="md">
@@ -126,7 +86,7 @@ export default function Story() {
           }}
         >
           <CompactListItem story={story} />
-          {commentsList}
+          <StoryComments story={story} />
         </List>
       </Stack>
     </Container>
