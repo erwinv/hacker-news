@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/joy'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { TopStory } from '~/api/common'
+import { TopStory, isJob } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
@@ -48,8 +48,10 @@ export function CompactListItem({ story, number = NaN }: CompactListItemProps) {
         onClick={() => {
           if (story.url) {
             window.open(story.url, '_blank')
-          } else {
+          } else if (isJob(story)) {
             navigate(`/${story.type}/${story.id}`)
+          } else {
+            navigate(storyRoute)
           }
         }}
         sx={{ alignItems: 'start' }}
