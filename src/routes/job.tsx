@@ -15,15 +15,17 @@ export function JobDescription({ job }: JobDescriptionProps) {
     <ListItem>
       <ListItemContent
         sx={(theme) => {
-          const { body1, body2, body3 } = theme.typography
+          const { body2, body3, body4 } = theme.typography
           return {
-            ...body1,
-            '& a': body2,
+            ...body2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            '& a': body3,
             '& pre': {
               overflowX: 'auto',
               backgroundColor: theme.palette.neutral.softBg,
             },
-            '& code': { ...body3, fontFamily: 'monospace' },
+            '& code': { ...body4, fontFamily: 'monospace' },
           }
         }}
         dangerouslySetInnerHTML={{ __html: job.text ?? '' }}
@@ -63,7 +65,7 @@ export default function Job() {
     <Container maxWidth="md">
       <Stack sx={{ mt: 2, gap: 2 }}>
         <List size="sm">
-          <CompactListItem story={job} />
+          <CompactListItem story={job} disableNav />
           <JobDescription job={job} />
         </List>
       </Stack>

@@ -8,8 +8,8 @@ import {
   ListItemContent,
   Typography,
 } from '@mui/joy'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { TopStory, isJob } from '~/api/common'
+import { useNavigate } from 'react-router-dom'
+import { TopStory } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
@@ -17,23 +17,23 @@ import UserLink from './UserLink'
 interface CompactListItemProps {
   story: TopStory
   number?: number
+  disableNav?: boolean
 }
 
-export function CompactListItem({ story, number = NaN }: CompactListItemProps) {
+export function CompactListItem({ story, number = NaN, disableNav = false }: CompactListItemProps) {
   const navigate = useNavigate()
-  const location = useLocation()
   const site = story.url && extractSite(story.url)
-  const storyRoute = `story/${story.id}`
 
-  const goToCommentsButton =
+  const discussionButton =
     story.type !== 'story' ? null : (
       <Button
         variant="plain"
         color="neutral"
         startDecorator={<ModeCommentOutlined />}
-        disabled={location.pathname.endsWith(storyRoute)}
         onClick={() => {
-          navigate(storyRoute)
+          if (!disableNav) {
+            navigate(`${story.id}`)
+          }
         }}
       >
         <Typography level="body3" sx={{ display: 'inline-block', width: '16px' }}>
@@ -43,15 +43,15 @@ export function CompactListItem({ story, number = NaN }: CompactListItemProps) {
     )
 
   return (
-    <ListItem endAction={goToCommentsButton}>
+    <ListItem endAction={discussionButton}>
       <ListItemButton
         onClick={() => {
           if (story.url) {
-            window.open(story.url, '_blank')
-          } else if (isJob(story)) {
-            navigate(`/${story.type}/${story.id}`)
+            window.open(story.url, '_blank', 'noopener')
           } else {
-            navigate(storyRoute)
+            if (!disableNav) {
+              navigate(`${story.id}`)
+            }
           }
         }}
         sx={{ alignItems: 'start' }}

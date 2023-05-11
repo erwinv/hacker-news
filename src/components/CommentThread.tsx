@@ -1,4 +1,5 @@
 import { Box, List, ListDivider, ListItem, ListItemContent, Typography } from '@mui/joy'
+import { Fragment } from 'react'
 import { CommentTree } from '~/api/comments'
 
 interface CommentThreadProps {
@@ -20,6 +21,8 @@ export default function CommentThread({ commentTree }: CommentThreadProps) {
               const { body2, body3, body4 } = theme.typography
               return {
                 ...body2,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
                 '& a': body3,
                 '& pre': {
                   overflowX: 'auto',
@@ -37,8 +40,11 @@ export default function CommentThread({ commentTree }: CommentThreadProps) {
           <ListDivider inset="gutter" />
           <ListItem nested>
             <List>
-              {childComments.map((childComment) => (
-                <CommentThread key={childComment.id} commentTree={childComment} />
+              {childComments.map((childComment, i) => (
+                <Fragment key={childComment.id}>
+                  {i === 0 ? null : <ListDivider inset="gutter" />}
+                  <CommentThread commentTree={childComment} />
+                </Fragment>
               ))}
             </List>
           </ListItem>

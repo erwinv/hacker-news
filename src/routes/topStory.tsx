@@ -47,7 +47,7 @@ export default function TopStory() {
             },
           }}
         >
-          <CompactListItem story={topStory} />
+          <CompactListItem story={topStory} disableNav />
           {isJob(topStory) ? <JobDescription job={topStory} /> : <StoryComments story={topStory} />}
         </List>
       </Stack>

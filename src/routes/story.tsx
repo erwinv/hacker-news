@@ -1,5 +1,14 @@
-import { CircularProgress, Container, LinearProgress, List, Stack } from '@mui/joy'
-import { useEffect, useState } from 'react'
+import {
+  CircularProgress,
+  Container,
+  LinearProgress,
+  List,
+  ListDivider,
+  ListItem,
+  ListItemContent,
+  Stack,
+} from '@mui/joy'
+import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import fetchCommentTrees, { CommentTree } from '~/api/comments'
 import { Story } from '~/api/common'
@@ -7,6 +16,36 @@ import fetchStory from '~/api/story'
 import CommentThread from '~/components/CommentThread'
 import { CompactListItem } from '~/components/CompactList'
 import { ignoreAbortError } from '~/fns'
+
+interface StoryTextProps {
+  story: Story
+}
+
+function StoryText({ story }: StoryTextProps) {
+  if (!story.text) return null
+
+  return (
+    <ListItem>
+      <ListItemContent
+        sx={(theme) => {
+          const { body2, body3, body4 } = theme.typography
+          return {
+            ...body2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            '& a': body3,
+            '& pre': {
+              overflowX: 'auto',
+              backgroundColor: theme.palette.neutral.softBg,
+            },
+            '& code': { ...body4, fontFamily: 'monospace' },
+          }
+        }}
+        dangerouslySetInnerHTML={{ __html: story.text }}
+      />
+    </ListItem>
+  )
+}
 
 interface StoryCommentsProps {
   story: Story
@@ -21,7 +60,7 @@ export function StoryComments({ story }: StoryCommentsProps) {
     let aborted = false
     const aborter = new AbortController()
 
-    fetchCommentTrees(story, aborter)
+    fetchCommentTrees(story, aborter, 10)
       .then((comments) => {
         if (!aborted) {
           setComments(comments)
@@ -39,9 +78,12 @@ export function StoryComments({ story }: StoryCommentsProps) {
 
   return (
     <>
-      {comments.map((comment) => <CommentThread key={comment.id} commentTree={comment} />) ?? (
-        <CircularProgress />
-      )}
+      {comments.map((comment, i) => (
+        <Fragment key={comment.id}>
+          <ListDivider inset="gutter" />
+          <CommentThread commentTree={comment} />
+        </Fragment>
+      ))}
     </>
   )
 }
@@ -85,7 +127,8 @@ export default function Story() {
             },
           }}
         >
-          <CompactListItem story={story} />
+          <CompactListItem story={story} disableNav />
+          <StoryText story={story} />
           <StoryComments story={story} />
         </List>
       </Stack>

@@ -32,7 +32,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
 
   return (
     <Stack>
-      <CompactList stories={stories} numbered />
+      <CompactList stories={stories} />
     </Stack>
   )
 }

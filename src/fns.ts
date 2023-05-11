@@ -1,5 +1,6 @@
 export function* _take<T>(xs: Iterable<T>, n: number) {
   if (n < 1) return
+  if (n >= Infinity) yield* xs
 
   for (const x of xs) {
     yield x
@@ -7,8 +8,8 @@ export function* _take<T>(xs: Iterable<T>, n: number) {
   }
 }
 
-export function take<T>(xs: Iterable<T>, n: number) {
-  return [..._take(xs, n)]
+export function take<T>(xs: T[], n: number) {
+  return n < Infinity ? [..._take(xs, n)] : xs
 }
 
 export function extractSite(href: string) {

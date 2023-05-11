@@ -33,7 +33,7 @@ const router = createBrowserRouter([
             element: <Stories kind="top" />,
           },
           {
-            path: 'story/:id',
+            path: ':id',
             element: <TopStory />,
           },
         ],
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             element: <Stories kind="new" />,
           },
           {
-            path: 'story/:id',
+            path: ':id',
             element: <Story />,
           },
         ],
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
             element: <Stories kind="best" />,
           },
           {
-            path: 'story/:id',
+            path: ':id',
             element: <Story />,
           },
         ],
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
             element: <Stories kind="ask" />,
           },
           {
-            path: 'story/:id',
+            path: ':id',
             element: <Story />,
           },
         ],
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             element: <Stories kind="show" />,
           },
           {
-            path: 'story/:id',
+            path: ':id',
             element: <Story />,
           },
         ],
