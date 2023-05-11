@@ -78,7 +78,7 @@ export function StoryComments({ story }: StoryCommentsProps) {
 
   return (
     <>
-      {comments.map((comment, i) => (
+      {comments.map((comment) => (
         <Fragment key={comment.id}>
           <ListDivider inset="gutter" />
           <CommentThread commentTree={comment} />
