@@ -1,6 +1,9 @@
 export function* _take<T>(xs: Iterable<T>, n: number) {
   if (n < 1) return
-  if (n >= Infinity) yield* xs
+  if (n >= Infinity) {
+    yield* xs
+    return
+  }
 
   for (const x of xs) {
     yield x
