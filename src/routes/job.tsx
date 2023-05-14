@@ -1,4 +1,4 @@
-import { LinearProgress } from '@mui/joy'
+import { Box, LinearProgress } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Job } from '~/api/common'
@@ -33,5 +33,9 @@ export default function Job() {
 
   if (!job) return <LinearProgress />
 
-  return <JobCard job={job} />
+  return (
+    <Box sx={{ px: 1.5 }}>
+      <JobCard job={job} />
+    </Box>
+  )
 }

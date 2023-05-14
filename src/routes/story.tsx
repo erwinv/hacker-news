@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress, List, ListDivider } from '@mui/joy'
+import { Box, CircularProgress, LinearProgress, List, ListDivider } from '@mui/joy'
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import fetchCommentTrees, { CommentTree } from '~/api/comments'
@@ -85,7 +85,9 @@ export default function Story() {
 
   return (
     <>
-      <StoryCard story={story} />
+      <Box sx={{ px: 1.5 }}>
+        <StoryCard story={story} />
+      </Box>
       <StoryComments story={story} />
     </>
   )

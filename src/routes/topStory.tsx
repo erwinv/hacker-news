@@ -1,4 +1,4 @@
-import { LinearProgress } from '@mui/joy'
+import { Box, LinearProgress } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TopStory, isJob } from '~/api/common'
@@ -39,7 +39,9 @@ export default function TopStory() {
 
   return (
     <>
-      <StoryCard story={topStory} />
+      <Box sx={{ px: 1.5 }}>
+        <StoryCard story={topStory} />
+      </Box>
       <StoryComments story={topStory} />
     </>
   )
