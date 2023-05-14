@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import fetchStories, { StoryKind, StoryKindMapping } from '~/api/stories'
-import StoryList from '~/components/CompactList'
+import StoryList from '~/components/StoryList'
 import { ignoreAbortError } from '~/fns'
 
 interface StoriesProps<K extends StoryKind> {

@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet } from 'react-router-dom'
 import Home from '~/routes/home.tsx'
 import AppLayout from './components/AppLayout'
 import Job from './routes/job'
+import NewStories from './routes/newstories'
 import Stories from './routes/stories'
 import Story from './routes/story'
 import TopStory from './routes/topStory'
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="new" />,
+            element: <NewStories />,
           },
           {
             path: ':id',

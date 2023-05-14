@@ -100,6 +100,12 @@ export function isParent(x: Item): x is Parent {
   return isStory(x) || isComment(x)
 }
 
+export type Lazy<T extends Item> = T | T['id']
+
+export function isMissing<T extends Item>(x: Lazy<T>): x is T['id'] {
+  return typeof x === 'number'
+}
+
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
 
 export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<Item> {
