@@ -67,7 +67,7 @@ export function CompactListItem({ story, number = NaN, disableNav = false }: Com
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
           <Typography level="body3">
-            Posted by <UserLink username={story.by} />
+            <UserLink username={story.by} />
           </Typography>
         </ListItemContent>
       </ListItemButton>
@@ -81,7 +81,7 @@ interface CompactListProps {
 }
 
 export default function CompactList({ stories, numbered = false }: CompactListProps) {
-  if (!stories) return <LinearProgress />
+  if (!stories) return <LinearProgress color="neutral" />
 
   return (
     <List>

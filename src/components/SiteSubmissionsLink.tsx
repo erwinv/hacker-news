@@ -9,6 +9,7 @@ export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) 
   return (
     <Link
       level="body3"
+      color="neutral"
       target="_blank"
       rel="noopener"
       endDecorator={<Launch />}

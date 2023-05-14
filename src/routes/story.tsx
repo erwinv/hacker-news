@@ -74,7 +74,7 @@ export function StoryComments({ story }: StoryCommentsProps) {
     }
   }, [story])
 
-  if (!comments) return <CircularProgress />
+  if (!comments) return <CircularProgress color="neutral" />
 
   return (
     <>
