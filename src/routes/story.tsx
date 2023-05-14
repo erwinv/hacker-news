@@ -1,12 +1,10 @@
 import {
   CircularProgress,
-  Container,
   LinearProgress,
   List,
   ListDivider,
   ListItem,
   ListItemContent,
-  Stack,
 } from '@mui/joy'
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -21,7 +19,7 @@ interface StoryTextProps {
   story: Story
 }
 
-function StoryText({ story }: StoryTextProps) {
+export function StoryText({ story }: StoryTextProps) {
   if (!story.text) return null
 
   return (
@@ -116,22 +114,17 @@ export default function Story() {
   if (!story) return <LinearProgress />
 
   return (
-    <Container maxWidth="md">
-      <Stack sx={{ mt: 2, gap: 2 }}>
-        <List
-          size="sm"
-          sx={{
-            '--List-nestedInsetStart': {
-              xs: '1rem',
-              sm: '2rem',
-            },
-          }}
-        >
-          <CompactListItem story={story} disableNav />
-          <StoryText story={story} />
-          <StoryComments story={story} />
-        </List>
-      </Stack>
-    </Container>
+    <List
+      sx={{
+        '--List-nestedInsetStart': {
+          xs: '1rem',
+          sm: '2rem',
+        },
+      }}
+    >
+      <CompactListItem story={story} disableNav />
+      <StoryText story={story} />
+      <StoryComments story={story} />
+    </List>
   )
 }

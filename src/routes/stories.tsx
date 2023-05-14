@@ -1,4 +1,3 @@
-import { Stack } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import fetchStories, { StoryKind, StoryKindMapping } from '~/api/stories'
 import CompactList from '~/components/CompactList'
@@ -30,9 +29,5 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
     }
   }, [kind])
 
-  return (
-    <Stack>
-      <CompactList stories={stories} />
-    </Stack>
-  )
+  return <CompactList stories={stories} />
 }

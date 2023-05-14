@@ -17,11 +17,11 @@ export default async function fetchCommentTrees(
   return comments
     .filter((comment) => !comment.deleted && !comment.dead)
     .map((comment: Comment) => {
-      return { ...comment, commentTrees: fetchNestedCommentTrees(comment, descendants, limit) }
+      return { ...comment, commentTrees: inflateNestedCommentTrees(comment, descendants, limit) }
     })
 }
 
-function fetchNestedCommentTrees(
+function inflateNestedCommentTrees(
   comment: Comment,
   descendants: Map<ItemId, Comment>,
   limit = Infinity
@@ -32,7 +32,7 @@ function fetchNestedCommentTrees(
     .map((childComment: Comment) => {
       return {
         ...childComment,
-        commentTrees: fetchNestedCommentTrees(childComment, descendants, limit),
+        commentTrees: inflateNestedCommentTrees(childComment, descendants, limit),
       }
     })
 }

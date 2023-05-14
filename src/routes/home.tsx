@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/react'
-import { Box, Button, Container, Link, Typography, styled } from '@mui/joy'
+import { Box, Button, Link, Typography, styled } from '@mui/joy'
 import { useState } from 'react'
 import reactLogo from '~/assets/react.svg'
 import viteLogo from '~/assets/vite.svg'
@@ -37,8 +37,7 @@ export default function Home() {
   const [count, setCount] = useState(0)
 
   return (
-    <Container
-      maxWidth="lg"
+    <Box
       sx={{
         mt: 12,
         mx: 'auto',
@@ -66,6 +65,6 @@ export default function Home() {
       <Typography textColor="warning.300">
         Click on the Vite and React logos to learn more
       </Typography>
-    </Container>
+    </Box>
   )
 }

@@ -1,4 +1,4 @@
-import { Container, LinearProgress, List, Stack } from '@mui/joy'
+import { LinearProgress, List } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TopStory, isJob } from '~/api/common'
@@ -6,7 +6,7 @@ import fetchStory from '~/api/story'
 import { CompactListItem } from '~/components/CompactList'
 import { ignoreAbortError } from '~/fns'
 import { JobDescription } from './job'
-import { StoryComments } from './story'
+import { StoryComments, StoryText } from './story'
 
 export default function TopStory() {
   const { id } = useParams()
@@ -36,21 +36,23 @@ export default function TopStory() {
   if (!topStory) return <LinearProgress />
 
   return (
-    <Container maxWidth="md">
-      <Stack sx={{ mt: 2, gap: 2 }}>
-        <List
-          size="sm"
-          sx={{
-            '--List-nestedInsetStart': {
-              xs: '1rem',
-              sm: '2rem',
-            },
-          }}
-        >
-          <CompactListItem story={topStory} disableNav />
-          {isJob(topStory) ? <JobDescription job={topStory} /> : <StoryComments story={topStory} />}
-        </List>
-      </Stack>
-    </Container>
+    <List
+      sx={{
+        '--List-nestedInsetStart': {
+          xs: '1rem',
+          sm: '2rem',
+        },
+      }}
+    >
+      <CompactListItem story={topStory} disableNav />
+      {isJob(topStory) ? (
+        <JobDescription job={topStory} />
+      ) : (
+        <>
+          <StoryText story={topStory} />
+          <StoryComments story={topStory} />
+        </>
+      )}
+    </List>
   )
 }

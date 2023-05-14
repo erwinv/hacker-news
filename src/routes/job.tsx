@@ -1,4 +1,4 @@
-import { Container, LinearProgress, List, ListItem, ListItemContent, Stack } from '@mui/joy'
+import { LinearProgress, List, ListItem, ListItemContent } from '@mui/joy'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Job } from '~/api/common'
@@ -62,13 +62,9 @@ export default function Job() {
   if (!job) return <LinearProgress />
 
   return (
-    <Container maxWidth="md">
-      <Stack sx={{ mt: 2, gap: 2 }}>
-        <List size="sm">
-          <CompactListItem story={job} disableNav />
-          <JobDescription job={job} />
-        </List>
-      </Stack>
-    </Container>
+    <List>
+      <CompactListItem story={job} disableNav />
+      <JobDescription job={job} />
+    </List>
   )
 }
