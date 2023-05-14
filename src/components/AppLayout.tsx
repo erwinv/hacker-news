@@ -68,10 +68,13 @@ export default function AppLayout({
           },
         }}
       >
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'center', mt: 1 }}>
+        <Box
+          component="header"
+          sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'center', mt: 1 }}
+        >
           {logo}
           <Tabs value={currentPath} onChange={(_, value) => navigate(`${value}`)}>
-            <TabList variant="plain" sx={{ width: '100%' }}>
+            <TabList component="nav" variant="plain" sx={{ width: '100%' }}>
               {navPages.map(([label, path]) => (
                 <Tab
                   key={label}
@@ -85,7 +88,9 @@ export default function AppLayout({
           </Tabs>
         </Box>
 
-        <main>{children}</main>
+        <Box component="main" sx={{ pt: 1 }}>
+          {children}
+        </Box>
       </Box>
     </Container>
   )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import fetchStories, { StoryKind, StoryKindMapping } from '~/api/stories'
-import CompactList from '~/components/CompactList'
+import StoryList from '~/components/CompactList'
 import { ignoreAbortError } from '~/fns'
 
 interface StoriesProps<K extends StoryKind> {
@@ -29,5 +29,5 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
     }
   }, [kind])
 
-  return <CompactList stories={stories} />
+  return <StoryList stories={stories} />
 }

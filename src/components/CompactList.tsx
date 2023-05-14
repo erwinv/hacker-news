@@ -14,13 +14,13 @@ import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
 
-interface CompactListItemProps {
+interface StoryListItemProps {
   story: TopStory
   number?: number
   disableNav?: boolean
 }
 
-export function CompactListItem({ story, number = NaN, disableNav = false }: CompactListItemProps) {
+function StoryListItem({ story, number = NaN, disableNav = false }: StoryListItemProps) {
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
 
@@ -75,18 +75,18 @@ export function CompactListItem({ story, number = NaN, disableNav = false }: Com
   )
 }
 
-interface CompactListProps {
+interface StoryListProps {
   stories?: TopStory[]
   numbered?: boolean
 }
 
-export default function CompactList({ stories, numbered = false }: CompactListProps) {
+export default function StoryList({ stories, numbered = false }: StoryListProps) {
   if (!stories) return <LinearProgress color="neutral" />
 
   return (
     <List>
       {stories.map((story, i) => (
-        <CompactListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
+        <StoryListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
       ))}
     </List>
   )
