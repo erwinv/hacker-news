@@ -3,10 +3,10 @@ import { forwardRef } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { isMissing } from '~/api/common'
 import { StoryListItem } from '~/components/StoryList'
-import useNewStories from '~/contexts/hooks/stories'
+import useStories from '~/contexts/hooks/stories'
 
 export default function NewStories() {
-  const newStories = useNewStories()
+  const newStories = useStories('new')
 
   if (!newStories) return <LinearProgress color="neutral" />
 
