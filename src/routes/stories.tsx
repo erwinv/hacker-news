@@ -26,13 +26,14 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
         )),
       }}
       data={stories}
+      computeItemKey={(_, storyOrId) => (isLoaded(storyOrId) ? storyOrId.id : storyOrId)}
       itemContent={(_, story) => {
         return !isLoaded(story) ? (
           <ListItem>
             <CircularProgress color="neutral" />
           </ListItem>
         ) : (
-          <StoryListItem key={story.id} story={story} />
+          <StoryListItem story={story} />
         )
       }}
     />

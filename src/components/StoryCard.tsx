@@ -28,7 +28,7 @@ export default function StoryCard({ story }: StoryCardProps) {
         </>
       )}
 
-      <Divider />
+      <Divider sx={{ mt: 1.5 }} />
       <CardOverflow variant="soft" sx={{ py: 1.5, bgcolor: 'background.level1' }}>
         <Stack direction="row" sx={{ gap: 1 }}>
           <Typography level="body3">{story.by}</Typography>

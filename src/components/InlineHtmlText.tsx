@@ -13,6 +13,9 @@ export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
           ...body2,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
+          '& p': {
+            mb: 0,
+          },
           '& a': body3,
           '& pre': {
             overflowX: 'auto',
