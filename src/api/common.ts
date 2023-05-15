@@ -106,6 +106,16 @@ export function isLoaded<T extends Item>(x: Lazy<T>): x is T {
   return typeof x !== 'number'
 }
 
+export type StoryKindMapping = {
+  top: Job | Story
+  new: Story
+  best: Story
+  ask: Story
+  show: Story
+  job: Job
+}
+export type StoryKind = keyof StoryKindMapping
+
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
 
 export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<Item> {
