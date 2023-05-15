@@ -11,7 +11,7 @@ import {
 } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ItemId, TopStory, isMissing } from '~/api/common'
+import { Lazy, TopStory, isMissing } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
@@ -78,7 +78,7 @@ export function StoryListItem({ story, number = NaN, disableNav = false }: Story
 }
 
 interface StoryListProps {
-  stories?: (TopStory | ItemId)[]
+  stories?: Lazy<TopStory>[]
   numbered?: boolean
 }
 
@@ -93,7 +93,9 @@ export default function StoryList({
     <List>
       {stories.map((story, i) =>
         isMissing(story) ? (
-          <CircularProgress color="neutral" size="sm" />
+          <ListItem>
+            <CircularProgress color="neutral" size="sm" />
+          </ListItem>
         ) : (
           <StoryListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
         )

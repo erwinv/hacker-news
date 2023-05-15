@@ -19,19 +19,22 @@ export default function useNewStories() {
       const lazyStories = maybeStories.map((maybeItem, i) => maybeItem ?? storyIds[i])
       setNewStories(lazyStories)
 
-      const missingStories = [] as Story[]
-      const newStories = await Promise.all(
-        lazyStories.map(async (storyOrId) => {
-          if (!isMissing(storyOrId)) return storyOrId
+      const missingStories = await Promise.all(
+        lazyStories.map(async (storyOrId, i) => {
+          if (!isMissing(storyOrId)) return []
 
           const story = (await fetchItem(storyOrId, aborter)) as Story
-          missingStories.push(story)
-          return story
+          setNewStories((prev) => {
+            const next = [...(prev ?? [])]
+            next[i] = story
+            return next
+          })
+
+          return [story]
         })
-      )
+      ).then((results) => results.flat())
 
       await db.items.bulkAdd(missingStories)
-      setNewStories(newStories)
     })().catch(ignoreAbortError)
 
     return () => {

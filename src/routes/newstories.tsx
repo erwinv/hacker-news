@@ -1,4 +1,4 @@
-import { CircularProgress, List } from '@mui/joy'
+import { CircularProgress, LinearProgress, List, ListItem } from '@mui/joy'
 import { forwardRef } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { isMissing } from '~/api/common'
@@ -7,6 +7,8 @@ import useNewStories from '~/contexts/hooks/stories'
 
 export default function NewStories() {
   const newStories = useNewStories()
+
+  if (!newStories) return <LinearProgress color="neutral" />
 
   return (
     <Virtuoso
@@ -21,7 +23,9 @@ export default function NewStories() {
       data={newStories}
       itemContent={(_, story) => {
         return isMissing(story) ? (
-          <CircularProgress color="neutral" size="sm" />
+          <ListItem>
+            <CircularProgress color="neutral" />
+          </ListItem>
         ) : (
           <StoryListItem key={story.id} story={story} />
         )

@@ -1,4 +1,4 @@
-import { Box, CircularProgress, LinearProgress, List, ListDivider } from '@mui/joy'
+import { Box, CircularProgress, LinearProgress, List, ListDivider, ListItem } from '@mui/joy'
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import fetchCommentTrees, { CommentTree } from '~/api/comments'
@@ -35,8 +35,6 @@ export function StoryComments({ story }: StoryCommentsProps) {
     }
   }, [story])
 
-  if (!comments) return <CircularProgress color="neutral" />
-
   return (
     <List
       sx={{
@@ -46,12 +44,18 @@ export function StoryComments({ story }: StoryCommentsProps) {
         },
       }}
     >
-      {comments.map((comment, i) => (
-        <Fragment key={comment.id}>
-          {i === 0 ? null : <ListDivider inset="gutter" />}
-          <CommentThread commentTree={comment} />
-        </Fragment>
-      ))}
+      {!comments ? (
+        <ListItem>
+          <CircularProgress color="neutral" />
+        </ListItem>
+      ) : (
+        comments.map((comment, i) => (
+          <Fragment key={comment.id}>
+            {i === 0 ? null : <ListDivider inset="gutter" />}
+            <CommentThread commentTree={comment} />
+          </Fragment>
+        ))
+      )}
     </List>
   )
 }
