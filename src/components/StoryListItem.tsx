@@ -1,17 +1,7 @@
 import { ModeCommentOutlined } from '@mui/icons-material'
-import {
-  Button,
-  CircularProgress,
-  LinearProgress,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemContent,
-  Typography,
-} from '@mui/joy'
-import { PropsWithChildren } from 'react'
+import { Button, ListItem, ListItemButton, ListItemContent, Typography } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
-import { Lazy, TopStory, isMissing } from '~/api/common'
+import { TopStory } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
@@ -74,33 +64,5 @@ export function StoryListItem({ story, number = NaN, disableNav = false }: Story
         </ListItemContent>
       </ListItemButton>
     </ListItem>
-  )
-}
-
-interface StoryListProps {
-  stories?: Lazy<TopStory>[]
-  numbered?: boolean
-}
-
-export default function StoryList({
-  stories,
-  numbered = false,
-  children,
-}: PropsWithChildren<StoryListProps>) {
-  if (!stories) return <LinearProgress color="neutral" />
-
-  return (
-    <List>
-      {stories.map((story, i) =>
-        isMissing(story) ? (
-          <ListItem>
-            <CircularProgress color="neutral" size="sm" />
-          </ListItem>
-        ) : (
-          <StoryListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
-        )
-      )}
-      {children}
-    </List>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Lazy, fetchItem, hackerNewsApiBaseUrl, isMissing } from '~/api/common'
+import { Lazy, fetchItem, hackerNewsApiBaseUrl, isLoaded } from '~/api/common'
 import { StoryKind, StoryKindMapping } from '~/api/stories'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
@@ -22,7 +22,7 @@ export default function useStories<K extends StoryKind>(kind: K) {
 
       const missingStories = await Promise.all(
         lazyStories.map(async (storyOrId, i) => {
-          if (!isMissing(storyOrId)) return []
+          if (isLoaded(storyOrId)) return []
 
           const story = (await fetchItem(storyOrId, aborter)) as StoryKindMapping[K]
           setStories((prev) => {

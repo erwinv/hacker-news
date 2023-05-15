@@ -102,10 +102,6 @@ export function isParent(x: Item): x is Parent {
 
 export type Lazy<T extends Item> = T | T['id']
 
-export function isMissing<T extends Item>(x: Lazy<T>): x is T['id'] {
-  return typeof x === 'number'
-}
-
 export function isLoaded<T extends Item>(x: Lazy<T>): x is T {
   return typeof x !== 'number'
 }

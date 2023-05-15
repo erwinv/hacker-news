@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { isLoaded } from '~/api/common'
 import { StoryKind } from '~/api/stories'
-import { StoryListItem } from '~/components/StoryList'
+import { StoryListItem } from '~/components/StoryListItem'
 import useStories from '~/contexts/hooks/stories'
 
 interface StoriesProps<K extends StoryKind> {
