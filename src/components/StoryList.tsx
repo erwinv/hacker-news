@@ -22,7 +22,7 @@ interface StoryListItemProps {
   disableNav?: boolean
 }
 
-function StoryListItem({ story, number = NaN, disableNav = false }: StoryListItemProps) {
+export function StoryListItem({ story, number = NaN, disableNav = false }: StoryListItemProps) {
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
 

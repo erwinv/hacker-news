@@ -1,27 +1,19 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Lazy, Story, fetchItem, hackerNewsApiBaseUrl, isMissing } from '~/api/common'
 import db from '~/db'
-
-const itemsPerPage = 30
+import { ignoreAbortError } from '~/fns'
 
 export default function useNewStories() {
   const [newStories, setNewStories] = useState<Lazy<Story>[]>()
-  const [total, setTotal] = useState(0)
-  const [limit, setLimit] = useState(itemsPerPage)
-  const more = useCallback(() => {
-    setLimit((x) => x + itemsPerPage)
-  }, [])
 
   useEffect(() => {
     const aborter = new AbortController()
+
     ;(async () => {
       const url = new URL(`/v0/${'new'}stories.json`, hackerNewsApiBaseUrl)
       const response = await fetch(url, { signal: aborter.signal })
       if (!response.ok) throw response
-      const ids = (await response.json()) as Story['id'][]
-      setTotal(ids.length)
-
-      const storyIds = ids.slice(0, limit)
+      const storyIds = (await response.json()) as Story['id'][]
 
       const maybeStories = (await db.items.bulkGet(storyIds)) as (Story | undefined)[]
       const lazyStories = maybeStories.map((maybeItem, i) => maybeItem ?? storyIds[i])
@@ -40,12 +32,12 @@ export default function useNewStories() {
 
       await db.items.bulkAdd(missingStories)
       setNewStories(newStories)
-    })()
+    })().catch(ignoreAbortError)
 
     return () => {
       aborter.abort()
     }
-  }, [limit])
+  }, [])
 
-  return { newStories, hasMore: total > limit, more }
+  return newStories
 }
