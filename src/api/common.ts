@@ -106,6 +106,10 @@ export function isMissing<T extends Item>(x: Lazy<T>): x is T['id'] {
   return typeof x === 'number'
 }
 
+export function isLoaded<T extends Item>(x: Lazy<T>): x is T {
+  return typeof x !== 'number'
+}
+
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
 
 export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<Item> {
