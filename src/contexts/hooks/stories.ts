@@ -17,6 +17,7 @@ export default function useStories<K extends StoryKind>(kind: K) {
     const aborter = new AbortController()
 
     ;(async () => {
+      setStories(undefined)
       const url = new URL(`/v0/${kind}stories.json`, hackerNewsApiBaseUrl)
       const response = await fetch(url, { signal: aborter.signal })
       if (!response.ok) throw response

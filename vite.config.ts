@@ -12,7 +12,7 @@ export default defineConfig({
           react: ['react', 'react-dom', 'react-router-dom'],
           mui: ['@mui/joy', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
           dexie: ['dexie', 'dexie-react-hooks'],
-          virtuoso: ['react-virtuoso'],
+          virt: ['react-virtuoso', 'react-vtree', 'react-window-infinite-loader'],
         },
       },
     },
