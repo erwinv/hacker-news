@@ -21,7 +21,7 @@ export default function NewStories() {
       data={newStories}
       itemContent={(_, story) => {
         return isMissing(story) ? (
-          <CircularProgress size="sm" />
+          <CircularProgress color="neutral" size="sm" />
         ) : (
           <StoryListItem key={story.id} story={story} />
         )

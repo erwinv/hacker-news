@@ -93,7 +93,7 @@ export default function StoryList({
     <List>
       {stories.map((story, i) =>
         isMissing(story) ? (
-          <CircularProgress size="sm" />
+          <CircularProgress color="neutral" size="sm" />
         ) : (
           <StoryListItem key={story.id} story={story} number={numbered ? i + 1 : undefined} />
         )

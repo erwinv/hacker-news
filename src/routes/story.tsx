@@ -81,7 +81,7 @@ export default function Story() {
     }
   }, [id])
 
-  if (!story) return <LinearProgress />
+  if (!story) return <LinearProgress color="neutral" />
 
   return (
     <>
