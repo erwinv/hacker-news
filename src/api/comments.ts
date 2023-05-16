@@ -1,9 +1,5 @@
-import { Comment, ItemId, Story, fetchItems } from '~/api/common'
+import { Comment, CommentTree, ItemId, Story, fetchItems } from '~/api/common'
 import { take } from '~/fns'
-
-export interface CommentTree extends Comment {
-  commentTrees: CommentTree[]
-}
 
 export default async function fetchCommentTrees(
   story: Story,

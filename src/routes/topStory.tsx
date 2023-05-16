@@ -5,8 +5,8 @@ import { TopStory, isJob } from '~/api/common'
 import fetchStory from '~/api/story'
 import JobCard from '~/components/JobCard'
 import StoryCard from '~/components/StoryCard'
+import StoryComments from '~/components/StoryComments'
 import { ignoreAbortError } from '~/fns'
-import { StoryComments } from './story'
 
 export default function TopStory() {
   const { id } = useParams()

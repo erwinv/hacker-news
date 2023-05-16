@@ -1,6 +1,6 @@
 import { List, ListDivider, ListItem, ListItemContent, Typography } from '@mui/joy'
 import { Fragment } from 'react'
-import { CommentTree } from '~/api/comments'
+import { CommentTree } from '~/api/common'
 import InlineHtmlText from './InlineHtmlText'
 
 interface CommentThreadProps {

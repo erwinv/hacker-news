@@ -116,6 +116,10 @@ export type StoryKindMapping = {
 }
 export type StoryKind = keyof StoryKindMapping
 
+export interface CommentTree extends Comment {
+  commentTrees: CommentTree[]
+}
+
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
 
 export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<Item> {
