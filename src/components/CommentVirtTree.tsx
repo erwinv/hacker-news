@@ -85,14 +85,14 @@ function getNodeData(
 type NodeProps = NodeComponentProps<ExtendedData, VariableSizeNodePublicState<ExtendedData>>
 
 function Node({
-  height,
+  // height,
   data: { isLeaf, nestingLevel, by, text },
   isOpen,
-  resize,
+  // resize,
   style,
   setOpen,
-  treeData,
-}: NodeProps) {
+}: // treeData,
+NodeProps) {
   // TODO FIXME recalculate and set variable height based on comment length
 
   return (
