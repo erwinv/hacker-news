@@ -24,7 +24,7 @@ export default function StoryDiscussion({
     let aborted = false
     const aborter = new AbortController()
 
-    fetchCommentTrees(story, aborter, 10)
+    fetchCommentTrees(story, aborter, virtual ? Infinity : 10)
       .then((comments) => {
         if (!aborted) {
           setCommentTrees(comments)
@@ -36,7 +36,7 @@ export default function StoryDiscussion({
       aborted = true
       aborter.abort()
     }
-  }, [story, lazy])
+  }, [story, virtual, lazy])
 
   return virtual ? (
     <CommentVirtTrees commentTrees={commentTrees} />

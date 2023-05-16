@@ -20,8 +20,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
+    "react-virtualized-auto-sizer": "^1.0.17",
     "react-virtuoso": "^4.3.6",
-    "react-vtree": "^2.0.4",
+    "react-vtree": "3.0.0-beta.3",
     "react-window-infinite-loader": "^1.0.9"
   },
   "devDependencies": {

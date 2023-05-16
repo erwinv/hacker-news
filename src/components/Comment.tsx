@@ -3,7 +3,7 @@ import { Comment } from '~/api/common'
 import InlineHtmlText from './InlineHtmlText'
 
 interface CommentProps {
-  comment: Comment
+  comment: Pick<Comment, 'by' | 'text'>
 }
 
 export default function Comment({ comment }: CommentProps) {

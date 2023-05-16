@@ -28,12 +28,15 @@ dependencies:
   react-router-dom:
     specifier: ^6.11.1
     version: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+  react-virtualized-auto-sizer:
+    specifier: ^1.0.17
+    version: 1.0.17(react-dom@18.2.0)(react@18.2.0)
   react-virtuoso:
     specifier: ^4.3.6
     version: 4.3.6(react-dom@18.2.0)(react@18.2.0)
   react-vtree:
-    specifier: ^2.0.4
-    version: 2.0.4(@types/react-window@1.8.5)(react-dom@18.2.0)(react-window@1.8.9)(react@18.2.0)
+    specifier: 3.0.0-beta.3
+    version: 3.0.0-beta.3(react-dom@18.2.0)(react-window@1.8.9)(react@18.2.0)
   react-window-infinite-loader:
     specifier: ^1.0.9
     version: 1.0.9(react-dom@18.2.0)(react@18.2.0)
@@ -874,12 +877,6 @@ packages:
 
   /@types/react-transition-group@4.4.5:
     resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
-    dependencies:
-      '@types/react': 18.0.28
-    dev: false
-
-  /@types/react-window@1.8.5:
-    resolution: {integrity: sha512-V9q3CvhC9Jk9bWBOysPGaWy/Z0lxYcTXLtLipkt2cnRj1JOSFNF7wqGpkScSXMgBwC+fnVRg/7shwgddBG5ICw==}
     dependencies:
       '@types/react': 18.0.28
     dev: false
@@ -1894,6 +1891,10 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
+  /react-merge-refs@1.1.0:
+    resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
+    dev: false
+
   /react-router-dom@6.11.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-dPC2MhoPeTQ1YUOt5uIK376SMNWbwUxYRWk2ZmTT4fZfwlOvabF8uduRKKJIyfkCZvMgiF0GSCQckmkGGijIrg==}
     engines: {node: '>=14'}
@@ -1931,6 +1932,16 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /react-virtualized-auto-sizer@1.0.17(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-XtojyZHGo/iYmGkOEL8psTQsr5XI4fd+QxCD16ru00mnJhuvXFXcPLHXj5cKJh/xUttxPCglnpUI8d2u6gUgzw==}
+    peerDependencies:
+      react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
+      react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /react-virtuoso@4.3.6(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-t2yzA9QKwMrcECLytVfZcBZMusuQ9Ahgt62SL8uC/sYm9Sk/h14sYTJC0MVO6CAtl3BzKiLKSC79Vp+W3KOXMg==}
     engines: {node: '>=10'}
@@ -1942,18 +1953,17 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-vtree@2.0.4(@types/react-window@1.8.5)(react-dom@18.2.0)(react-window@1.8.9)(react@18.2.0):
-    resolution: {integrity: sha512-UOld0VqyAZrryF06K753X4bcEVN6/wW831exvVlMZeZAVHk9KXnlHs4rpqDAeoiBgUwJqoW/rtn0hwsokRRxPA==}
+  /react-vtree@3.0.0-beta.3(react-dom@18.2.0)(react-window@1.8.9)(react@18.2.0):
+    resolution: {integrity: sha512-BGC8kOT2Ti3rne0Nwu+n90TAo8lbYiWT36Cu47aj6bz+Bs7k5p3EVgBTinyuCdU5+n4a9wJOXHAdop/zsR1RAA==}
     peerDependencies:
-      '@types/react-window': ^1.8.2
-      react: ^16.13.1
-      react-dom: ^16.13.1
-      react-window: ^1.8.5
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+      react-window: '>= 1.8.5'
     dependencies:
       '@babel/runtime': 7.21.5
-      '@types/react-window': 1.8.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      react-merge-refs: 1.1.0
       react-window: 1.8.9(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
