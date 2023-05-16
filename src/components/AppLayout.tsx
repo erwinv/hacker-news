@@ -20,7 +20,7 @@ const logo = (
       component={Link}
       href="https://icons8.com/icon/16336/hacker-news"
       target="_blank"
-      rel="noopenner"
+      rel="noopener"
       sx={(theme) => ({
         '&:hover': {
           bgcolor: 'transparent',
@@ -44,7 +44,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({
   navPages,
-  indexRoute: index,
+  indexRoute,
   children,
 }: PropsWithChildren<AppLayoutProps>) {
   const navigate = useNavigate()
@@ -52,8 +52,8 @@ export default function AppLayout({
   const currentPath = location.pathname
 
   useEffect(() => {
-    if (currentPath === '/') navigate(index)
-  }, [currentPath, index, navigate])
+    if (currentPath === '/') navigate(indexRoute)
+  }, [currentPath, indexRoute, navigate])
 
   return (
     <Container maxWidth="md">

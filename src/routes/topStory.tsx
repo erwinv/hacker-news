@@ -5,7 +5,7 @@ import { TopStory, isJob } from '~/api/common'
 import fetchStory from '~/api/story'
 import JobCard from '~/components/JobCard'
 import StoryCard from '~/components/StoryCard'
-import StoryComments from '~/components/StoryComments'
+import StoryDiscussion from '~/components/StoryDiscussion'
 import { ignoreAbortError } from '~/fns'
 
 export default function TopStory() {
@@ -42,7 +42,7 @@ export default function TopStory() {
       <Box sx={{ px: 1.5 }}>
         <StoryCard story={topStory} />
       </Box>
-      <StoryComments story={topStory} />
+      <StoryDiscussion story={topStory} />
     </>
   )
 }

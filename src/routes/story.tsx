@@ -4,10 +4,15 @@ import { useParams } from 'react-router-dom'
 import { Story } from '~/api/common'
 import fetchStory from '~/api/story'
 import StoryCard from '~/components/StoryCard'
-import StoryComments from '~/components/StoryComments'
+import StoryDiscussion from '~/components/StoryDiscussion'
 import { ignoreAbortError } from '~/fns'
 
-export default function Story() {
+interface StoryProps {
+  virtual?: boolean
+  lazy?: boolean
+}
+
+export default function Story({ virtual = false, lazy = false }: StoryProps) {
   const { id } = useParams()
   const [story, setStory] = useState<Story>()
 
@@ -39,7 +44,7 @@ export default function Story() {
       <Box sx={{ px: 1.5 }}>
         <StoryCard story={story} />
       </Box>
-      <StoryComments story={story} />
+      <StoryDiscussion story={story} virtual={virtual} lazy={lazy} />
     </>
   )
 }
