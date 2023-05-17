@@ -1,4 +1,4 @@
-import { ModeCommentOutlined, Refresh } from '@mui/icons-material'
+import { ModeCommentOutlined, Refresh, TrendingUp } from '@mui/icons-material'
 import {
   Button,
   CircularProgress,
@@ -79,6 +79,9 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
           </Typography>
           <Typography level="body3">
             <UserLink username={story.by} />
+            <Typography startDecorator={<TrendingUp />} sx={{ px: 1 }}>
+              {story.score}
+            </Typography>
           </Typography>
         </ListItemContent>
       </ListItemButton>
