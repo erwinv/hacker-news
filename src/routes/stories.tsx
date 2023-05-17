@@ -17,6 +17,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
     loadMore,
     // isFetching,
     reload,
+    reloadingStoryIds,
   } = useStories(kind, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
@@ -39,7 +40,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
               color="neutral"
               size="sm"
               sx={{ mx: 'auto' }}
-              onClick={reload}
+              onClick={() => reload()}
             >
               <Refresh />
             </IconButton>
@@ -69,7 +70,13 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
       }}
       data={stories}
       computeItemKey={(_, story) => story.id}
-      itemContent={(_, story) => <StoryListItem story={story} />}
+      itemContent={(i, story) => (
+        <StoryListItem
+          story={story}
+          reload={() => reload(story.id, i)}
+          isReloading={reloadingStoryIds.has(story.id)}
+        />
+      )}
       endReached={(i) => hasMore && loadMore(i, 20)}
       // followOutput={(isAtBottom) => (isAtBottom ? 'smooth' : false)}
     />
