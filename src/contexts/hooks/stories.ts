@@ -1,54 +1,68 @@
-import { useEffect, useState } from 'react'
-import {
-  Lazy,
-  StoryKind,
-  StoryKindMapping,
-  fetchItem,
-  hackerNewsApiBaseUrl,
-  isLoaded,
-} from '~/api/common'
+import { useCallback, useEffect, useState } from 'react'
+import { ItemId, StoryKind, StoryKindMapping, fetchItems, hackerNewsApiBaseUrl } from '~/api/common'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useStories<K extends StoryKind>(kind: K) {
-  const [stories, setStories] = useState<Lazy<StoryKindMapping[K]>[]>()
+export default function useStories<K extends StoryKind>(kind: K, initial: number) {
+  const [storyIds, setStoryIds] = useState<ItemId[]>()
+  const [limit, setLimit] = useState(initial)
+  const [stories, setStories] = useState<StoryKindMapping[K][]>()
+  const [isFetching, setFetching] = useState(false)
 
   useEffect(() => {
+    setStories(undefined)
+    setLimit(initial)
+
     const aborter = new AbortController()
 
     ;(async () => {
-      setStories(undefined)
       const url = new URL(`/v0/${kind}stories.json`, hackerNewsApiBaseUrl)
       const response = await fetch(url, { signal: aborter.signal })
       if (!response.ok) throw response
       const storyIds = (await response.json()) as StoryKindMapping[K]['id'][]
-
-      const maybeStories = (await db.items.bulkGet(storyIds)) as (StoryKindMapping[K] | undefined)[]
-      const lazyStories = maybeStories.map((maybeItem, i) => maybeItem ?? storyIds[i])
-      setStories(lazyStories)
-
-      const missingStories = await Promise.all(
-        lazyStories.map(async (storyOrId, i) => {
-          if (isLoaded(storyOrId)) return []
-
-          const story = (await fetchItem(storyOrId, aborter)) as StoryKindMapping[K]
-          setStories((prev) => {
-            const next = [...(prev ?? [])]
-            next[i] = story
-            return next
-          })
-
-          return [story]
-        })
-      ).then((results) => results.flat())
-
-      await db.items.bulkAdd(missingStories)
+      setStoryIds(storyIds)
     })().catch(ignoreAbortError)
 
     return () => {
       aborter.abort()
     }
-  }, [kind])
+  }, [kind, initial])
 
-  return stories
+  useEffect(() => {
+    if (!storyIds) return
+    if ((stories?.length ?? 0) >= limit) return
+
+    const aborter = new AbortController()
+
+    ;(async () => {
+      const from = stories?.length ?? 0
+      const ids = storyIds.slice(from, limit)
+
+      setFetching(true)
+      const fetchedStories = (await fetchItems(ids, aborter).finally(() =>
+        setFetching(false)
+      )) as StoryKindMapping[K][]
+
+      setStories((stories) => (!stories ? fetchedStories : [...stories, ...fetchedStories]))
+    })().catch(ignoreAbortError)
+
+    return () => {
+      aborter.abort()
+    }
+  }, [storyIds, stories?.length, limit])
+
+  const loadMore = useCallback((lastIndex: number, n: number) => {
+    setLimit(lastIndex + n + 1)
+  }, [])
+
+  const reload = useCallback(async () => {
+    if (storyIds) {
+      await db.items.bulkDelete(storyIds)
+    }
+    setStories(undefined)
+  }, [storyIds])
+
+  const hasMore = (storyIds ?? [])?.length > (stories ?? [])?.length
+
+  return { stories, hasMore, isFetching, loadMore, reload }
 }

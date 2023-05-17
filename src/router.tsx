@@ -60,7 +60,7 @@ const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <Story virtual />,
+            element: <Story />,
           },
         ],
       },
