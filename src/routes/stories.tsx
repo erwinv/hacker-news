@@ -1,6 +1,6 @@
 import { Refresh } from '@mui/icons-material'
 import { IconButton, LinearProgress, List, ListItem } from '@mui/joy'
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { StoryKind } from '~/api/common'
 import { StoryListItem } from '~/components/StoryListItem'
@@ -21,9 +21,9 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
   } = useStories(kind, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  useEffect(() => {
-    virtualListRef.current?.scrollToIndex(0)
-  }, [kind])
+  // useEffect(() => {
+  //   virtualListRef.current?.scrollToIndex(0)
+  // }, [kind])
 
   if (!stories) return <LinearProgress color="neutral" />
 

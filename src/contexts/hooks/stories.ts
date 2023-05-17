@@ -19,7 +19,6 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
 
   useEffect(() => {
     setStories(undefined)
-    setLimit(initial)
 
     const aborter = new AbortController()
 
@@ -34,7 +33,7 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
     return () => {
       aborter.abort()
     }
-  }, [kind, initial])
+  }, [kind])
 
   useEffect(() => {
     if (!storyIds) return
@@ -90,8 +89,8 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
       } else {
         await db.items.bulkDelete(storyIds)
 
-        setStories(undefined)
         setLimit(initial)
+        setStories(undefined)
       }
     },
     [storyIds, initial]

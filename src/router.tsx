@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="top" />,
+            element: <Stories key="topstories" kind="top" />,
           },
           {
             path: ':id',
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="new" />,
+            element: <Stories key="newstories" kind="new" />,
           },
           {
             path: ':id',
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="best" />,
+            element: <Stories key="beststories" kind="best" />,
           },
           {
             path: ':id',
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="ask" />,
+            element: <Stories key="askstories" kind="ask" />,
           },
           {
             path: ':id',
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="show" />,
+            element: <Stories key="showstories" kind="show" />,
           },
           {
             path: ':id',
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Stories kind="job" />,
+            element: <Stories key="jobstories" kind="job" />,
           },
           {
             path: ':id',
