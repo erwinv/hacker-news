@@ -31,7 +31,7 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
 
-  const reloadButton = (
+  const reloadButton = reload && (
     <IconButton
       variant="plain"
       onClick={reload}

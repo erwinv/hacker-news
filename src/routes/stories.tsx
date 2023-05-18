@@ -4,7 +4,7 @@ import { forwardRef, useRef } from 'react'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { StoryKind } from '~/api/common'
 import { StoryListItem } from '~/components/StoryListItem'
-import useStories from '~/contexts/hooks/stories'
+import useStories from '~/contexts/hooks/useStories'
 
 interface StoriesProps<K extends StoryKind> {
   kind: K
@@ -53,10 +53,10 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
       }}
       data={stories}
       computeItemKey={(_, story) => story.id}
-      itemContent={(i, story) => (
+      itemContent={(_, story) => (
         <StoryListItem
           story={story}
-          reload={() => reload(story.id, i)}
+          // reload={() => reload(story.id, i)}
           isReloading={reloadingStoryIds.has(story.id)}
         />
       )}
