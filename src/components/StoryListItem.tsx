@@ -99,6 +99,7 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
               onClick={(e) => e.stopPropagation()}
               sx={(theme) => ({
                 p: 0,
+                mr: site ? 1 : 0,
                 fontWeight: 'lg',
                 '&:visited': {
                   color: theme.palette.neutral.solidDisabledColor,
