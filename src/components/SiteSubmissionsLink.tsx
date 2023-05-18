@@ -19,12 +19,6 @@ export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) 
         ev.preventDefault()
         window.open(`https://news.ycombinator.com/from?site=${site}`, '_blank', 'noopener')
       }}
-      sx={(theme) => ({
-        '&:visited': {
-          color: theme.palette.primary.solidActiveBg,
-          bgcolor: theme.palette.primary.softDisabledBg,
-        },
-      })}
     >
       {site}
     </Link>

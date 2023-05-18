@@ -29,12 +29,8 @@ export default function StoryCard({ story }: StoryCardProps) {
           underline="none"
           target="_blank"
           rel="noopener"
-          sx={(theme) => ({
-            mr: site ? 1 : 0,
-            '&:visited': {
-              color: theme.palette.primary.solidActiveBg,
-            },
-          })}
+          color="neutral"
+          sx={{ mr: site ? 1 : 0 }}
         >
           {story.title}
         </Link>

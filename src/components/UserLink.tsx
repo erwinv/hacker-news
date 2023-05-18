@@ -16,11 +16,6 @@ export default function UserLink({ username }: UserLinkProps) {
         ev.preventDefault()
         window.open(href, '_blank', 'noopener')
       }}
-      sx={(theme) => ({
-        '&:visited': {
-          color: theme.palette.primary.solidActiveBg,
-        },
-      })}
     >
       {username}
     </Link>
