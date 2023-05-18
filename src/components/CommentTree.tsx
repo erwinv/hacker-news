@@ -40,7 +40,6 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
       href={`#${commentTree.id}`}
       size="sm"
       variant="plain"
-      color="neutral"
       onClick={() => {
         const url = new URL(document.location.href)
         url.hash = `${commentTree.id}`
@@ -51,23 +50,17 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
     </IconButton>
   )
   const parentLink = isRoot ? null : (
-    <IconButton
-      component="a"
-      href={`#${commentTree.parent}`}
-      size="sm"
-      variant="plain"
-      color="neutral"
-    >
+    <IconButton component="a" href={`#${commentTree.parent}`} size="sm" variant="plain">
       <NorthWest />
     </IconButton>
   )
   const prevLink = !prev ? null : (
-    <IconButton component="a" href={`#${prev.id}`} size="sm" variant="plain" color="neutral">
+    <IconButton component="a" href={`#${prev.id}`} size="sm" variant="plain">
       <North />
     </IconButton>
   )
   const nextLink = !next ? null : (
-    <IconButton component="a" href={`#${next.id}`} size="sm" variant="plain" color="neutral">
+    <IconButton component="a" href={`#${next.id}`} size="sm" variant="plain">
       <South />
     </IconButton>
   )
@@ -78,17 +71,17 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
     <>
       <ListItem
         ref={ref}
-        sx={{
-          [`.${iconButtonClasses.root}`]: {
-            color: 'transparent',
-            backgroundColor: 'transparent',
+        sx={(theme) => ({
+          [`a.${iconButtonClasses.root}`]: {
+            color: theme.palette.neutral.softDisabledBg,
           },
           '&:hover': {
-            [`.${iconButtonClasses.root}`]: {
-              color: 'initial',
+            [`a.${iconButtonClasses.root}`]: {
+              color: theme.palette.neutral.softColor,
+              backgroundColor: 'transparent',
             },
           },
-        }}
+        })}
       >
         <ListItemContent>
           <Comment comment={commentTree}>
