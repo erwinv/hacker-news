@@ -23,7 +23,7 @@ const logo = (
       rel="noopener"
       sx={(theme) => ({
         '&:hover': {
-          bgcolor: 'transparent',
+          backgroundColor: 'transparent',
         },
         [`${theme.getColorSchemeSelector('dark')} img`]: {
           filter: 'invert(1)',

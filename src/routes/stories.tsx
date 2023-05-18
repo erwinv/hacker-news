@@ -11,19 +11,8 @@ interface StoriesProps<K extends StoryKind> {
 }
 
 export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) {
-  const {
-    stories,
-    hasMore,
-    loadMore,
-    // isFetching,
-    reload,
-    reloadingStoryIds,
-  } = useStories(kind, 20)
+  const { stories, hasMore, loadMore, reload, reloadingStoryIds } = useStories(kind, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
-
-  // useEffect(() => {
-  //   virtualListRef.current?.scrollToIndex(0)
-  // }, [kind])
 
   if (!stories) return <LinearProgress color="neutral" />
 
@@ -78,7 +67,6 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
         />
       )}
       endReached={(i) => hasMore && loadMore(i, 20)}
-      // followOutput={(isAtBottom) => (isAtBottom ? 'smooth' : false)}
     />
   )
 }

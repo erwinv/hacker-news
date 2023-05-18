@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemContent,
   Typography,
+  listItemClasses,
 } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
 import { Job, Story, isJob } from '~/api/common'
@@ -25,7 +26,16 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
   const site = story.url && extractSite(story.url)
 
   const reloadButton = (
-    <IconButton variant="plain" color="neutral" onClick={reload}>
+    <IconButton
+      variant="plain"
+      color="neutral"
+      onClick={reload}
+      sx={{
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      }}
+    >
       {isReloading ? <CircularProgress size="sm" color="neutral" /> : <Refresh />}
     </IconButton>
   )
@@ -50,12 +60,12 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
       startAction={reloadButton}
       endAction={discussionButton}
       sx={{
-        '.MuiListItem-startAction': {
-          display: isReloading ? 'inherit' : 'none',
+        [`.${listItemClasses.startAction}`]: {
+          display: isReloading ? 'initial' : 'none',
         },
         '&:hover': {
-          '.MuiListItem-startAction': {
-            display: 'inherit',
+          [`.${listItemClasses.startAction}`]: {
+            display: 'initial',
           },
         },
       }}

@@ -1,4 +1,13 @@
-import { CircularProgress, List, ListDivider, ListItem, ListItemContent } from '@mui/joy'
+import { Link, North, NorthWest, South } from '@mui/icons-material'
+import {
+  CircularProgress,
+  IconButton,
+  List,
+  ListDivider,
+  ListItem,
+  ListItemContent,
+  iconButtonClasses,
+} from '@mui/joy'
 import { Fragment, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { CommentTree } from '~/api/common'
@@ -13,24 +22,80 @@ interface CommentTreeProps {
 
 export default function CommentTree({ commentTree, isRoot = false, prev, next }: CommentTreeProps) {
   const ref = useRef<HTMLLIElement>(null)
-
   const { pathname, hash } = useLocation()
-  useEffect(() => {
-    if (!hash || !ref.current) return
 
-    const id = Number(hash.slice(1))
-    if (id === commentTree.id) {
+  const hashId = Number(hash.slice(1))
+
+  useEffect(() => {
+    if (!hashId || !ref.current) return
+
+    if (hashId === commentTree.id) {
       ref.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [pathname, hash, commentTree.id])
+  }, [pathname, hashId, commentTree.id])
+
+  const selfLink = (
+    <IconButton
+      component="a"
+      href={`#${commentTree.id}`}
+      size="sm"
+      variant="plain"
+      color="neutral"
+      onClick={() => {
+        const url = new URL(document.location.href)
+        url.hash = `${commentTree.id}`
+        navigator.clipboard.writeText(url.href)
+      }}
+    >
+      <Link />
+    </IconButton>
+  )
+  const parentLink = isRoot ? null : (
+    <IconButton
+      component="a"
+      href={`#${commentTree.parent}`}
+      size="sm"
+      variant="plain"
+      color="neutral"
+    >
+      <NorthWest />
+    </IconButton>
+  )
+  const prevLink = !prev ? null : (
+    <IconButton component="a" href={`#${prev.id}`} size="sm" variant="plain" color="neutral">
+      <North />
+    </IconButton>
+  )
+  const nextLink = !next ? null : (
+    <IconButton component="a" href={`#${next.id}`} size="sm" variant="plain" color="neutral">
+      <South />
+    </IconButton>
+  )
 
   const childComments = commentTree.commentTrees
 
   return (
     <>
-      <ListItem ref={ref}>
+      <ListItem
+        ref={ref}
+        sx={{
+          [`.${iconButtonClasses.root}`]: {
+            color: 'transparent',
+            backgroundColor: 'transparent',
+          },
+          '&:hover': {
+            [`.${iconButtonClasses.root}`]: {
+              color: 'initial',
+            },
+          },
+        }}
+      >
         <ListItemContent>
-          <Comment comment={commentTree} hideParentLink={isRoot} prev={prev?.id} next={next?.id} />
+          <Comment comment={commentTree}>
+            <div>
+              {selfLink} {parentLink} {prevLink} {nextLink}
+            </div>
+          </Comment>
         </ListItemContent>
       </ListItem>
       {childComments.length < 1 ? null : (
