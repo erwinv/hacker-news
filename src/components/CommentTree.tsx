@@ -28,7 +28,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
 
   return (
     <>
-      <ListItem id={`${commentTree.id}`} ref={ref}>
+      <ListItem ref={ref}>
         <ListItemContent>
           <Comment comment={commentTree} hideParentLink={isRoot} prev={prev?.id} next={next?.id} />
         </ListItemContent>
