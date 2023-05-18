@@ -8,9 +8,8 @@ interface SiteSubmissionsLinkProps {
 export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) {
   return (
     <Link
-      variant="outlined"
+      variant="soft"
       level="body3"
-      color="neutral"
       target="_blank"
       rel="noopener"
       endDecorator={<Launch />}

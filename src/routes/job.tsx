@@ -29,7 +29,7 @@ export default function Job() {
     }
   }, [id])
 
-  if (!job) return <LinearProgress color="neutral" />
+  if (!job) return <LinearProgress />
 
   return (
     <Box sx={{ px: 1.5 }}>

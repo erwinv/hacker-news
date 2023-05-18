@@ -35,7 +35,7 @@ export default function Story({ virtual = false, lazy = false }: StoryProps) {
     }
   }, [id])
 
-  if (!story) return <LinearProgress color="neutral" />
+  if (!story) return <LinearProgress />
 
   return (
     <>

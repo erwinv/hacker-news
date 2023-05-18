@@ -73,11 +73,11 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
         ref={ref}
         sx={(theme) => ({
           [`a.${iconButtonClasses.root}`]: {
-            color: theme.palette.neutral.softDisabledBg,
+            color: theme.palette.primary.softDisabledBg,
           },
           '&:hover': {
             [`a.${iconButtonClasses.root}`]: {
-              color: theme.palette.neutral.softColor,
+              color: theme.palette.primary.softColor,
               backgroundColor: 'transparent',
             },
           },
@@ -130,7 +130,7 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
     >
       {!commentTrees ? (
         <ListItem>
-          <CircularProgress color="neutral" />
+          <CircularProgress />
         </ListItem>
       ) : (
         commentTrees.map((commentTree, i) => {

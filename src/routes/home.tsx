@@ -55,7 +55,7 @@ export default function Home() {
       </div>
       <Typography level="h1">Vite + React</Typography>
       <Box sx={{ p: '2em' }}>
-        <Button variant="soft" color="neutral" onClick={() => setCount((count) => count + 1)}>
+        <Button variant="soft" onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </Button>
         <Typography sx={{ mt: 4 }}>

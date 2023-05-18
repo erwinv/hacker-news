@@ -14,7 +14,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
   const { stories, hasMore, loadMore, reload, reloadingStoryIds } = useStories(kind, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  if (!stories) return <LinearProgress color="neutral" />
+  if (!stories) return <LinearProgress />
 
   return (
     <Virtuoso
@@ -24,13 +24,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
         // TODO pull-to-reload
         Header: () => (
           <ListItem>
-            <IconButton
-              variant="plain"
-              color="neutral"
-              size="sm"
-              sx={{ mx: 'auto' }}
-              onClick={() => reload()}
-            >
+            <IconButton variant="plain" sx={{ mx: 'auto' }} onClick={() => reload()}>
               <Refresh />
             </IconButton>
           </ListItem>
@@ -45,10 +39,10 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
         //   ? () => (
         //       <ListItem>
         //         {isFetching ? (
-        //           <CircularProgress color="neutral" sx={{ mx: 'auto' }} />
+        //           <CircularProgress sx={{ mx: 'auto' }} />
         //         ) : (
         //           <ListItemButton onClick={() => loadMore(stories.length - 1, 20)}>
-        //             <IconButton color="neutral" variant="plain" sx={{ mx: 'auto' }}>
+        //             <IconButton variant="plain" sx={{ mx: 'auto' }}>
         //               <Refresh />
         //             </IconButton>
         //           </ListItemButton>

@@ -37,7 +37,7 @@ export default function CommentVirtTrees({ commentTrees }: CommentVirtTreesProps
     [commentTrees]
   )
 
-  if (!commentTrees) return <CircularProgress color="neutral" />
+  if (!commentTrees) return <CircularProgress />
 
   return (
     <AutoSizer disableWidth>

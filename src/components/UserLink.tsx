@@ -8,7 +8,6 @@ export default function UserLink({ username }: UserLinkProps) {
   // TODO
   return (
     <Link
-      color="neutral"
       target="_blank"
       rel="noopener"
       onClick={(ev) => {

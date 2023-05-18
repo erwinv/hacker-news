@@ -19,7 +19,7 @@ export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
           '& a': body3,
           '& pre': {
             overflowX: 'auto',
-            backgroundColor: theme.palette.neutral.softBg,
+            backgroundColor: theme.palette.primary.softBg,
           },
           '& code': { ...body4, fontFamily: 'monospace' },
         }

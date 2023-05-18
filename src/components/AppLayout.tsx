@@ -78,7 +78,7 @@ export default function AppLayout({
               {navPages.map(([label, path]) => (
                 <Tab
                   key={label}
-                  variant={currentPath.startsWith(path) ? 'solid' : 'plain'}
+                  variant={currentPath.startsWith(path) ? 'solid' : undefined}
                   value={path}
                 >
                   {label}

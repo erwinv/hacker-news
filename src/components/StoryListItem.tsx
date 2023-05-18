@@ -28,7 +28,6 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
   const reloadButton = (
     <IconButton
       variant="plain"
-      color="neutral"
       onClick={reload}
       sx={{
         '&:hover': {
@@ -36,14 +35,13 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
         },
       }}
     >
-      {isReloading ? <CircularProgress size="sm" color="neutral" /> : <Refresh />}
+      {isReloading ? <CircularProgress size="sm" /> : <Refresh />}
     </IconButton>
   )
 
   const discussionButton = isJob(story) ? null : (
     <Button
       variant="plain"
-      color="neutral"
       startDecorator={<ModeCommentOutlined />}
       onClick={() => {
         navigate(`${story.id}`)
@@ -71,8 +69,8 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
       }}
     >
       <ListItemButton
-        variant={isReloading ? 'soft' : 'plain'}
-        color={isReloading ? 'warning' : 'neutral'}
+        variant={isReloading ? 'soft' : undefined}
+        color={isReloading ? 'info' : undefined}
         onClick={() => {
           if (story.url) {
             window.open(story.url, '_blank', 'noopener')
@@ -83,7 +81,7 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
         sx={{ alignItems: 'start' }}
       >
         <ListItemContent sx={{ pl: 1, pr: 4 }}>
-          <Typography level="body2" variant="plain" color="neutral" sx={{ fontWeight: 'lg' }}>
+          <Typography level="body2" variant="plain" sx={{ fontWeight: 'lg' }}>
             {story.title}
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>

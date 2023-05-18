@@ -10,14 +10,7 @@ export default function StoryCard({ story }: StoryCardProps) {
   return (
     <Card variant="outlined">
       <Typography level="h2" sx={{ fontSize: 'md', mb: 1 }}>
-        <Link
-          color="neutral"
-          href={story.url}
-          overlay
-          underline="none"
-          target="_blank"
-          rel="noopener"
-        >
+        <Link href={story.url} overlay underline="none" target="_blank" rel="noopener">
           {story.title}
         </Link>
       </Typography>

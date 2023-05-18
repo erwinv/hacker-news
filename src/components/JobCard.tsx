@@ -10,14 +10,7 @@ export default function JobCard({ job }: JobCardProps) {
   return (
     <Card variant="outlined">
       <Typography level="h2" sx={{ fontSize: 'md', mb: 1 }}>
-        <Link
-          color="neutral"
-          href={job.url}
-          overlay
-          underline="none"
-          target="_blank"
-          rel="noopener"
-        >
+        <Link href={job.url} overlay underline="none" target="_blank" rel="noopener">
           {job.title}
         </Link>
       </Typography>

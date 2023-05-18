@@ -31,7 +31,7 @@ export default function TopStory() {
     }
   }, [id])
 
-  if (!topStory) return <LinearProgress color="neutral" />
+  if (!topStory) return <LinearProgress />
 
   if (isJob(topStory)) return <JobCard job={topStory} />
 
