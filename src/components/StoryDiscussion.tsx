@@ -21,19 +21,17 @@ export default function StoryDiscussion({
   useEffect(() => {
     if (!story || lazy) return
 
-    let aborted = false
     const aborter = new AbortController()
 
-    fetchCommentTrees(story, aborter, virtual || story.descendants <= 100 ? Infinity : 10)
+    fetchCommentTrees(story, aborter)
       .then((comments) => {
-        if (!aborted) {
+        if (!aborter.signal.aborted) {
           setCommentTrees(comments)
         }
       })
       .catch(ignoreAbortError)
 
     return () => {
-      aborted = true
       aborter.abort()
     }
   }, [story, virtual, lazy])

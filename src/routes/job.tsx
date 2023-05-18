@@ -14,19 +14,17 @@ export default function Job() {
     const jobId = Number(id)
     if (!Number.isFinite(jobId)) return
 
-    let aborted = false
     const aborter = new AbortController()
 
     fetchJob(jobId, aborter)
       .then((job) => {
-        if (!aborted) {
+        if (!aborter.signal.aborted) {
           setJob(job)
         }
       })
       .catch(ignoreAbortError)
 
     return () => {
-      aborted = true
       aborter.abort()
     }
   }, [id])

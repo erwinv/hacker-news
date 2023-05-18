@@ -16,19 +16,17 @@ export default function TopStory() {
     const storyId = Number(id)
     if (!Number.isFinite(storyId)) return
 
-    let aborted = false
     const aborter = new AbortController()
 
     fetchStory(storyId, aborter)
       .then((story) => {
-        if (!aborted) {
+        if (!aborter.signal.aborted) {
           setTopStory(story)
         }
       })
       .catch(ignoreAbortError)
 
     return () => {
-      aborted = true
       aborter.abort()
     }
   }, [id])
