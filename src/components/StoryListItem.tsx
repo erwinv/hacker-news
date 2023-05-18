@@ -3,17 +3,23 @@ import {
   Button,
   CircularProgress,
   IconButton,
+  Link,
   ListItem,
   ListItemButton,
   ListItemContent,
+  Tooltip,
   Typography,
   listItemClasses,
 } from '@mui/joy'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { useNavigate } from 'react-router-dom'
 import { Job, Story, isJob } from '~/api/common'
 import { extractSite } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
+
+dayjs.extend(relativeTime)
 
 interface StoryListItemProps {
   story: Story | Job
@@ -53,6 +59,8 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
     </Button>
   )
 
+  const time = dayjs(story.time * 1000)
+
   return (
     <ListItem
       startAction={reloadButton}
@@ -81,15 +89,36 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
         sx={{ alignItems: 'start' }}
       >
         <ListItemContent sx={{ pl: 1, pr: 4 }}>
-          <Typography level="body2" variant="plain" sx={{ fontWeight: 'lg' }}>
-            {story.title}
+          <Typography level="body2">
+            <Link
+              color="neutral"
+              variant="plain"
+              href={story.url}
+              target="_blank"
+              rel="noopener"
+              onClick={(e) => e.stopPropagation()}
+              sx={(theme) => ({
+                p: 0,
+                fontWeight: 'lg',
+                '&:visited': {
+                  color: theme.palette.neutral.solidDisabledColor,
+                },
+              })}
+            >
+              {story.title}
+            </Link>
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
           <Typography level="body3">
             <UserLink username={story.by} />
-            <Typography startDecorator={<TrendingUp />} sx={{ px: 1 }}>
-              {story.score}
-            </Typography>
+            <Tooltip title={`${story.score} points`}>
+              <Typography startDecorator={<TrendingUp />} sx={{ px: 1 }}>
+                {story.score}
+              </Typography>
+            </Tooltip>
+            <Tooltip title={time.format()}>
+              <Typography>{time.fromNow()}</Typography>
+            </Tooltip>
           </Typography>
         </ListItemContent>
       </ListItemButton>

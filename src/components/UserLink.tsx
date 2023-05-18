@@ -5,16 +5,22 @@ interface UserLinkProps {
 }
 
 export default function UserLink({ username }: UserLinkProps) {
-  // TODO
+  const href = `https://news.ycombinator.com/user?id=${username}`
   return (
     <Link
+      href={href}
       target="_blank"
       rel="noopener"
       onClick={(ev) => {
         ev.stopPropagation()
         ev.preventDefault()
-        window.open(`https://news.ycombinator.com/user?id=${username}`, '_blank', 'noopener')
+        window.open(href, '_blank', 'noopener')
       }}
+      sx={(theme) => ({
+        '&:visited': {
+          color: theme.palette.primary.solidActiveBg,
+        },
+      })}
     >
       {username}
     </Link>

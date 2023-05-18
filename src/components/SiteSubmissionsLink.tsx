@@ -8,6 +8,7 @@ interface SiteSubmissionsLinkProps {
 export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) {
   return (
     <Link
+      href={`https://news.ycombinator.com/from?site=${site}`}
       variant="soft"
       level="body3"
       target="_blank"
@@ -18,7 +19,13 @@ export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) 
         ev.preventDefault()
         window.open(`https://news.ycombinator.com/from?site=${site}`, '_blank', 'noopener')
       }}
-      sx={{ ml: 1 }}
+      sx={(theme) => ({
+        ml: 1,
+        '&:visited': {
+          color: theme.palette.primary.solidActiveBg,
+          bgcolor: theme.palette.primary.softDisabledBg,
+        },
+      })}
     >
       {site}
     </Link>
