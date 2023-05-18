@@ -56,12 +56,12 @@ type NodeMeta = Readonly<{
   node: TreeNode
 }>
 type ExtendedData = VariableSizeNodeData &
-  Readonly<{
-    isLeaf: boolean
-    nestingLevel: number
-    by: string
-    text: string
-  }>
+  Readonly<
+    {
+      isLeaf: boolean
+      nestingLevel: number
+    } & Omit<CommentTree, 'id'>
+  >
 
 function getNodeData(
   node: TreeNode,
@@ -69,12 +69,11 @@ function getNodeData(
 ): TreeWalkerValue<ExtendedData, NodeMeta> {
   return {
     data: {
+      ...node,
       defaultHeight: 120,
       id: `${node.id}`,
       isLeaf: node.commentTrees.length === 0,
       isOpenByDefault: true,
-      by: node.by,
-      text: node.text,
       nestingLevel,
     },
     nestingLevel,
@@ -86,7 +85,7 @@ type NodeProps = NodeComponentProps<ExtendedData, VariableSizeNodePublicState<Ex
 
 function Node({
   // height,
-  data: { isLeaf, nestingLevel, by, text },
+  data: { defaultHeight, id, isLeaf, isOpenByDefault, nestingLevel, ...comment },
   isOpen,
   // resize,
   style,
@@ -105,7 +104,7 @@ NodeProps) {
         </div>
       )}
       <div>
-        <Comment comment={{ by, text }} />
+        <Comment comment={{ ...comment, id: Number(id) }} />
       </div>
     </div>
   )

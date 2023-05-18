@@ -1,20 +1,36 @@
 import { CircularProgress, List, ListDivider, ListItem, ListItemContent } from '@mui/joy'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { CommentTree } from '~/api/common'
 import Comment from '~/components/Comment'
 
 interface CommentTreeProps {
   commentTree: CommentTree
+  isRoot?: boolean
+  prev?: CommentTree | null
+  next?: CommentTree | null
 }
 
-export default function CommentTree({ commentTree }: CommentTreeProps) {
+export default function CommentTree({ commentTree, isRoot = false, prev, next }: CommentTreeProps) {
+  const ref = useRef<HTMLLIElement>(null)
+
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (!hash || !ref.current) return
+
+    const id = Number(hash.slice(1))
+    if (id === commentTree.id) {
+      ref.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [pathname, hash, commentTree.id])
+
   const childComments = commentTree.commentTrees
 
   return (
     <>
-      <ListItem>
+      <ListItem id={`${commentTree.id}`} ref={ref}>
         <ListItemContent>
-          <Comment comment={commentTree} />
+          <Comment comment={commentTree} hideParentLink={isRoot} prev={prev?.id} next={next?.id} />
         </ListItemContent>
       </ListItem>
       {childComments.length < 1 ? null : (
@@ -22,12 +38,16 @@ export default function CommentTree({ commentTree }: CommentTreeProps) {
           <ListDivider inset="gutter" />
           <ListItem nested>
             <List>
-              {childComments.map((childComment, i) => (
-                <Fragment key={childComment.id}>
-                  {i === 0 ? null : <ListDivider inset="gutter" />}
-                  <CommentTree commentTree={childComment} />
-                </Fragment>
-              ))}
+              {childComments.map((childComment, i) => {
+                const prev = i === 0 ? null : childComments[i - 1]
+                const next = i === childComments.length - 1 ? null : childComments[i + 1]
+                return (
+                  <Fragment key={childComment.id}>
+                    {i === 0 ? null : <ListDivider inset="gutter" />}
+                    <CommentTree commentTree={childComment} prev={prev} next={next} />
+                  </Fragment>
+                )
+              })}
             </List>
           </ListItem>
         </>
@@ -55,12 +75,16 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
           <CircularProgress color="neutral" />
         </ListItem>
       ) : (
-        commentTrees.map((commentTree, i) => (
-          <Fragment key={commentTree.id}>
-            {i === 0 ? null : <ListDivider inset="gutter" />}
-            <CommentTree commentTree={commentTree} />
-          </Fragment>
-        ))
+        commentTrees.map((commentTree, i) => {
+          const prev = i === 0 ? null : commentTrees[i - 1]
+          const next = i === commentTrees.length - 1 ? null : commentTrees[i + 1]
+          return (
+            <Fragment key={commentTree.id}>
+              {i === 0 ? null : <ListDivider inset="gutter" />}
+              <CommentTree commentTree={commentTree} isRoot prev={prev} next={next} />
+            </Fragment>
+          )
+        })
       )}
     </List>
   )
