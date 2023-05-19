@@ -15,11 +15,15 @@ export function take<T>(xs: T[], n: number) {
   return n < Infinity ? [..._take(xs, n)] : xs
 }
 
+const countryTlds = ['uk']
+
 export function extractSite(href: string) {
   const url = new URL(href)
 
-  const [tld, host] = url.hostname.split('.').reverse()
-  const domain = `${host}.${tld}`
+  const splits = url.hostname.split('.').reverse()
+  const domain = countryTlds.includes(splits[0])
+    ? splits.slice(0, 3).reverse().join('.')
+    : splits.slice(0, 2).reverse().join('.')
 
   switch (domain) {
     case 'github.com':
@@ -30,6 +34,7 @@ export function extractSite(href: string) {
     case 'github.io':
     case 'google.com':
     case 'netlify.app':
+    case 'stackexchange.com':
       return url.hostname
     default:
       return domain
