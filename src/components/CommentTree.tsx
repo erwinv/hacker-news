@@ -73,11 +73,11 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
         ref={ref}
         sx={(theme) => ({
           [`a.${iconButtonClasses.root}`]: {
-            color: theme.palette.primary.softDisabledBg,
+            color: theme.palette.neutral.softDisabledBg,
           },
           '&:hover': {
             [`a.${iconButtonClasses.root}`]: {
-              color: theme.palette.primary.softColor,
+              color: theme.palette.neutral.softColor,
               backgroundColor: 'transparent',
             },
           },

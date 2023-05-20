@@ -18,10 +18,14 @@ export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
           },
           '& a': body3,
           '& pre': {
+            ...theme.variants.soft.neutral,
+            py: 1,
             overflowX: 'auto',
-            backgroundColor: theme.palette.primary.softBg,
           },
-          '& code': { ...body4, fontFamily: 'monospace' },
+          '& code': {
+            ...body4,
+            fontFamily: 'monospace',
+          },
         }
       }}
       dangerouslySetInnerHTML={{ __html: text }}

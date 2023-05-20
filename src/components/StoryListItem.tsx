@@ -103,6 +103,9 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
                 fontWeight: 'lg',
                 '&:visited': {
                   color: theme.palette.neutral.solidDisabledColor,
+                  [theme.getColorSchemeSelector('dark')]: {
+                    color: theme.palette.neutral.solidBg,
+                  },
                 },
               })}
             >
