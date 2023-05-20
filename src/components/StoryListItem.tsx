@@ -88,7 +88,7 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
         }}
         sx={{ alignItems: 'start' }}
       >
-        <ListItemContent sx={{ pl: 1, pr: 4 }}>
+        <ListItemContent sx={{ pr: 4 }}>
           <Typography level="body2">
             <Link
               color="neutral"
