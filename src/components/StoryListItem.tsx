@@ -96,7 +96,11 @@ export function StoryListItem({ story, reload, isReloading = false }: StoryListI
               href={story.url}
               target="_blank"
               rel="noopener"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                if (story.url) {
+                  e.stopPropagation()
+                }
+              }}
               sx={(theme) => ({
                 p: 0,
                 mr: site ? 1 : 0,
