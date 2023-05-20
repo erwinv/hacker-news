@@ -17,7 +17,7 @@ const router = createBrowserRouter([
           ['Best', '/best'],
           ['Ask', '/ask'],
           ['Show', '/show'],
-          ['Job', '/job'],
+          ['Jobs', '/job'],
         ]}
         indexRoute="/top"
       >

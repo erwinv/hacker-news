@@ -1,41 +1,7 @@
-import {
-  AspectRatio,
-  Box,
-  Container,
-  IconButton,
-  Link,
-  Tab,
-  TabList,
-  Tabs,
-  Tooltip,
-} from '@mui/joy'
+import { Box, Container, Tab, TabList, Tabs } from '@mui/joy'
 import { PropsWithChildren, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import yCombinatorLogo from '~/assets/ycombinator.svg'
-
-const logo = (
-  <Tooltip title="Hacker News icon by Icons8">
-    <IconButton
-      variant="plain"
-      component={Link}
-      href="https://icons8.com/icon/16336/hacker-news"
-      target="_blank"
-      rel="noopener"
-      sx={(theme) => ({
-        '&:hover': {
-          backgroundColor: 'transparent',
-        },
-        [`${theme.getColorSchemeSelector('dark')} img`]: {
-          filter: 'invert(1)',
-        },
-      })}
-    >
-      <AspectRatio ratio="1" variant="plain" sx={{ minWidth: 48 }}>
-        <img src={yCombinatorLogo} />
-      </AspectRatio>
-    </IconButton>
-  </Tooltip>
-)
+import YCombinatorIcon from '~/assets/YCombinatorIcon'
 
 interface AppLayoutProps {
   navPages: [label: string, path: string][]
@@ -70,9 +36,8 @@ export default function AppLayout({
       >
         <Box
           component="header"
-          sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'center', mt: 1 }}
+          sx={{ display: 'grid', gridTemplateColumns: '1fr', alignItems: 'center', mt: 1 }}
         >
-          {logo}
           <Tabs value={currentPath} onChange={(_, value) => navigate(`${value}`)}>
             <TabList component="nav" variant="plain" sx={{ width: '100%' }}>
               {navPages.map(([label, path]) => (
@@ -80,8 +45,9 @@ export default function AppLayout({
                   key={label}
                   variant={currentPath.startsWith(path) ? 'solid' : undefined}
                   value={path}
+                  sx={path === indexRoute ? { p: 0, flexGrow: 0.5 } : undefined}
                 >
-                  {label}
+                  {path === indexRoute ? <YCombinatorIcon sx={{ fontSize: 48 }} /> : label}
                 </Tab>
               ))}
             </TabList>
