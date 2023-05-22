@@ -1,4 +1,4 @@
-import { Link, North, NorthWest, South } from '@mui/icons-material'
+import { ExpandMore, Link, NavigateNext, North, NorthWest, South } from '@mui/icons-material'
 import {
   CircularProgress,
   IconButton,
@@ -6,9 +6,10 @@ import {
   ListDivider,
   ListItem,
   ListItemContent,
+  ListItemDecorator,
   iconButtonClasses,
 } from '@mui/joy'
-import { Fragment, useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { CommentTree } from '~/api/common'
 import Comment from '~/components/Comment'
@@ -23,6 +24,7 @@ interface CommentTreeProps {
 export default function CommentTree({ commentTree, isRoot = false, prev, next }: CommentTreeProps) {
   const ref = useRef<HTMLLIElement>(null)
   const { pathname, hash } = useLocation()
+  const [isOpen, setOpen] = useState(true)
 
   const hashId = Number(hash.slice(1))
 
@@ -72,28 +74,34 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
       <ListItem
         ref={ref}
         sx={(theme) => ({
-          [`a.${iconButtonClasses.root}`]: {
+          alignItems: 'start',
+          [`.${iconButtonClasses.root}`]: {
             color: theme.palette.neutral.softDisabledBg,
           },
           '&:hover': {
-            [`a.${iconButtonClasses.root}`]: {
+            [`.${iconButtonClasses.root}`]: {
               color: theme.palette.neutral.softColor,
               backgroundColor: 'transparent',
             },
           },
         })}
       >
+        <ListItemDecorator>
+          <IconButton variant="plain" size="sm" onClick={() => setOpen((x) => !x)}>
+            {isOpen ? <ExpandMore /> : <NavigateNext />}
+          </IconButton>
+        </ListItemDecorator>
         <ListItemContent>
-          <Comment comment={commentTree}>
+          <Comment comment={commentTree} hideContent={!isOpen}>
             <div>
               {selfLink} {parentLink} {prevLink} {nextLink}
             </div>
           </Comment>
         </ListItemContent>
       </ListItem>
-      {childComments.length < 1 ? null : (
+      {childComments.length < 1 || !isOpen ? null : (
         <>
-          <ListDivider inset="gutter" />
+          <ListDivider inset="startContent" />
           <ListItem nested>
             <List>
               {childComments.map((childComment, i) => {
@@ -101,7 +109,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
                 const next = i === childComments.length - 1 ? null : childComments[i + 1]
                 return (
                   <Fragment key={childComment.id}>
-                    {i === 0 ? null : <ListDivider inset="gutter" />}
+                    {i === 0 ? null : <ListDivider inset="startContent" />}
                     <CommentTree commentTree={childComment} prev={prev} next={next} />
                   </Fragment>
                 )
@@ -138,7 +146,7 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
           const next = i === commentTrees.length - 1 ? null : commentTrees[i + 1]
           return (
             <Fragment key={commentTree.id}>
-              {i === 0 ? null : <ListDivider inset="gutter" />}
+              {i === 0 ? null : <ListDivider inset="startContent" />}
               <CommentTree commentTree={commentTree} isRoot prev={prev} next={next} />
             </Fragment>
           )

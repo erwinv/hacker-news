@@ -9,15 +9,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { Story } from '~/api/common'
-import { extractSite } from '~/fns'
+import { extractSite, toTime } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
-
-dayjs.extend(relativeTime)
 
 interface StoryCardProps {
   story: Story
@@ -26,7 +22,7 @@ interface StoryCardProps {
 
 export default function StoryCard({ story, reload }: StoryCardProps) {
   const site = story.url && extractSite(story.url)
-  const time = dayjs(story.time * 1000)
+  const time = toTime(story.time)
 
   return (
     <Card variant="outlined">

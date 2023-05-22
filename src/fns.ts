@@ -1,3 +1,9 @@
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { UnixTime } from './api/common'
+
+dayjs.extend(relativeTime)
+
 export function* _take<T>(xs: Iterable<T>, n: number) {
   if (n < 1) return
   if (n >= Infinity) {
@@ -44,4 +50,8 @@ export function extractSite(href: string) {
 export function ignoreAbortError(error: Error) {
   const isAbortError = error instanceof DOMException && error.name === 'AbortError'
   if (!isAbortError) throw error
+}
+
+export function toTime(s: UnixTime) {
+  return dayjs(s * 1000)
 }

@@ -8,15 +8,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Job, Story, isJob } from '~/api/common'
-import { extractSite } from '~/fns'
+import { extractSite, toTime } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
-
-dayjs.extend(relativeTime)
 
 interface StoryListItemProps {
   story: Story | Job
@@ -43,7 +39,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
     </Button>
   )
 
-  const time = dayjs(story.time * 1000)
+  const time = toTime(story.time)
 
   return (
     <ListItem endAction={discussionButton}>

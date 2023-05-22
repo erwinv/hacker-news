@@ -12,7 +12,6 @@ export default function Item() {
   const { itemId } = useParams()
   const { story, refetch } = useStory(Number(itemId))
   const { descendants, invalidateCache } = useDescendants(story)
-
   const commentTrees = useCommentTrees(story, descendants)
 
   if (!story) return <LinearProgress />

@@ -3,16 +3,18 @@ import { take } from '~/fns'
 
 export function inflateNestedCommentTrees(
   parent: Story | Comment,
-  descendants: Map<ItemId, Comment>,
-  limit = Infinity
+  descendants: Map<ItemId, Comment>
 ): CommentTree[] {
-  const childComments = take(parent.kids ?? [], limit).map((id) => descendants.get(id)!)
+  const childComments = (parent.kids ?? []).flatMap((id) => {
+    const childComment = descendants.get(id)
+    return childComment ? [childComment] : []
+  })
   return childComments
     .filter((comment) => !comment.deleted && !comment.dead)
     .map((childComment: Comment) => {
       return {
         ...childComment,
-        commentTrees: inflateNestedCommentTrees(childComment, descendants, limit),
+        commentTrees: inflateNestedCommentTrees(childComment, descendants),
       }
     })
 }
