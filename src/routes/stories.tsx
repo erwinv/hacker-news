@@ -5,10 +5,12 @@ import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { StoryListItem } from '~/components/StoryListItem'
 import useStories from '~/contexts/hooks/useStories'
 import useStoryKind from '~/contexts/hooks/useStoryKind'
+import useStoryListItemIds from '~/contexts/hooks/useStoryListItemIds'
 
 export default function Stories() {
   const kind = useStoryKind()
-  const { stories, hasMore, loadMore, reload } = useStories(kind, 20)
+  const { storyIds, refetch } = useStoryListItemIds(kind)
+  const { stories, hasMore, loadMore, invalidateCache } = useStories(storyIds, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
   if (!stories) return <LinearProgress />
@@ -21,7 +23,14 @@ export default function Stories() {
         // TODO pull-to-reload
         Header: () => (
           <ListItem>
-            <IconButton variant="plain" sx={{ mx: 'auto' }} onClick={() => reload()}>
+            <IconButton
+              variant="plain"
+              sx={{ mx: 'auto' }}
+              onClick={async () => {
+                await invalidateCache()
+                refetch()
+              }}
+            >
               <Refresh />
             </IconButton>
           </ListItem>
