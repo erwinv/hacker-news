@@ -134,6 +134,10 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
           xs: '1rem',
           sm: '2rem',
         },
+        '--ListItemDecorator-size': {
+          xs: '2rem',
+          sm: '2.5rem',
+        },
       }}
     >
       {!commentTrees ? (
