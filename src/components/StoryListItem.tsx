@@ -8,8 +8,9 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Job, Story, isJob } from '~/api/common'
+import useStoryKind from '~/contexts/hooks/useStoryKind'
 import { extractSite, toTime } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
 import UserLink from './UserLink'
@@ -19,18 +20,16 @@ interface StoryListItemProps {
 }
 
 export function StoryListItem({ story }: StoryListItemProps) {
-  const { pathname } = useLocation()
+  const kind = useStoryKind()
   const navigate = useNavigate()
   const site = story.url && extractSite(story.url)
-
-  const [, list, kind] = pathname.split('/')
 
   const discussionButton = isJob(story) ? null : (
     <Button
       variant="plain"
       startDecorator={<ModeCommentOutlined />}
       onClick={() => {
-        navigate(`/item/${story.id}?${list}=${kind}`)
+        navigate(`/item/${story.id}?list=${kind}`)
       }}
     >
       <Typography level="body3" sx={{ display: 'inline-block', width: '16px' }}>
@@ -48,7 +47,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
           if (story.url) {
             window.open(story.url, '_blank', 'noopener')
           } else {
-            navigate(`/item/${story.id}?${list}=${kind}`)
+            navigate(`/item/${story.id}?list=${kind}`)
           }
         }}
         sx={{ alignItems: 'start' }}
