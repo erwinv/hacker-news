@@ -136,7 +136,10 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
         },
         '--ListItemDecorator-size': {
           xs: '2rem',
-          sm: '2.5rem',
+        },
+        '--ListItem-paddingLeft': {
+          xs: '0.25rem',
+          sm: '0.75rem',
         },
       }}
     >
