@@ -1,28 +1,12 @@
 import { Comment, CommentTree, ItemId, Story, fetchItems } from '~/api/common'
 import { take } from '~/fns'
 
-export default async function fetchCommentTrees(
-  story: Story,
-  aborter?: AbortController,
-  limit = Infinity
-): Promise<CommentTree[]> {
-  const descendants = await prefetchDescendants(story, aborter, limit)
-
-  const comments = take(story.kids ?? [], limit).map((id) => descendants.get(id)!)
-
-  return comments
-    .filter((comment) => !comment.deleted && !comment.dead)
-    .map((comment: Comment) => {
-      return { ...comment, commentTrees: inflateNestedCommentTrees(comment, descendants, limit) }
-    })
-}
-
-function inflateNestedCommentTrees(
-  comment: Comment,
+export function inflateNestedCommentTrees(
+  parent: Story | Comment,
   descendants: Map<ItemId, Comment>,
   limit = Infinity
 ): CommentTree[] {
-  const childComments = take(comment.kids ?? [], limit).map((id) => descendants.get(id)!)
+  const childComments = take(parent.kids ?? [], limit).map((id) => descendants.get(id)!)
   return childComments
     .filter((comment) => !comment.deleted && !comment.dead)
     .map((childComment: Comment) => {

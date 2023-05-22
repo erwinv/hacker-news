@@ -11,7 +11,6 @@ import {
 } from '@mui/joy'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useNavigate } from 'react-router-dom'
 import { Story } from '~/api/common'
 import { extractSite } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
@@ -22,10 +21,10 @@ dayjs.extend(relativeTime)
 
 interface StoryCardProps {
   story: Story
+  reload: () => void
 }
 
-export default function StoryCard({ story }: StoryCardProps) {
-  const navigate = useNavigate()
+export default function StoryCard({ story, reload }: StoryCardProps) {
   const site = story.url && extractSite(story.url)
   const time = dayjs(story.time * 1000)
 
@@ -79,9 +78,7 @@ export default function StoryCard({ story }: StoryCardProps) {
             level="body3"
             sx={{ fontWeight: 'md', color: 'text.secondary' }}
             endDecorator={<Refresh />}
-            onClick={() => {
-              navigate(0)
-            }}
+            onClick={reload}
           >
             {story.descendants} comments
           </Link>
