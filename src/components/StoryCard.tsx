@@ -1,5 +1,14 @@
 import { Refresh } from '@mui/icons-material'
-import { Card, CardOverflow, Divider, Link, Stack, Tooltip, Typography } from '@mui/joy'
+import {
+  Card,
+  CardContent,
+  CardOverflow,
+  Divider,
+  Link,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/joy'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useNavigate } from 'react-router-dom'
@@ -22,7 +31,7 @@ export default function StoryCard({ story }: StoryCardProps) {
 
   return (
     <Card variant="outlined">
-      <Typography level="h2" sx={{ fontSize: 'md', mb: 1 }}>
+      <Typography level="h2" sx={{ fontSize: 'md' }}>
         <Link
           href={story.url}
           overlay
@@ -36,14 +45,17 @@ export default function StoryCard({ story }: StoryCardProps) {
         </Link>
         {!site ? null : <SiteSubmissionsLink site={site} />}
       </Typography>
-      {!story.text ? null : (
-        <>
-          <Divider inset="context" sx={{ my: 1 }} />
-          <InlineHtmlText text={story.text} />
-        </>
-      )}
 
-      <Divider sx={{ mt: 1.5 }} />
+      <CardContent sx={{ py: 1 }}>
+        {!story.text ? null : (
+          <>
+            <Divider inset="context" sx={{ mb: 1 }} />
+            <InlineHtmlText text={story.text} />
+          </>
+        )}
+      </CardContent>
+
+      <Divider />
       <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
         <Stack direction="row" sx={{ py: 1.5, gap: 1, alignItems: 'center' }}>
           <Typography level="body3">
