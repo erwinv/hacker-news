@@ -1,7 +1,8 @@
 import { Box, Container, Tab, TabList, Tabs } from '@mui/joy'
-import { PropsWithChildren, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { PropsWithChildren } from 'react'
+import { useNavigate } from 'react-router-dom'
 import YCombinatorIcon from '~/assets/YCombinatorIcon'
+import useStoryKind from '~/contexts/hooks/useStoryKind'
 
 interface AppLayoutProps {
   navPages: [label: string, path: string][]
@@ -14,12 +15,9 @@ export default function AppLayout({
   children,
 }: PropsWithChildren<AppLayoutProps>) {
   const navigate = useNavigate()
-  const location = useLocation()
-  const currentPath = location.pathname
 
-  useEffect(() => {
-    if (currentPath === '/') navigate(indexRoute)
-  }, [currentPath, indexRoute, navigate])
+  const storyKind = useStoryKind()
+  const selectedPath = '/list/' + storyKind
 
   return (
     <Container maxWidth="md">
@@ -38,12 +36,12 @@ export default function AppLayout({
           component="header"
           sx={{ display: 'grid', gridTemplateColumns: '1fr', alignItems: 'center', mt: 1 }}
         >
-          <Tabs value={currentPath} onChange={(_, value) => navigate(`${value}`)}>
+          <Tabs value={selectedPath} onChange={(_, value) => navigate(`${value}`)}>
             <TabList component="nav" variant="plain" sx={{ width: '100%' }}>
               {navPages.map(([label, path]) => (
                 <Tab
                   key={label}
-                  variant={currentPath.startsWith(path) ? 'solid' : undefined}
+                  variant={selectedPath === path ? 'solid' : undefined}
                   value={path}
                   sx={path === indexRoute ? { p: 0, flexGrow: 0.5 } : undefined}
                 >

@@ -1,25 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
-import {
-  ItemId,
-  StoryKind,
-  StoryKindMapping,
-  fetchItems,
-  fetchOrGetItemFromDB,
-  hackerNewsApiBaseUrl,
-} from '~/api/common'
+import { ItemId, StoryKind, StoryKindMapping, fetchItems, hackerNewsApiBaseUrl } from '~/api/common'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
 
 export default function useStories<K extends StoryKind>(kind: K, initial: number) {
   const [storyIds, setStoryIds] = useState<ItemId[]>()
-  const [limit, setLimit] = useState(initial)
   const [stories, setStories] = useState<StoryKindMapping[K][]>()
-  const [isFetching, setFetching] = useState(false)
-  const [reloadingStoryIds, setReloadingStoryIds] = useState(new Set<ItemId>())
+  const [limit, setLimit] = useState(initial)
 
   useEffect(() => {
-    setStories(undefined)
-
     const aborter = new AbortController()
 
     ;(async () => {
@@ -27,16 +16,21 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
       const response = await fetch(url, { signal: aborter.signal })
       if (!response.ok) throw response
       const storyIds = (await response.json()) as StoryKindMapping[K]['id'][]
+      setLimit(initial)
       setStoryIds(storyIds)
     })().catch(ignoreAbortError)
 
     return () => {
       aborter.abort()
+      setStoryIds(undefined)
     }
-  }, [kind])
+  }, [kind, initial])
 
   useEffect(() => {
-    if (!storyIds) return
+    if (!storyIds) {
+      setStories(undefined)
+      return
+    }
     if ((stories?.length ?? 0) >= limit) return
 
     const aborter = new AbortController()
@@ -45,10 +39,7 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
       const from = stories?.length ?? 0
       const ids = storyIds.slice(from, limit)
 
-      setFetching(true)
-      const fetchedStories = (await fetchItems(ids, aborter).finally(() =>
-        setFetching(false)
-      )) as StoryKindMapping[K][]
+      const fetchedStories = (await fetchItems(ids, aborter)) as StoryKindMapping[K][]
 
       setStories((stories) => (!stories ? fetchedStories : [...stories, ...fetchedStories]))
     })().catch(ignoreAbortError)
@@ -62,41 +53,15 @@ export default function useStories<K extends StoryKind>(kind: K, initial: number
     setLimit(lastIndex + n + 1)
   }, [])
 
-  const reload = useCallback(
-    async (id = NaN, index = NaN) => {
-      if (!storyIds) return
+  const reload = useCallback(async () => {
+    if (storyIds) {
+      await db.items.bulkDelete(storyIds)
+    }
+    setLimit(initial)
+    setStories(undefined)
+  }, [storyIds, initial])
 
-      if (!Number.isNaN(id) && !Number.isNaN(index)) {
-        setReloadingStoryIds((prev) => {
-          const next = new Set(prev)
-          next.add(id)
-          return next
-        })
+  const hasMore = (storyIds ?? []).length > (stories ?? []).length
 
-        await db.items.delete(id)
-
-        const story = (await fetchOrGetItemFromDB(id)) as StoryKindMapping[K]
-        setStories((prev) => {
-          const next = [...(prev ?? [])]
-          next[index] = story
-          return next
-        })
-        setReloadingStoryIds((prev) => {
-          const next = new Set(prev)
-          next.delete(id)
-          return next
-        })
-      } else {
-        await db.items.bulkDelete(storyIds)
-
-        setLimit(initial)
-        setStories(undefined)
-      }
-    },
-    [storyIds, initial]
-  )
-
-  const hasMore = (storyIds ?? [])?.length > (stories ?? [])?.length
-
-  return { stories, hasMore, isFetching, loadMore, reload, reloadingStoryIds }
+  return { stories, hasMore, loadMore, reload }
 }

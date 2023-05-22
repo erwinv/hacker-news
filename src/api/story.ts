@@ -1,6 +1,9 @@
-import { ItemId, Story, fetchOrGetItemFromDB } from '~/api/common'
+import { ItemId, Job, Story, fetchOrGetItemFromDB } from '~/api/common'
 
-export default async function fetchStory(id: ItemId, aborter?: AbortController): Promise<Story> {
-  const story = (await fetchOrGetItemFromDB(id, aborter)) as Story
+export default async function fetchStory(
+  id: ItemId,
+  aborter?: AbortController
+): Promise<Job | Story> {
+  const story = (await fetchOrGetItemFromDB(id, aborter)) as Job | Story
   return story
 }

@@ -2,16 +2,13 @@ import { Refresh } from '@mui/icons-material'
 import { IconButton, LinearProgress, List, ListItem } from '@mui/joy'
 import { forwardRef, useRef } from 'react'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
-import { StoryKind } from '~/api/common'
 import { StoryListItem } from '~/components/StoryListItem'
 import useStories from '~/contexts/hooks/useStories'
+import useStoryKind from '~/contexts/hooks/useStoryKind'
 
-interface StoriesProps<K extends StoryKind> {
-  kind: K
-}
-
-export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) {
-  const { stories, hasMore, loadMore, reload, reloadingStoryIds } = useStories(kind, 20)
+export default function Stories() {
+  const kind = useStoryKind()
+  const { stories, hasMore, loadMore, reload } = useStories(kind, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
   if (!stories) return <LinearProgress />
@@ -53,13 +50,7 @@ export default function Stories<K extends StoryKind>({ kind }: StoriesProps<K>) 
       }}
       data={stories}
       computeItemKey={(_, story) => story.id}
-      itemContent={(_, story) => (
-        <StoryListItem
-          story={story}
-          // reload={() => reload(story.id, i)}
-          isReloading={reloadingStoryIds.has(story.id)}
-        />
-      )}
+      itemContent={(_, story) => <StoryListItem story={story} />}
       endReached={(i) => hasMore && loadMore(i, 20)}
     />
   )
