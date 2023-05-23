@@ -10,7 +10,7 @@ import {
   iconButtonClasses,
 } from '@mui/joy'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CommentTree } from '~/api/common'
 import Comment from '~/components/Comment'
 
@@ -22,6 +22,7 @@ interface CommentTreeProps {
 }
 
 export default function CommentTree({ commentTree, isRoot = false, prev, next }: CommentTreeProps) {
+  const navigate = useNavigate()
   const ref = useRef<HTMLLIElement>(null)
   const { pathname, hash } = useLocation()
   const [isOpen, setOpen] = useState(true)
@@ -38,31 +39,42 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
 
   const selfLink = (
     <IconButton
-      component="a"
-      href={`#${commentTree.id}`}
       size="sm"
       variant="plain"
       onClick={() => {
         const url = new URL(document.location.href)
         url.hash = `${commentTree.id}`
         navigator.clipboard.writeText(url.href)
+        navigate(url.hash, { replace: true })
       }}
     >
       <Link />
     </IconButton>
   )
   const parentLink = isRoot ? null : (
-    <IconButton component="a" href={`#${commentTree.parent}`} size="sm" variant="plain">
+    <IconButton
+      size="sm"
+      variant="plain"
+      onClick={() => navigate(`#${commentTree.parent}`, { replace: true })}
+    >
       <NorthWest />
     </IconButton>
   )
   const prevLink = !prev ? null : (
-    <IconButton component="a" href={`#${prev.id}`} size="sm" variant="plain">
+    <IconButton
+      size="sm"
+      variant="plain"
+      onClick={() => navigate(`#${prev.id}`, { replace: true })}
+    >
       <North />
     </IconButton>
   )
   const nextLink = !next ? null : (
-    <IconButton component="a" href={`#${next.id}`} size="sm" variant="plain">
+    <IconButton
+      size="sm"
+      variant="plain"
+      onClick={() => navigate(`#${next.id}`, { replace: true })}
+    >
       <South />
     </IconButton>
   )
