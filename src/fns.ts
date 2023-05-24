@@ -41,6 +41,7 @@ export function extractSite(href: string) {
     case 'google.com':
     case 'netlify.app':
     case 'stackexchange.com':
+    case 'substack.com':
       return url.hostname
     default:
       return domain
