@@ -38,7 +38,21 @@ export function StoryListItem({ story }: StoryListItemProps) {
     </Button>
   )
 
+  const submittedBy = isJob(story) ? null : <UserLink username={story.by} />
+  const score = isJob(story) ? null : (
+    <Tooltip title={`${story.score} points`}>
+      <Typography startDecorator={<TrendingUp />} sx={{ px: 1 }}>
+        {story.score}
+      </Typography>
+    </Tooltip>
+  )
+
   const time = toTime(story.time)
+  const timestamp = (
+    <Tooltip title={time.format()}>
+      <Typography>{time.fromNow()}</Typography>
+    </Tooltip>
+  )
 
   return (
     <ListItem endAction={discussionButton}>
@@ -82,15 +96,9 @@ export function StoryListItem({ story }: StoryListItemProps) {
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
           <Typography level="body3">
-            <UserLink username={story.by} />
-            <Tooltip title={`${story.score} points`}>
-              <Typography startDecorator={<TrendingUp />} sx={{ px: 1 }}>
-                {story.score}
-              </Typography>
-            </Tooltip>
-            <Tooltip title={time.format()}>
-              <Typography>{time.fromNow()}</Typography>
-            </Tooltip>
+            {submittedBy}
+            {score}
+            {timestamp}
           </Typography>
         </ListItemContent>
       </ListItemButton>

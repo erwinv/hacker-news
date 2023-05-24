@@ -1,5 +1,15 @@
-import { Card, CardContent, CardOverflow, Divider, Link, Stack, Typography } from '@mui/joy'
+import {
+  Card,
+  CardContent,
+  CardOverflow,
+  Divider,
+  Link,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/joy'
 import { Job } from '~/api/common'
+import { toTime } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
 
 interface JobCardProps {
@@ -7,6 +17,8 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job }: JobCardProps) {
+  const time = toTime(job.time)
+
   return (
     <Card variant="outlined">
       <Typography level="h2" sx={{ fontSize: 'md' }}>
@@ -25,13 +37,13 @@ export default function JobCard({ job }: JobCardProps) {
       </CardContent>
 
       <Divider />
-      <CardOverflow variant="soft" sx={{ py: 1.5, bgcolor: 'background.level1' }}>
-        <Stack direction="row" sx={{ gap: 1 }}>
-          <Typography level="body3">{job.by}</Typography>
-          <Divider orientation="vertical" />
-          <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-            {job.score} points
-          </Typography>
+      <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
+        <Stack direction="row" sx={{ py: 1.5, gap: 1, alignItems: 'center' }}>
+          <Tooltip title={time.format()}>
+            <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+              {time.fromNow()}
+            </Typography>
+          </Tooltip>
         </Stack>
       </CardOverflow>
     </Card>

@@ -33,7 +33,6 @@ export default function StoryCard({ story, reload }: StoryCardProps) {
           underline="none"
           target="_blank"
           rel="noopener"
-          color="neutral"
           sx={{ mr: site ? 1 : 0 }}
         >
           {story.title}
