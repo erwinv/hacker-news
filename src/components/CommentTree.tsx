@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemContent,
   ListItemDecorator,
+  Typography,
   iconButtonClasses,
 } from '@mui/joy'
 import { Fragment, useEffect, useRef, useState } from 'react'
@@ -79,6 +80,10 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
     </IconButton>
   )
 
+  const childrenCount = !commentTree.kids ? null : (
+    <Typography>{commentTree.kids.length} comments</Typography>
+  )
+
   const childComments = commentTree.commentTrees
 
   return (
@@ -111,7 +116,9 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </Comment>
         </ListItemContent>
       </ListItem>
-      {childComments.length < 1 || !isOpen ? null : (
+      {!childComments ? (
+        childrenCount
+      ) : childComments.length < 1 || !isOpen ? null : (
         <>
           <ListDivider inset="startContent" />
           <ListItem nested>
@@ -119,6 +126,9 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
               {childComments.map((childComment, i) => {
                 const prev = i === 0 ? null : childComments[i - 1]
                 const next = i === childComments.length - 1 ? null : childComments[i + 1]
+
+                if (!childComment) return <CircularProgress size="sm" />
+
                 return (
                   <Fragment key={childComment.id}>
                     {i === 0 ? null : <ListDivider inset="startContent" />}

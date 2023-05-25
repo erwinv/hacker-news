@@ -117,7 +117,7 @@ export type StoryKindMapping = {
 export type StoryKind = keyof StoryKindMapping
 
 export interface CommentTree extends Comment {
-  commentTrees: CommentTree[]
+  commentTrees?: Array<CommentTree | null>
 }
 
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
