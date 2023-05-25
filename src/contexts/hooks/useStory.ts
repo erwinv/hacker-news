@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Job, Story } from '~/api/common'
+import { Job, Story } from '~/api/hackerNews'
 import fetchStory from '~/api/story'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'

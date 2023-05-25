@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy'
-import { Job } from '~/api/common'
+import { Job } from '~/api/hackerNews'
 import { toTime } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
 

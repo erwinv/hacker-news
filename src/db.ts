@@ -1,5 +1,5 @@
 import Dexie, { Table } from 'dexie'
-import { Item } from '~/api/common'
+import { Item } from '~/api/hackerNews'
 
 class DB extends Dexie {
   items!: Table<Item>
@@ -8,7 +8,7 @@ class DB extends Dexie {
     super('hndb.erwinv.dev')
 
     this.version(1).stores({
-      items: 'id, time, type'
+      items: 'id, time, type',
     })
   }
 }

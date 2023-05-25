@@ -1,4 +1,4 @@
-import { ItemId, Job, Story, fetchOrGetItemFromDB } from '~/api/common'
+import { ItemId, Job, Story, fetchOrGetItemFromDB } from '~/api/hackerNews'
 
 export default async function fetchStory(
   id: ItemId,

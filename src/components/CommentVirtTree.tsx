@@ -8,7 +8,7 @@ import {
   VariableSizeNodePublicState,
   VariableSizeTree,
 } from 'react-vtree/dist/es/VariableSizeTree'
-import { CommentTree } from '~/api/common'
+import { CommentTree } from '~/api/hackerNews'
 import Comment from '~/components/Comment'
 
 interface CommentVirtTreesProps {

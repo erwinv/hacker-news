@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ItemId, StoryKind, hackerNewsApiBaseUrl } from '~/api/common'
+import { ItemId, StoryKind, hackerNewsApiBaseUrl } from '~/api/hackerNews'
 import { ignoreAbortError } from '~/fns'
 
 export default function useStoryListItemIds<K extends StoryKind>(kind: K) {

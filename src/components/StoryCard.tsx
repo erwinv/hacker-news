@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy'
-import { Story } from '~/api/common'
+import { Story } from '~/api/hackerNews'
 import { extractSite, toTime } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
 import SiteSubmissionsLink from './SiteSubmissionsLink'

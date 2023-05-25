@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { inflateNestedCommentTrees } from '~/api/comments'
-import { Comment, ItemId, Job, Story, isJob } from '~/api/common'
+import { Comment, ItemId, Job, Story, isJob } from '~/api/hackerNews'
 
 export default function useCommentTrees(story?: Job | Story, descendants?: Map<ItemId, Comment>) {
   const commentTrees = useMemo(() => {

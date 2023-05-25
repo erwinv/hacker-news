@@ -1,4 +1,4 @@
-import { Comment, CommentTree, ItemId, Story, fetchItems } from '~/api/common'
+import { Comment, CommentTree, ItemId, Story, fetchItems } from '~/api/hackerNews'
 import { take } from '~/fns'
 
 export function inflateNestedCommentTrees(

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { prefetchDescendants } from '~/api/comments'
-import { Comment, ItemId, Job, Story, isJob } from '~/api/common'
+import { Comment, ItemId, Job, Story, isJob } from '~/api/hackerNews'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
 

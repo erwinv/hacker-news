@@ -1,5 +1,5 @@
 import { useLocation, useSearchParams } from 'react-router-dom'
-import { StoryKind } from '~/api/common'
+import { StoryKind } from '~/api/hackerNews'
 
 export default function useStoryKind(defaultKind: StoryKind = 'top') {
   const location = useLocation()

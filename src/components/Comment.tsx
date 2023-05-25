@@ -1,6 +1,6 @@
 import { Stack, Tooltip, Typography } from '@mui/joy'
 import { PropsWithChildren } from 'react'
-import { Comment } from '~/api/common'
+import { Comment } from '~/api/hackerNews'
 import { toTime } from '~/fns'
 import InlineHtmlText from './InlineHtmlText'
 

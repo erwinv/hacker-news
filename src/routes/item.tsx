@@ -1,6 +1,6 @@
 import { Box, LinearProgress } from '@mui/joy'
 import { useParams } from 'react-router-dom'
-import { isJob } from '~/api/common'
+import { isJob } from '~/api/hackerNews'
 import { CommentTrees } from '~/components/CommentTree'
 import JobCard from '~/components/JobCard'
 import StoryCard from '~/components/StoryCard'

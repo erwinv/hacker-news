@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
-import { Job, Story, isJob } from '~/api/common'
+import { Job, Story, isJob } from '~/api/hackerNews'
 import useStoryKind from '~/contexts/hooks/useStoryKind'
 import { extractSite, toTime } from '~/fns'
 import SiteSubmissionsLink from './SiteSubmissionsLink'
