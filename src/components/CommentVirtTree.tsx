@@ -28,8 +28,10 @@ export default function CommentVirtTrees({ commentTrees }: CommentVirtTreesProps
 
       let parentMeta = yield
       do {
-        for (const childNode of parentMeta.node.commentTrees) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1)
+        for (const childNode of parentMeta.node.commentTrees ?? []) {
+          if (childNode) {
+            yield getNodeData(childNode, parentMeta.nestingLevel + 1)
+          }
         }
         parentMeta = yield
       } while (parentMeta)
@@ -72,7 +74,7 @@ function getNodeData(
       ...node,
       defaultHeight: 120,
       id: `${node.id}`,
-      isLeaf: node.commentTrees.length === 0,
+      isLeaf: (node.commentTrees ?? []).length === 0,
       isOpenByDefault: true,
       nestingLevel,
     },
