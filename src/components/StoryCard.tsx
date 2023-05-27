@@ -25,7 +25,7 @@ export default function StoryCard({ story, reload }: StoryCardProps) {
   const time = toTime(story.time)
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ width: '100%' }}>
       <Typography level="h2" sx={{ fontSize: 'md' }}>
         <Link
           href={story.url}

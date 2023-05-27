@@ -26,18 +26,21 @@ export default function AppLayout({
           height: '100vh',
           display: 'grid',
           gridTemplateRows: 'auto 1fr',
+          '> header': {
+            mt: 1,
+            maxWidth: 'sm',
+            width: '100%',
+            mx: 'auto',
+          },
           '> main': {
             height: '100%',
             overflow: 'auto',
           },
         }}
       >
-        <Box
-          component="header"
-          sx={{ display: 'grid', gridTemplateColumns: '1fr', alignItems: 'center', mt: 1 }}
-        >
+        <Box component="header">
           <Tabs value={selectedPath} onChange={(_, value) => navigate(`${value}`)}>
-            <TabList component="nav" variant="plain" sx={{ width: '100%' }}>
+            <TabList component="nav" variant="plain">
               {navPages.map(([label, path]) => (
                 <Tab
                   key={label}
@@ -52,9 +55,7 @@ export default function AppLayout({
           </Tabs>
         </Box>
 
-        <Box component="main" sx={{ pt: 1 }}>
-          {children}
-        </Box>
+        <Box component="main">{children}</Box>
       </Box>
     </Container>
   )

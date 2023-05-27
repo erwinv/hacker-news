@@ -12,7 +12,7 @@ export default function useComments(item?: Item) {
       return
     }
     if (!isParent(item)) {
-      setComments(undefined)
+      setComments([])
       return
     }
     if (!item.kids) {

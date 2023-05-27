@@ -1,9 +1,9 @@
+import { Container } from '@mui/joy'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import AppLayout from '~/components/AppLayout'
 import Home from '~/routes/home.tsx'
 import Item from '~/routes/item'
 import Stories from '~/routes/stories'
-import Story from '~/routes/story'
 
 const router = createBrowserRouter([
   {
@@ -26,15 +26,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Stories />,
+        element: (
+          <Container maxWidth="md">
+            <Stories />
+          </Container>
+        ),
       },
       {
         path: 'list/:storyKind',
         element: <Stories />,
-      },
-      {
-        path: 'story/:itemId',
-        element: <Story />,
       },
       {
         path: 'item/:itemId',

@@ -15,16 +15,14 @@
     "@emotion/styled": "^11.10.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/joy": "5.0.0-alpha.78",
+    "@mui/material": "^5.13.2",
     "dayjs": "^1.11.7",
     "dexie": "^3.2.3",
     "dexie-react-hooks": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
-    "react-virtualized-auto-sizer": "^1.0.17",
-    "react-virtuoso": "^4.3.6",
-    "react-vtree": "3.0.0-beta.3",
-    "react-window-infinite-loader": "^1.0.9"
+    "react-virtuoso": "^4.3.6"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",

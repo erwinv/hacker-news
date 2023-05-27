@@ -10,14 +10,15 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
-          mui: ['@mui/joy', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-          dexie: ['dexie', 'dexie-react-hooks'],
-          virt: [
-            'react-virtuoso',
-            'react-vtree',
-            'react-virtualized-auto-sizer',
-            'react-window-infinite-loader',
+          mui: [
+            '@mui/material',
+            '@mui/joy',
+            '@mui/icons-material',
+            '@emotion/react',
+            '@emotion/styled',
           ],
+          dexie: ['dexie', 'dexie-react-hooks'],
+          virt: ['react-virtuoso'],
         },
       },
     },

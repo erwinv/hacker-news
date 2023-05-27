@@ -6,6 +6,7 @@ import { StoryListItem } from '~/components/StoryListItem'
 import useStories from '~/contexts/hooks/useStories'
 import useStoryKind from '~/contexts/hooks/useStoryKind'
 import useStoryListItemIds from '~/contexts/hooks/useStoryListItemIds'
+import theme from '~/theme'
 
 export default function Stories() {
   const kind = useStoryKind()
@@ -13,12 +14,12 @@ export default function Stories() {
   const { stories, hasMore, loadMore, invalidateCache } = useStories(storyIds, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  if (!stories) return <LinearProgress />
+  if (!stories) return <LinearProgress sx={{ maxWidth: 'sm', mx: 'auto' }} />
 
   return (
     <Virtuoso
       ref={virtualListRef}
-      style={{ height: '100%' }}
+      style={{ height: '100%', maxWidth: theme.breakpoints.values.sm, margin: '0 auto' }}
       components={{
         // TODO pull-to-reload
         Header: () => (
