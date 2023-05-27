@@ -80,10 +80,6 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
     </IconButton>
   )
 
-  const childrenCount = !commentTree.kids ? null : (
-    <Typography>{commentTree.kids.length} comments</Typography>
-  )
-
   const childComments = commentTree.commentTrees
 
   return (
@@ -109,6 +105,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </IconButton>
         </ListItemDecorator>
         <ListItemContent>
+          {/* <CommentCard comment={commentTree} /> */}
           <Comment comment={commentTree} hideContent={!isOpen}>
             <div>
               {selfLink} {parentLink} {prevLink} {nextLink}
@@ -116,26 +113,28 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </Comment>
         </ListItemContent>
       </ListItem>
-      {!childComments ? (
-        childrenCount
-      ) : childComments.length < 1 || !isOpen ? null : (
+      {!isOpen || !commentTree.kids ? null : (
         <>
           <ListDivider inset="startContent" />
           <ListItem nested>
             <List>
-              {childComments.map((childComment, i) => {
-                const prev = i === 0 ? null : childComments[i - 1]
-                const next = i === childComments.length - 1 ? null : childComments[i + 1]
+              {!childComments ? (
+                <Typography>{commentTree.kids.length} comments</Typography>
+              ) : (
+                childComments.map((childComment, i) => {
+                  const prev = i === 0 ? null : childComments[i - 1]
+                  const next = i === childComments.length - 1 ? null : childComments[i + 1]
 
-                if (!childComment) return <CircularProgress size="sm" />
+                  if (!childComment) return <CircularProgress size="sm" />
 
-                return (
-                  <Fragment key={childComment.id}>
-                    {i === 0 ? null : <ListDivider inset="startContent" />}
-                    <CommentTree commentTree={childComment} prev={prev} next={next} />
-                  </Fragment>
-                )
-              })}
+                  return (
+                    <Fragment key={childComment.id}>
+                      {i === 0 ? null : <ListDivider inset="startContent" />}
+                      <CommentTree commentTree={childComment} prev={prev} next={next} />
+                    </Fragment>
+                  )
+                })
+              )}
             </List>
           </ListItem>
         </>

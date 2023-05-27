@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@mui/joy'
 import { Job } from '~/api/hackerNews'
+import InlineHtmlText from '~/components/InlineHtmlText'
 import { toTime } from '~/fns'
-import InlineHtmlText from './InlineHtmlText'
 
 interface JobCardProps {
   job: Job

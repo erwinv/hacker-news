@@ -106,6 +106,10 @@ export function isLoaded<T extends Item>(x: Lazy<T>): x is T {
   return typeof x !== 'number'
 }
 
+export function isValid<T extends Item>(x: T) {
+  return !x.deleted && !x.dead
+}
+
 export type StoryKindMapping = {
   top: Job | Story
   new: Story

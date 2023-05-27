@@ -1,42 +1,55 @@
-import { Box, LinearProgress } from '@mui/joy'
+import { Box, CircularProgress, LinearProgress, List, ListItem } from '@mui/joy'
 import { useParams } from 'react-router-dom'
-import { isJob } from '~/api/hackerNews'
-import { CommentTrees } from '~/components/CommentTree'
+import { isComment, isJob, isStory } from '~/api/hackerNews'
+import CommentCard from '~/components/CommentCard'
 import JobCard from '~/components/JobCard'
 import StoryCard from '~/components/StoryCard'
-import useCommentTrees from '~/contexts/hooks/useCommentTrees'
-import useDescendants from '~/contexts/hooks/useDescendants'
-import useStory from '~/contexts/hooks/useStory'
+import useComments from '~/contexts/hooks/useComments'
+import useItem from '~/contexts/hooks/useStory'
 
 export default function Item() {
   const { itemId } = useParams()
-  const { story, refetch } = useStory(Number(itemId))
-  const { descendants, invalidateCache } = useDescendants(story)
-  const commentTrees = useCommentTrees(story, descendants)
+  const { item, refetch: refetchStory } = useItem(Number(itemId))
+  const { comments, refetch: refetchComments } = useComments(item)
 
-  if (!story) return <LinearProgress />
+  if (!item) return <LinearProgress />
 
-  if (isJob(story)) {
-    const job = story
-    return (
-      <Box sx={{ px: 1.5 }}>
-        <JobCard job={job} />
-      </Box>
-    )
-  }
+  const parentCard = isJob(item) ? (
+    <JobCard job={item} />
+  ) : isStory(item) ? (
+    <StoryCard
+      story={item}
+      reload={async () => {
+        await refetchStory()
+        await refetchComments()
+      }}
+    />
+  ) : isComment(item) ? (
+    <CommentCard comment={item} />
+  ) : null
 
   return (
-    <>
-      <Box sx={{ px: 1.5 }}>
-        <StoryCard
-          story={story}
-          reload={async () => {
-            await invalidateCache()
-            await refetch()
-          }}
-        />
-      </Box>
-      <CommentTrees commentTrees={commentTrees} />
-    </>
+    <List
+      sx={{
+        '--List-nestedInsetStart': '2rem',
+      }}
+    >
+      <ListItem>
+        <Box sx={{ px: 1.5 }}>{parentCard}</Box>
+      </ListItem>
+      <ListItem nested>
+        {!comments ? (
+          <CircularProgress />
+        ) : (
+          <List>
+            {comments.map((comment) => (
+              <ListItem key={comment.id}>
+                <CommentCard comment={comment} />
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </ListItem>
+    </List>
   )
 }

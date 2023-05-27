@@ -10,10 +10,10 @@ import {
 } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
 import { Job, Story, isJob } from '~/api/hackerNews'
+import SiteSubmissionsLink from '~/components/SiteSubmissionsLink'
+import UserLink from '~/components/UserLink'
 import useStoryKind from '~/contexts/hooks/useStoryKind'
 import { extractSite, toTime } from '~/fns'
-import SiteSubmissionsLink from './SiteSubmissionsLink'
-import UserLink from './UserLink'
 
 interface StoryListItemProps {
   story: Story | Job

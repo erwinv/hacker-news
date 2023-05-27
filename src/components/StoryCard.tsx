@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@mui/joy'
 import { Story } from '~/api/hackerNews'
+import InlineHtmlText from '~/components/InlineHtmlText'
+import SiteSubmissionsLink from '~/components/SiteSubmissionsLink'
+import UserLink from '~/components/UserLink'
 import { extractSite, toTime } from '~/fns'
-import InlineHtmlText from './InlineHtmlText'
-import SiteSubmissionsLink from './SiteSubmissionsLink'
-import UserLink from './UserLink'
 
 interface StoryCardProps {
   story: Story
@@ -75,7 +75,8 @@ export default function StoryCard({ story, reload }: StoryCardProps) {
             endDecorator={<Refresh />}
             onClick={reload}
           >
-            {story.descendants} comments
+            {/* {story.descendants} comments */}
+            {story.kids?.length ?? 0} comments
           </Link>
         </Stack>
       </CardOverflow>

@@ -1,8 +1,8 @@
 import { Stack, Tooltip, Typography } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import { Comment } from '~/api/hackerNews'
+import InlineHtmlText from '~/components/InlineHtmlText'
 import { toTime } from '~/fns'
-import InlineHtmlText from './InlineHtmlText'
 
 interface CommentProps {
   comment: Comment

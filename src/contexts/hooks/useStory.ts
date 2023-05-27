@@ -1,22 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Job, Story } from '~/api/hackerNews'
-import fetchStory from '~/api/story'
+import { Item, fetchOrGetItemFromDB } from '~/api/hackerNews'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useStory(id: number) {
-  const [story, setStory] = useState<Job | Story>()
+export default function useItem<T extends Item = Item>(id: number) {
+  const [item, setItem] = useState<T>()
 
   useEffect(() => {
     if (!Number.isFinite(id)) return
-    if (story?.id === id) return
+    if (item?.id === id) return
 
     const aborter = new AbortController()
 
-    fetchStory(id, aborter)
+    fetchOrGetItemFromDB(id, aborter)
       .then((story) => {
         if (!aborter.signal.aborted) {
-          setStory(story)
+          setItem(story as T)
         }
       })
       .catch(ignoreAbortError)
@@ -24,12 +23,12 @@ export default function useStory(id: number) {
     return () => {
       aborter.abort()
     }
-  }, [id, story])
+  }, [id, item])
 
   const refetch = useCallback(async () => {
     await db.items.delete(id)
-    setStory(undefined)
+    setItem(undefined)
   }, [id])
 
-  return { story, refetch }
+  return { item, refetch }
 }

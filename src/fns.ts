@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { UnixTime } from './api/hackerNews'
+import { UnixTime } from '~/api/hackerNews'
 
 dayjs.extend(relativeTime)
 

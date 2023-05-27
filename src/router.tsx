@@ -3,6 +3,7 @@ import AppLayout from '~/components/AppLayout'
 import Home from '~/routes/home.tsx'
 import Item from '~/routes/item'
 import Stories from '~/routes/stories'
+import Story from '~/routes/story'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'list/:storyKind',
         element: <Stories />,
+      },
+      {
+        path: 'story/:itemId',
+        element: <Story />,
       },
       {
         path: 'item/:itemId',
