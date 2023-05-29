@@ -1,6 +1,14 @@
-import { Box, LinearProgress, List, ListItem } from '@mui/joy'
+import {
+  Box,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemContent,
+  Typography,
+} from '@mui/joy'
 import { useMediaQuery } from '@mui/material'
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { Job, Story, isComment, isJob, isStory } from '~/api/hackerNews'
@@ -67,32 +75,51 @@ function MobileItem() {
 function DesktopItem() {
   const { itemId } = useParams()
   const { item: story, refetch } = useItem<Job | Story>(Number(itemId))
-  const { descendants, invalidateCache } = useDescendants(story)
+  const { descendants, loadMore, invalidateCache } = useDescendants(story, 20)
   const commentTrees = useCommentTrees(story, descendants)
 
-  useEffect(() => console.info('[COMMENTS LOADED]', descendants?.size ?? 0), [descendants])
-  // useEffect(() => console.dir(commentTrees), [commentTrees])
   if (!story) return <LinearProgress />
 
-  const card = isJob(story) ? (
-    <JobCard job={story} />
-  ) : (
-    <StoryCard
-      story={story}
-      reload={async () => {
-        await invalidateCache()
-        await refetch()
-      }}
-      commentCount="total"
-    />
-  )
+  if (isJob(story)) {
+    return (
+      <List>
+        <ListItem>
+          <JobCard job={story} />
+        </ListItem>
+      </List>
+    )
+  }
+
+  const notYetLoadedComments = (story.kids ?? []).length - (commentTrees ?? []).length
+  const isPartiallyLoaded = notYetLoadedComments < (story.kids ?? []).length
 
   return (
     <List>
-      <ListItem>{card}</ListItem>
-      <ListItem nested>
-        <CommentTrees commentTrees={commentTrees} />
+      <ListItem>
+        <StoryCard
+          story={story}
+          reload={async () => {
+            await invalidateCache()
+            await refetch()
+          }}
+          commentCount="total"
+        />
       </ListItem>
+      <ListItem nested>
+        <CommentTrees commentTrees={commentTrees} loadMore={loadMore} />
+      </ListItem>
+      {notYetLoadedComments < 1 ? null : (
+        <ListItem>
+          <ListItemButton onClick={() => loadMore({ ...story, commentTrees }, 20)}>
+            <ListItemContent>
+              <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+                {notYetLoadedComments}
+                {isPartiallyLoaded ? ' more' : ''} comments
+              </Typography>
+            </ListItemContent>
+          </ListItemButton>
+        </ListItem>
+      )}
     </List>
   )
 }

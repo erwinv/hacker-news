@@ -21,9 +21,16 @@ interface CommentTreeProps {
   isRoot?: boolean
   prev?: CommentTree | null
   next?: CommentTree | null
+  loadMore: (parent: CommentTree, n: number) => Promise<void>
 }
 
-export default function CommentTree({ commentTree, isRoot = false, prev, next }: CommentTreeProps) {
+export default function CommentTree({
+  commentTree,
+  isRoot = false,
+  prev,
+  next,
+  loadMore,
+}: CommentTreeProps) {
   const navigate = useNavigate()
   const ref = useRef<HTMLLIElement>(null)
   const { pathname, hash } = useLocation()
@@ -83,6 +90,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
 
   const childComments = commentTree.commentTrees
   const notYetLoadedComments = (commentTree.kids ?? []).length - (childComments ?? []).length
+  const isPartiallyLoaded = notYetLoadedComments < (commentTree.kids ?? []).length
 
   return (
     <>
@@ -130,17 +138,23 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
                     return (
                       <Fragment key={childComment.id}>
                         {i === 0 ? null : <ListDivider inset="startContent" />}
-                        <CommentTree commentTree={childComment} prev={prev} next={next} />
+                        <CommentTree
+                          commentTree={childComment}
+                          prev={prev}
+                          next={next}
+                          loadMore={loadMore}
+                        />
                       </Fragment>
                     )
                   })}
               {notYetLoadedComments < 1 ? null : (
                 <ListItem>
-                  <ListItemButton>
+                  <ListItemButton onClick={() => loadMore(commentTree, 20)}>
                     <ListItemDecorator />
                     <ListItemContent>
                       <Typography level="body2" sx={{ fontWeight: 'lg' }}>
-                        {notYetLoadedComments} comments
+                        {notYetLoadedComments}
+                        {isPartiallyLoaded ? ' more' : ''} comments
                       </Typography>
                     </ListItemContent>
                   </ListItemButton>
@@ -156,9 +170,10 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
 
 interface CommentTreesProps {
   commentTrees?: CommentTree[]
+  loadMore: (parent: CommentTree, n: number) => Promise<void>
 }
 
-export function CommentTrees({ commentTrees }: CommentTreesProps) {
+export function CommentTrees({ commentTrees, loadMore }: CommentTreesProps) {
   return (
     <List
       sx={{
@@ -186,7 +201,13 @@ export function CommentTrees({ commentTrees }: CommentTreesProps) {
           return (
             <Fragment key={commentTree.id}>
               {i === 0 ? null : <ListDivider inset="startContent" />}
-              <CommentTree commentTree={commentTree} isRoot prev={prev} next={next} />
+              <CommentTree
+                commentTree={commentTree}
+                isRoot
+                prev={prev}
+                next={next}
+                loadMore={loadMore}
+              />
             </Fragment>
           )
         })

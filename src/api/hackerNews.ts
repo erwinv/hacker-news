@@ -124,6 +124,10 @@ export interface CommentTree extends Comment {
   commentTrees?: Array<CommentTree | null>
 }
 
+export interface StoryTree extends Story {
+  commentTrees?: CommentTree[]
+}
+
 export const hackerNewsApiBaseUrl = new URL('https://hacker-news.firebaseio.com')
 
 export async function fetchItem(id: ItemId, aborter?: AbortController): Promise<Item> {
