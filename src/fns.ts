@@ -21,13 +21,13 @@ export function take<T>(xs: T[], n: number) {
   return n < Infinity ? [..._take(xs, n)] : xs
 }
 
-const countryTlds = ['uk']
+const countryCodeTlds = ['uk', 'au']
 
 export function extractSite(href: string) {
   const url = new URL(href)
 
   const splits = url.hostname.split('.').reverse()
-  const domain = countryTlds.includes(splits[0])
+  const domain = countryCodeTlds.includes(splits[0])
     ? splits.slice(0, 3).reverse().join('.')
     : splits.slice(0, 2).reverse().join('.')
 
