@@ -11,7 +11,7 @@ export default function useComments(item?: Item, initial = 20) {
   useEffect(() => {
     if (!item) return
 
-    setCommentIds(isParent(item) ? item.kids : [])
+    setCommentIds(isParent(item) ? item.kids ?? [] : [])
 
     return () => {
       setCommentIds(undefined)
