@@ -1,6 +1,7 @@
 import { ModeCommentOutlined, TrendingUp } from '@mui/icons-material'
 import {
-  Button,
+  Badge,
+  IconButton,
   Link,
   ListItem,
   ListItemButton,
@@ -25,17 +26,24 @@ export function StoryListItem({ story }: StoryListItemProps) {
   const site = story.url && extractSite(story.url)
 
   const discussionButton = isJob(story) ? null : (
-    <Button
+    <IconButton
       variant="plain"
-      startDecorator={<ModeCommentOutlined />}
       onClick={() => {
         navigate(`/item/${story.id}?list=${kind}`)
       }}
     >
-      <Typography level="body2" sx={{ display: 'inline-block', width: '16px' }}>
-        {story.descendants}
-      </Typography>
-    </Button>
+      <Badge
+        badgeContent={story.descendants}
+        max={999}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        badgeInset="-15%"
+      >
+        <ModeCommentOutlined />
+      </Badge>
+    </IconButton>
   )
 
   const submittedBy = isJob(story) ? null : <UserLink username={story.by} />
@@ -66,7 +74,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
         }}
         sx={{ alignItems: 'start' }}
       >
-        <ListItemContent>
+        <ListItemContent sx={{ pr: 2 }}>
           <Typography>
             <Link
               variant="plain"

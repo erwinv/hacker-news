@@ -17,6 +17,11 @@ export default extendTheme({
         color: 'neutral',
       },
     },
+    JoyBadge: {
+      defaultProps: {
+        color: 'neutral',
+      },
+    },
     JoyCircularProgress: {
       defaultProps: {
         color: 'neutral',
