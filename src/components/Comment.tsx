@@ -19,10 +19,10 @@ export default function Comment({
   return (
     <>
       <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography level="body3" sx={{ fontWeight: 'lg' }}>
+        <Typography level="body2" sx={{ fontWeight: 'lg' }}>
           {comment.by}
           <Tooltip title={time.format()}>
-            <Typography sx={{ fontWeight: 'md', ml: 2 }}>{time.fromNow()}</Typography>
+            <Typography sx={{ ml: 2, fontWeight: 'md' }}>{time.fromNow()}</Typography>
           </Tooltip>
         </Typography>
         {children}

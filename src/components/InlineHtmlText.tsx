@@ -8,22 +8,22 @@ export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
   return (
     <Box
       sx={(theme) => {
-        const { body2, body3, body4 } = theme.typography
+        const { body1, body2, body3 } = theme.typography
         return {
-          ...body2,
+          ...body1,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           '& p': {
             mb: 0,
           },
-          '& a': body3,
+          '& a': body2,
           '& pre': {
             ...theme.variants.soft.neutral,
             py: 1,
             overflowX: 'auto',
           },
           '& code': {
-            ...body4,
+            ...body3,
             fontFamily: 'monospace',
           },
         }

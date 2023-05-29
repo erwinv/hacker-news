@@ -21,7 +21,7 @@ export default function JobCard({ job }: JobCardProps) {
 
   return (
     <Card variant="outlined">
-      <Typography level="h2" sx={{ fontSize: 'md' }}>
+      <Typography level="h2" sx={{ fontSize: 'lg' }}>
         <Link href={job.url} overlay underline="none" target="_blank" rel="noopener">
           {job.title}
         </Link>
@@ -40,7 +40,7 @@ export default function JobCard({ job }: JobCardProps) {
       <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
         <Stack direction="row" sx={{ py: 1.5, gap: 1, alignItems: 'center' }}>
           <Tooltip title={time.format()}>
-            <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+            <Typography level="body2" sx={{ fontWeight: 'md' }}>
               {time.fromNow()}
             </Typography>
           </Tooltip>

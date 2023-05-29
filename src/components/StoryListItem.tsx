@@ -32,7 +32,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
         navigate(`/item/${story.id}?list=${kind}`)
       }}
     >
-      <Typography level="body3" sx={{ display: 'inline-block', width: '16px' }}>
+      <Typography level="body2" sx={{ display: 'inline-block', width: '16px' }}>
         {story.descendants}
       </Typography>
     </Button>
@@ -66,10 +66,9 @@ export function StoryListItem({ story }: StoryListItemProps) {
         }}
         sx={{ alignItems: 'start' }}
       >
-        <ListItemContent sx={{ pr: 4 }}>
-          <Typography level="body2">
+        <ListItemContent>
+          <Typography>
             <Link
-              color="neutral"
               variant="plain"
               href={story.url}
               target="_blank"
@@ -95,7 +94,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
             </Link>
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
-          <Typography level="body3">
+          <Typography level="body2">
             {submittedBy}
             {score}
             {timestamp}

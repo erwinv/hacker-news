@@ -113,7 +113,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </Comment>
         </ListItemContent>
       </ListItem>
-      {!isOpen || !commentTree.kids ? null : (
+      {!isOpen || !commentTree.kids || !commentTree.commentTrees?.length ? null : (
         <>
           <ListDivider inset="startContent" />
           <ListItem nested>

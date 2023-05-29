@@ -37,7 +37,7 @@ export default function Stories() {
           </ListItem>
         ),
         List: forwardRef(({ children, style }, ref) => (
-          <List component="div" style={style} ref={ref}>
+          <List component="div" style={style} sx={{ gap: 0.5 }} ref={ref}>
             {children}
           </List>
         )),
