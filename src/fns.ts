@@ -34,8 +34,8 @@ export function extractSite(href: string) {
   switch (domain) {
     case 'github.com':
     case 'twitter.com':
-    case 'medium.com':
       return domain + '/' + url.pathname.split('/')[1]?.toLowerCase()
+    case 'medium.com':
     case 'fly.dev':
     case 'github.io':
     case 'google.com':

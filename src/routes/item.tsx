@@ -33,7 +33,7 @@ function MobileItem() {
   const { comments, loaded, total, hasMore, loadMore, invalidateCache } = useComments(item)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  useEffect(() => console.info(loaded, '/', total), [loaded, total])
+  useEffect(() => console.debug(loaded, '/', total), [loaded, total])
   if (!item || !comments) return <LinearProgress />
 
   const parentCard = isJob(item) ? (

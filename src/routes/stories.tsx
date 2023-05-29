@@ -14,7 +14,7 @@ export default function Stories() {
   const { stories, hasMore, loaded, total, loadMore, invalidateCache } = useStories(storyIds, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  useEffect(() => console.info(loaded, '/', total), [loaded, total])
+  useEffect(() => console.debug(loaded, '/', total), [loaded, total])
   if (!stories) return <LinearProgress sx={{ maxWidth: 'sm', mx: 'auto' }} />
 
   return (
