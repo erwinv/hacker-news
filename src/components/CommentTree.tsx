@@ -5,6 +5,7 @@ import {
   List,
   ListDivider,
   ListItem,
+  ListItemButton,
   ListItemContent,
   ListItemDecorator,
   Typography,
@@ -81,6 +82,7 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
   )
 
   const childComments = commentTree.commentTrees
+  const notYetLoadedComments = (commentTree.kids ?? []).length - (childComments ?? []).length
 
   return (
     <>
@@ -105,7 +107,6 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </IconButton>
         </ListItemDecorator>
         <ListItemContent>
-          {/* <CommentCard comment={commentTree} /> */}
           <Comment comment={commentTree} hideContent={!isOpen}>
             <div>
               {selfLink} {parentLink} {prevLink} {nextLink}
@@ -113,27 +114,37 @@ export default function CommentTree({ commentTree, isRoot = false, prev, next }:
           </Comment>
         </ListItemContent>
       </ListItem>
-      {!isOpen || !commentTree.kids || !commentTree.commentTrees?.length ? null : (
+      {!isOpen || !commentTree.kids ? null : (
         <>
           <ListDivider inset="startContent" />
           <ListItem nested>
             <List>
-              {!childComments ? (
-                <Typography>{commentTree.kids.length} comments</Typography>
-              ) : (
-                childComments.map((childComment, i) => {
-                  const prev = i === 0 ? null : childComments[i - 1]
-                  const next = i === childComments.length - 1 ? null : childComments[i + 1]
+              {!childComments
+                ? null
+                : childComments.map((childComment, i) => {
+                    const prev = i === 0 ? null : childComments[i - 1]
+                    const next = i === childComments.length - 1 ? null : childComments[i + 1]
 
-                  if (!childComment) return <CircularProgress size="sm" />
+                    if (!childComment) return <CircularProgress size="sm" />
 
-                  return (
-                    <Fragment key={childComment.id}>
-                      {i === 0 ? null : <ListDivider inset="startContent" />}
-                      <CommentTree commentTree={childComment} prev={prev} next={next} />
-                    </Fragment>
-                  )
-                })
+                    return (
+                      <Fragment key={childComment.id}>
+                        {i === 0 ? null : <ListDivider inset="startContent" />}
+                        <CommentTree commentTree={childComment} prev={prev} next={next} />
+                      </Fragment>
+                    )
+                  })}
+              {notYetLoadedComments < 1 ? null : (
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemDecorator />
+                    <ListItemContent>
+                      <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+                        {notYetLoadedComments} comments
+                      </Typography>
+                    </ListItemContent>
+                  </ListItemButton>
+                </ListItem>
               )}
             </List>
           </ListItem>

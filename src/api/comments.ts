@@ -24,13 +24,16 @@ export async function prefetchDescendants(
 ) {
   const descendants = new Map<ItemId, Comment>()
 
-  let ids = take(parent.kids ?? [], limit)
-  while (ids.length > 0) {
+  let ids = take(parent.kids ?? [], limit - descendants.size)
+  while (ids.length > 0 && descendants.size <= limit) {
     const kids = (await fetchItems(ids, aborter)) as Comment[]
     for (const kid of kids) {
       descendants.set(kid.id, kid)
     }
-    ids = kids.flatMap((parent) => take(parent.kids ?? [], limit))
+    ids = take(
+      kids.flatMap((parent) => parent.kids ?? []),
+      limit - descendants.size
+    )
   }
 
   return descendants

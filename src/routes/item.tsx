@@ -1,6 +1,6 @@
 import { Box, LinearProgress, List, ListItem } from '@mui/joy'
 import { useMediaQuery } from '@mui/material'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { Job, Story, isComment, isJob, isStory } from '~/api/hackerNews'
@@ -70,6 +70,8 @@ function DesktopItem() {
   const { descendants, invalidateCache } = useDescendants(story)
   const commentTrees = useCommentTrees(story, descendants)
 
+  useEffect(() => console.info('[COMMENTS LOADED]', descendants?.size ?? 0), [descendants])
+  // useEffect(() => console.dir(commentTrees), [commentTrees])
   if (!story) return <LinearProgress />
 
   const card = isJob(story) ? (
@@ -81,6 +83,7 @@ function DesktopItem() {
         await invalidateCache()
         await refetch()
       }}
+      commentCount="total"
     />
   )
 

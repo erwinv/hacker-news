@@ -19,7 +19,7 @@ export default function useDescendants(item?: Job | Story) {
 
     const aborter = new AbortController()
 
-    prefetchDescendants(story, aborter)
+    prefetchDescendants(story, aborter, 20)
       .then((descendants) => {
         if (!aborter.signal.aborted) {
           setDescendants(descendants)

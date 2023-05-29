@@ -17,9 +17,10 @@ import { extractSite, toTime } from '~/fns'
 interface StoryCardProps {
   story: Story
   reload: () => void
+  commentCount?: 'child' | 'total'
 }
 
-export default function StoryCard({ story, reload }: StoryCardProps) {
+export default function StoryCard({ story, reload, commentCount = 'child' }: StoryCardProps) {
   const site = story.url && extractSite(story.url)
   const time = toTime(story.time)
 
@@ -62,8 +63,7 @@ export default function StoryCard({ story, reload }: StoryCardProps) {
           </Tooltip>
 
           <Link level="body2" onClick={reload}>
-            {/* {story.descendants} comments */}
-            {story.kids?.length ?? 0} comments
+            {commentCount === 'total' ? story.descendants : story.kids?.length ?? 0} comments
           </Link>
         </Stack>
       </CardOverflow>
