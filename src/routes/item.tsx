@@ -30,7 +30,7 @@ export default function Item() {
 function MobileItem() {
   const { itemId } = useParams()
   const { item, refetch: refetchStory } = useItem(Number(itemId))
-  const { comments, refetch: refetchComments } = useComments(item)
+  const { comments, hasMore, loadMore, refetch: refetchComments } = useComments(item)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
   if (!item || !comments) return <LinearProgress />
@@ -68,7 +68,8 @@ function MobileItem() {
           <CommentCard comment={item} />
         </ListItem>
       )}
-    ></Virtuoso>
+      endReached={(i) => hasMore && loadMore(i, 20)}
+    />
   )
 }
 
