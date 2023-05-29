@@ -1,6 +1,8 @@
-import { CircularProgress, LinearProgress, List, ListItem } from '@mui/joy'
+import { Box, LinearProgress, List, ListItem } from '@mui/joy'
 import { useMediaQuery } from '@mui/material'
+import { forwardRef, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { Job, Story, isComment, isJob, isStory } from '~/api/hackerNews'
 import CommentCard from '~/components/CommentCard'
 import { CommentTrees } from '~/components/CommentTree'
@@ -21,6 +23,7 @@ function MobileItem() {
   const { itemId } = useParams()
   const { item, refetch: refetchStory } = useItem(Number(itemId))
   const { comments, refetch: refetchComments } = useComments(item)
+  const virtualListRef = useRef<VirtuosoHandle>(null)
 
   if (!item) return <LinearProgress />
 
@@ -39,26 +42,25 @@ function MobileItem() {
   ) : null
 
   return (
-    <List
-      sx={{
-        '--List-nestedInsetStart': '0.75rem',
-      }}
-    >
-      <ListItem>{parentCard}</ListItem>
-      <ListItem nested>
-        {!comments ? (
-          <CircularProgress />
-        ) : (
-          <List>
-            {comments.map((comment) => (
-              <ListItem key={comment.id}>
-                <CommentCard comment={comment} />
-              </ListItem>
-            ))}
+    <Virtuoso
+      ref={virtualListRef}
+      style={{ height: '100%' }}
+      components={{
+        Header: () => <Box sx={{ px: 1.5, py: 0.5 }}>{parentCard}</Box>,
+        List: forwardRef(({ children, style }, ref) => (
+          <List component="div" style={style} sx={{ ml: 1.5 }} ref={ref}>
+            {children}
           </List>
-        )}
-      </ListItem>
-    </List>
+        )),
+      }}
+      data={comments}
+      computeItemKey={(_, item) => item.id}
+      itemContent={(_, item) => (
+        <ListItem>
+          <CommentCard comment={item} />
+        </ListItem>
+      )}
+    ></Virtuoso>
   )
 }
 
