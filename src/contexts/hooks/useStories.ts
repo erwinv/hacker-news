@@ -19,9 +19,8 @@ export default function useStories(storyIds?: ItemId[], initial = 20) {
     ;(async () => {
       const from = stories?.length ?? 0
       const ids = storyIds.slice(from, limit)
-
       const fetchedStories = (await fetchItems(ids, aborter)) as Array<Job | Story>
-
+      if (aborter.signal.aborted) return
       setStories((stories) => (!stories ? fetchedStories : [...stories, ...fetchedStories]))
     })().catch(ignoreAbortError)
 

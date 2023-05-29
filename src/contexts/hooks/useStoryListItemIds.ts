@@ -12,6 +12,7 @@ export default function useStoryListItemIds<K extends StoryKind>(kind: K) {
     ;(async () => {
       const url = new URL(`/v0/${kind}stories.json`, hackerNewsApiBaseUrl)
       const response = await fetch(url, { signal: aborter.signal })
+      if (aborter.signal.aborted) return
       if (!response.ok) throw response
       const storyIds = (await response.json()) as ItemId[]
       setStoryIds(storyIds)
