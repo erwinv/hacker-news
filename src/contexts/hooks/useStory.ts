@@ -5,10 +5,10 @@ import { ignoreAbortError } from '~/fns'
 
 export default function useItem<T extends Item = Item>(id: number) {
   const [item, setItem] = useState<T>()
+  const [refetchHack, setRefetchHack] = useState(false)
 
   useEffect(() => {
     if (!Number.isFinite(id)) return
-    if (item?.id === id) return
 
     const aborter = new AbortController()
 
@@ -22,12 +22,13 @@ export default function useItem<T extends Item = Item>(id: number) {
 
     return () => {
       aborter.abort()
+      setItem(undefined)
     }
-  }, [id, item])
+  }, [id, refetchHack])
 
   const refetch = useCallback(async () => {
     await db.items.delete(id)
-    setItem(undefined)
+    setRefetchHack((x) => !x)
   }, [id])
 
   return { item, refetch }

@@ -29,8 +29,8 @@ export default function Item() {
 
 function MobileItem() {
   const { itemId } = useParams()
-  const { item, refetch: refetchStory } = useItem(Number(itemId))
-  const { comments, loaded, total, hasMore, loadMore, refetch: refetchComments } = useComments(item)
+  const { item, refetch } = useItem(Number(itemId))
+  const { comments, loaded, total, hasMore, loadMore, invalidateCache } = useComments(item)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
   useEffect(() => console.info(loaded, '/', total), [loaded, total])
@@ -42,8 +42,8 @@ function MobileItem() {
     <StoryCard
       story={item}
       reload={async () => {
-        await refetchStory()
-        await refetchComments()
+        await invalidateCache()
+        refetch()
       }}
     />
   ) : isComment(item) ? (

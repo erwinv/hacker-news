@@ -9,21 +9,22 @@ export default function useComments(item?: Item, initial = 20) {
   const [commentIds, setCommentIds] = useState<ItemId[]>()
 
   useEffect(() => {
-    if (!item) {
+    if (!item) return
+
+    setCommentIds(isParent(item) ? item.kids : [])
+
+    return () => {
       setCommentIds(undefined)
-    } else if (!isParent(item)) {
-      setCommentIds([])
-    } else {
-      setCommentIds(item.kids)
     }
   }, [item])
+
+  useEffect(() => setLimit(initial), [commentIds, initial])
 
   useEffect(() => {
     if (!commentIds) {
       setComments(undefined)
       return
     }
-
     if ((comments?.length ?? 0) >= limit) return
 
     const aborter = new AbortController()
@@ -33,7 +34,6 @@ export default function useComments(item?: Item, initial = 20) {
       const ids = commentIds.slice(from, limit)
       const fetchedComments = (await fetchItems(ids, aborter)) as Comment[]
       if (aborter.signal.aborted) return
-
       setComments((prev) => (!prev ? fetchedComments : [...prev, ...fetchedComments]))
     })().catch(ignoreAbortError)
 
@@ -46,16 +46,15 @@ export default function useComments(item?: Item, initial = 20) {
     setLimit(lastIndex + n + 1)
   }, [])
 
-  const refetch = useCallback(async () => {
+  const invalidateCache = useCallback(async () => {
     if (commentIds) {
       await db.items.bulkDelete(commentIds)
     }
-    setLimit(initial)
-  }, [commentIds, initial])
+  }, [commentIds])
 
   const total = commentIds?.length ?? 0
   const loaded = comments?.length ?? 0
   const hasMore = total > loaded
 
-  return { comments, loaded, total, hasMore, loadMore, refetch }
+  return { comments, loaded, total, hasMore, loadMore, invalidateCache }
 }
