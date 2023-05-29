@@ -23,7 +23,7 @@ export interface Story extends BaseItem {
   score: number
 }
 
-export interface Comment extends BaseItem {
+export interface ValidComment extends BaseItem {
   type: 'comment'
 
   parent: Story['id'] | Comment['id']
@@ -32,6 +32,16 @@ export interface Comment extends BaseItem {
   by: string
   text: string
 }
+
+export interface DeletedComment extends Omit<ValidComment, 'by' | 'text'> {
+  deleted: true
+}
+
+export interface DeadComment extends ValidComment {
+  dead: true
+}
+
+export type Comment = ValidComment | DeadComment | DeletedComment
 
 export interface Job extends BaseItem {
   type: 'job'
@@ -88,26 +98,26 @@ export function isPollOpt(x: Item): x is PollOpt {
   return x.type === 'pollopt'
 }
 
-export type TopStory = Story | Job
-
-export function isTopStory(x: Item): x is TopStory {
-  return isStory(x) || isJob(x)
-}
-
 export type Parent = Story | Comment
 
 export function isParent(x: Item): x is Parent {
   return isStory(x) || isComment(x)
 }
 
-export type Lazy<T extends Item> = T | T['id']
-
-export function isLoaded<T extends Item>(x: Lazy<T>): x is T {
-  return typeof x !== 'number'
+export function isValid<T extends Item>(x: T) {
+  return !x.dead && !x.deleted
 }
 
-export function isValid<T extends Item>(x: T) {
-  return !x.deleted && !x.dead
+export function isDeadComment(x: Comment): x is DeadComment {
+  return x.dead === true
+}
+
+export function isDeletedComment(x: Comment): x is DeletedComment {
+  return x.deleted === true
+}
+
+export function isValidComment(x: Comment): x is ValidComment {
+  return isValid(x)
 }
 
 export type StoryKindMapping = {
@@ -120,8 +130,8 @@ export type StoryKindMapping = {
 }
 export type StoryKind = keyof StoryKindMapping
 
-export interface CommentTree extends Comment {
-  commentTrees?: Array<CommentTree | null>
+export type CommentTree = Comment & {
+  commentTrees?: CommentTree[]
 }
 
 export interface StoryTree extends Story {

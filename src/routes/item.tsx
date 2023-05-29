@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/joy'
 import { useMediaQuery } from '@mui/material'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { Job, Story, isComment, isJob, isStory } from '~/api/hackerNews'
@@ -30,9 +30,10 @@ export default function Item() {
 function MobileItem() {
   const { itemId } = useParams()
   const { item, refetch: refetchStory } = useItem(Number(itemId))
-  const { comments, hasMore, loadMore, refetch: refetchComments } = useComments(item)
+  const { comments, loaded, total, hasMore, loadMore, refetch: refetchComments } = useComments(item)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
+  useEffect(() => console.info(loaded, '/', total), [loaded, total])
   if (!item || !comments) return <LinearProgress />
 
   const parentCard = isJob(item) ? (

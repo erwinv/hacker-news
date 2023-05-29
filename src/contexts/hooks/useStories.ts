@@ -7,6 +7,7 @@ export default function useStories(storyIds?: ItemId[], initial = 20) {
   const [stories, setStories] = useState<Array<Job | Story>>()
   const [limit, setLimit] = useState(initial)
 
+  useEffect(() => setLimit(initial), [storyIds, initial])
   useEffect(() => {
     if (!storyIds) {
       setStories(undefined)
@@ -37,10 +38,11 @@ export default function useStories(storyIds?: ItemId[], initial = 20) {
     if (storyIds) {
       await db.items.bulkDelete(storyIds)
     }
-    setLimit(initial)
-  }, [storyIds, initial])
+  }, [storyIds])
 
-  const hasMore = (storyIds ?? []).length > (stories ?? []).length
+  const total = storyIds?.length ?? 0
+  const loaded = stories?.length ?? 0
+  const hasMore = total > loaded
 
-  return { stories, hasMore, loadMore, invalidateCache }
+  return { stories, hasMore, loaded, total, loadMore, invalidateCache }
 }

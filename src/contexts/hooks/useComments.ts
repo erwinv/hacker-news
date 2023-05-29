@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Comment, Item, ItemId, fetchItems, isParent, isValid } from '~/api/hackerNews'
+import { Comment, Item, ItemId, fetchItems, isParent } from '~/api/hackerNews'
 import db from '~/db'
 import { ignoreAbortError } from '~/fns'
 
@@ -34,17 +34,7 @@ export default function useComments(item?: Item, initial = 20) {
       const fetchedComments = (await fetchItems(ids, aborter)) as Comment[]
       if (aborter.signal.aborted) return
 
-      const deletedIds = new Set<ItemId>()
-      const validComments = fetchedComments.filter((comment) => {
-        const deleted = !isValid(comment)
-        if (deleted) {
-          deletedIds.add(comment.id)
-        }
-        return !deleted
-      })
-
-      setCommentIds((ids) => ids?.filter((id) => !deletedIds.has(id)))
-      setComments((prev) => (!prev ? validComments : [...prev, ...validComments]))
+      setComments((prev) => (!prev ? fetchedComments : [...prev, ...fetchedComments]))
     })().catch(ignoreAbortError)
 
     return () => {
@@ -63,7 +53,9 @@ export default function useComments(item?: Item, initial = 20) {
     setLimit(initial)
   }, [commentIds, initial])
 
-  const hasMore = (commentIds?.length ?? 0) > (comments ?? []).length
+  const total = commentIds?.length ?? 0
+  const loaded = comments?.length ?? 0
+  const hasMore = total > loaded
 
-  return { comments, hasMore, loadMore, refetch }
+  return { comments, loaded, total, hasMore, loadMore, refetch }
 }

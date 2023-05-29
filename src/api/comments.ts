@@ -1,4 +1,4 @@
-import { Comment, CommentTree, ItemId, Story, fetchItems, isValid } from '~/api/hackerNews'
+import { Comment, CommentTree, ItemId, Story, fetchItems } from '~/api/hackerNews'
 import { take } from '~/fns'
 
 export function inflateNestedCommentTrees(
@@ -9,7 +9,7 @@ export function inflateNestedCommentTrees(
     const childComment = descendants.get(id)
     return childComment ? [childComment] : []
   })
-  return childComments.filter(isValid).map((childComment: Comment) => {
+  return childComments.map((childComment) => {
     return {
       ...childComment,
       commentTrees: inflateNestedCommentTrees(childComment, descendants),

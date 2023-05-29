@@ -1,6 +1,6 @@
 import { Refresh } from '@mui/icons-material'
 import { IconButton, LinearProgress, List, ListItem } from '@mui/joy'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { StoryListItem } from '~/components/StoryListItem'
 import useStories from '~/contexts/hooks/useStories'
@@ -11,9 +11,10 @@ import theme from '~/theme'
 export default function Stories() {
   const kind = useStoryKind()
   const { storyIds, refetch } = useStoryListItemIds(kind)
-  const { stories, hasMore, loadMore, invalidateCache } = useStories(storyIds, 20)
+  const { stories, hasMore, loaded, total, loadMore, invalidateCache } = useStories(storyIds, 20)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
+  useEffect(() => console.info(loaded, '/', total), [loaded, total])
   if (!stories) return <LinearProgress sx={{ maxWidth: 'sm', mx: 'auto' }} />
 
   return (
