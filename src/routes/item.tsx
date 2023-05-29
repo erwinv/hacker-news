@@ -25,7 +25,7 @@ function MobileItem() {
   const { comments, refetch: refetchComments } = useComments(item)
   const virtualListRef = useRef<VirtuosoHandle>(null)
 
-  if (!item) return <LinearProgress />
+  if (!item || !comments) return <LinearProgress />
 
   const parentCard = isJob(item) ? (
     <JobCard job={item} />
