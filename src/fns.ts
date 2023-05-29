@@ -18,7 +18,7 @@ export function* _take<T>(xs: Iterable<T>, n: number) {
 }
 
 export function take<T>(xs: T[], n: number) {
-  return n < Infinity ? [..._take(xs, n)] : xs
+  return n < Infinity ? xs.slice(0, n) : xs
 }
 
 const countryCodeTlds = ['uk', 'au']
