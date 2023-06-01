@@ -8,8 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "s3cmd --no-mime-magic --acl-public sync --delete-removed ./dist/ s3://hackernews.erwinv.dev/",
-    "deploy": "s3cmd --no-mime-magic --acl-public sync --delete-removed ./dist/ s3://news.erwinv.dev/"
+    "deploy": "s3cmd --no-mime-magic --acl-public sync --delete-removed ./dist/ s3://hn.erwinv.dev/"
   },
   "dependencies": {
     "@emotion/react": "^11.10.8",
