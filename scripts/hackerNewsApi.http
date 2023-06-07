@@ -1,0 +1,48 @@
+@apiBaseUrl = https://hacker-news.firebaseio.com/v0
+
+###
+
+@itemId = {{getTopStories.response.body.$.0}}
+
+# @name getItem
+GET {{apiBaseUrl}}/item/{{itemId}}.json
+
+###
+
+# @name getTopStories
+GET {{apiBaseUrl}}/topstories.json
+
+###
+
+# @name getNewStories
+GET {{apiBaseUrl}}/newstories.json
+
+###
+
+# @name getBestStories
+GET {{apiBaseUrl}}/beststories.json
+
+###
+
+# @name getAskStories
+GET {{apiBaseUrl}}/askstories.json
+
+###
+
+# @name getShowStories
+GET {{apiBaseUrl}}/showstories.json
+
+###
+
+# @name getJobStories
+GET {{apiBaseUrl}}/jobstories.json
+
+###
+
+# @name getMaxItem
+GET {{apiBaseUrl}}/maxitem.json
+
+###
+
+# @name getUpdates
+GET {{apiBaseUrl}}/updates.json
