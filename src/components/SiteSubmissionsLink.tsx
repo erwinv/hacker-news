@@ -10,7 +10,7 @@ export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) 
     <Link
       href={`https://news.ycombinator.com/from?site=${site}`}
       variant="soft"
-      level="body2"
+      level="body-sm"
       target="_blank"
       rel="noopener"
       endDecorator={<Launch />}

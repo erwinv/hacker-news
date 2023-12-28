@@ -53,7 +53,7 @@ export default function Home() {
           <ReactLogo src={reactLogo} alt="React logo" />
         </Link>
       </div>
-      <Typography level="display1">Vite + React</Typography>
+      <Typography level='title-lg'>Vite + React</Typography>
       <Box sx={{ p: '2em' }}>
         <Button variant="soft" onClick={() => setCount((count) => count + 1)}>
           count is {count}

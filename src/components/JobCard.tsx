@@ -40,7 +40,7 @@ export default function JobCard({ job }: JobCardProps) {
       <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
         <Stack direction="row" sx={{ py: 1.5, gap: 1, alignItems: 'center' }}>
           <Tooltip title={time.format()}>
-            <Typography level="body2" sx={{ fontWeight: 'md' }}>
+            <Typography level="body-sm" sx={{ fontWeight: 'md' }}>
               {time.fromNow()}
             </Typography>
           </Tooltip>

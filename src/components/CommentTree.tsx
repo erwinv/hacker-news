@@ -130,29 +130,29 @@ export default function CommentTree({
               {!childComments
                 ? null
                 : childComments.map((childComment, i) => {
-                    const prev = i === 0 ? null : childComments[i - 1]
-                    const next = i === childComments.length - 1 ? null : childComments[i + 1]
+                  const prev = i === 0 ? null : childComments[i - 1]
+                  const next = i === childComments.length - 1 ? null : childComments[i + 1]
 
-                    if (!childComment) return <CircularProgress size="sm" />
+                  if (!childComment) return <CircularProgress size="sm" />
 
-                    return (
-                      <Fragment key={childComment.id}>
-                        {i === 0 ? null : <ListDivider inset="startContent" />}
-                        <CommentTree
-                          commentTree={childComment}
-                          prev={prev}
-                          next={next}
-                          loadMore={loadMore}
-                        />
-                      </Fragment>
-                    )
-                  })}
+                  return (
+                    <Fragment key={childComment.id}>
+                      {i === 0 ? null : <ListDivider inset="startContent" />}
+                      <CommentTree
+                        commentTree={childComment}
+                        prev={prev}
+                        next={next}
+                        loadMore={loadMore}
+                      />
+                    </Fragment>
+                  )
+                })}
               {notYetLoadedComments < 1 ? null : (
                 <ListItem>
                   <ListItemButton onClick={() => loadMore(commentTree, 20)}>
                     <ListItemDecorator />
                     <ListItemContent>
-                      <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+                      <Typography level="body-sm" sx={{ fontWeight: 'lg' }}>
                         {notYetLoadedComments}
                         {isPartiallyLoaded ? ' more' : ''} comments
                       </Typography>

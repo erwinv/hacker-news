@@ -114,7 +114,7 @@ function DesktopItem() {
         <ListItem>
           <ListItemButton onClick={() => loadMore({ ...story, commentTrees }, 20)}>
             <ListItemContent>
-              <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+              <Typography level="body-sm" sx={{ fontWeight: 'lg' }}>
                 {notYetLoadedComments}
                 {isPartiallyLoaded ? ' more' : ''} comments
               </Typography>
