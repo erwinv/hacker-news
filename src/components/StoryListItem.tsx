@@ -102,7 +102,7 @@ export function StoryListItem({ story }: StoryListItemProps) {
             </Link>
             {!site ? null : <SiteSubmissionsLink site={site} />}
           </Typography>
-          <Typography level="body2">
+          <Typography level="body-sm">
             {submittedBy}
             {score}
             {timestamp}

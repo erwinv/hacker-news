@@ -21,7 +21,7 @@ export default function Comment({
   return (
     <>
       <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+        <Typography level='body-sm' sx={{ fontWeight: 'lg' }}>
           {isDeleted ? '-' : comment.by}
           <Tooltip title={time.format()}>
             <Typography sx={{ ml: 2, fontWeight: 'md' }}>{time.fromNow()}</Typography>

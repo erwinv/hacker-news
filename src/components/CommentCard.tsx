@@ -25,7 +25,7 @@ export default function CommentCard({ comment }: PropsWithChildren<CommentCardPr
           direction="row"
           sx={{ pt: 1.5, pb: 0.5, justifyContent: 'space-between', alignItems: 'center' }}
         >
-          <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+          <Typography level="body-sm" sx={{ fontWeight: 'lg' }}>
             {isDeleted ? '-' : comment.by}
             <Tooltip title={time.format()}>
               <Typography sx={{ fontWeight: 'md', ml: 2 }}>{time.fromNow()}</Typography>
@@ -39,7 +39,7 @@ export default function CommentCard({ comment }: PropsWithChildren<CommentCardPr
       {!comment.kids?.length ? null : (
         <CardOverflow>
           <Stack direction="row-reverse" sx={{ py: 1.5 }}>
-            <Typography level="body2" sx={{ fontWeight: 'lg' }}>
+            <Typography level="body-sm" sx={{ fontWeight: 'lg' }}>
               <Link overlay onClick={() => navigate(`/item/${comment.id}?list=${kind}`)}>
                 {comment.kids.length} comments
               </Link>

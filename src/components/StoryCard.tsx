@@ -52,17 +52,17 @@ export default function StoryCard({ story, reload, commentCount = 'child' }: Sto
       <Divider />
       <CardOverflow>
         <Stack direction="row" sx={{ py: 1.5, gap: 2, alignItems: 'center' }}>
-          <Typography level="body2">
+          <Typography level="body-sm">
             <UserLink username={story.by} />
           </Typography>
 
-          <Typography level="body2">{story.score} points</Typography>
+          <Typography level="body-sm">{story.score} points</Typography>
 
           <Tooltip title={time.format()}>
-            <Typography level="body2">{time.fromNow()}</Typography>
+            <Typography level="body-sm">{time.fromNow()}</Typography>
           </Tooltip>
 
-          <Link level="body2" onClick={reload}>
+          <Link level="body-sm" onClick={reload}>
             {commentCount === 'total' ? story.descendants : story.kids?.length ?? 0} comments
           </Link>
         </Stack>
