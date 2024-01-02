@@ -9,7 +9,7 @@ export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
     <Box
       sx={(theme) => {
         return {
-          ...theme.typography['body-md'],
+          // ...theme.typography['body-md'],
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           '& p': {
