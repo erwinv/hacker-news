@@ -1,4 +1,4 @@
-import db from '~/db'
+import { db } from '~/db'
 
 export type ItemId = number
 export type UnixTime = number
@@ -174,7 +174,7 @@ export async function fetchItems(ids: ItemId[], aborter?: AbortController): Prom
       const item = await fetchItem(ids[i], aborter)
       missingItems.push(item)
       return item
-    })
+    }),
   )
 
   await db.items.bulkAdd(missingItems)

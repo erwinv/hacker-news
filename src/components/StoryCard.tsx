@@ -9,9 +9,9 @@ import {
   Typography,
 } from '@mui/joy'
 import { Story } from '~/api/hackerNews'
-import InlineHtmlText from '~/components/InlineHtmlText'
-import SiteSubmissionsLink from '~/components/SiteSubmissionsLink'
-import UserLink from '~/components/UserLink'
+import { InlineHtmlText } from '~/components/InlineHtmlText'
+import { SiteSubmissionsLink } from '~/components/SiteSubmissionsLink'
+import { UserLink } from '~/components/UserLink'
 import { extractSite, toTime } from '~/fns'
 
 interface StoryCardProps {
@@ -20,7 +20,7 @@ interface StoryCardProps {
   commentCount?: 'child' | 'total'
 }
 
-export default function StoryCard({ story, reload, commentCount = 'child' }: StoryCardProps) {
+export function StoryCard({ story, reload, commentCount = 'child' }: StoryCardProps) {
   const site = story.url && extractSite(story.url)
   const time = toTime(story.time)
 

@@ -9,14 +9,14 @@ import {
   Typography,
 } from '@mui/joy'
 import { Job } from '~/api/hackerNews'
-import InlineHtmlText from '~/components/InlineHtmlText'
+import { InlineHtmlText } from '~/components/InlineHtmlText'
 import { toTime } from '~/fns'
 
 interface JobCardProps {
   job: Job
 }
 
-export default function JobCard({ job }: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
   const time = toTime(job.time)
 
   return (

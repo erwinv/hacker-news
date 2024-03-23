@@ -1,10 +1,9 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom'
-import AppLayout from '~/components/AppLayout'
-import Home from '~/routes/home.tsx'
-import Item from '~/routes/item'
-import Stories from '~/routes/stories'
+import { AppLayout } from '~/components/AppLayout'
+import { Item } from '~/routes/item'
+import { Stories } from '~/routes/stories'
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: (
@@ -34,13 +33,7 @@ const router = createBrowserRouter([
       {
         path: 'item/:itemId',
         element: <Item />,
-      },
-      {
-        path: 'vite',
-        element: <Home />,
-      },
+      }
     ],
   },
 ])
-
-export default router

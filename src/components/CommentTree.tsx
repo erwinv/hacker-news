@@ -13,8 +13,8 @@ import {
 } from '@mui/joy'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { CommentTree } from '~/api/hackerNews'
-import Comment from '~/components/Comment'
+import { type CommentTree } from '~/api/hackerNews'
+import { Comment } from '~/components/Comment'
 
 interface CommentTreeProps {
   commentTree: CommentTree
@@ -24,7 +24,7 @@ interface CommentTreeProps {
   loadMore: (parent: CommentTree, n: number) => Promise<void>
 }
 
-export default function CommentTree({
+export function CommentTree({
   commentTree,
   isRoot = false,
   prev,

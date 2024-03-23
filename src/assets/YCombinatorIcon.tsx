@@ -1,6 +1,6 @@
 import { SvgIcon, SvgIconTypeMap, Tooltip } from '@mui/joy'
 
-export default function YCombinatorIcon(props: SvgIconTypeMap['props']) {
+export function YCombinatorIcon(props: SvgIconTypeMap['props']) {
   return (
     <Tooltip title="Hacker News icon by Icons8: https://icons8.com/icon/16336/hacker-news">
       <SvgIcon viewBox="0 0 32 32" {...props}>

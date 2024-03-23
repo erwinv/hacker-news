@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { prefetchDescendants } from '~/api/comments'
 import { Comment, CommentTree, ItemId, Job, Story, StoryTree, isJob } from '~/api/hackerNews'
-import db from '~/db'
+import { db } from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useDescendants(item?: Job | Story, initial = 20) {
+export function useDescendants(item?: Job | Story, initial = 20) {
   const [descendants, setDescendants] = useState<Map<ItemId, Comment>>()
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function useDescendants(item?: Job | Story, initial = 20) {
     const descendants = await prefetchDescendants(
       parent,
       undefined,
-      n + (parent.commentTrees ?? []).length
+      n + (parent.commentTrees ?? []).length,
     )
     setDescendants((prev) => {
       for (const [id, p] of prev ?? []) {

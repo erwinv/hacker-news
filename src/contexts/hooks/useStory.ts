@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Item, fetchOrGetItemFromDB } from '~/api/hackerNews'
-import db from '~/db'
+import { db } from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useItem<T extends Item = Item>(id: number) {
+export function useItem<T extends Item = Item>(id: number) {
   const [item, setItem] = useState<T>()
   const [refetchHack, setRefetchHack] = useState(false)
 

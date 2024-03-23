@@ -7,22 +7,22 @@ import {
   ListItemContent,
   Typography,
 } from '@mui/joy'
-import { useMediaQuery } from '@mui/material'
+import { useMediaQuery } from '@mui/system'
 import { forwardRef, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
 import { Job, Story, isComment, isJob, isStory } from '~/api/hackerNews'
-import CommentCard from '~/components/CommentCard'
+import { CommentCard } from '~/components/CommentCard'
 import { CommentTrees } from '~/components/CommentTree'
-import JobCard from '~/components/JobCard'
-import StoryCard from '~/components/StoryCard'
-import useCommentTrees from '~/contexts/hooks/useCommentTrees'
-import useComments from '~/contexts/hooks/useComments'
-import useDescendants from '~/contexts/hooks/useDescendants'
-import useItem from '~/contexts/hooks/useStory'
-import theme from '~/theme'
+import { JobCard } from '~/components/JobCard'
+import { StoryCard } from '~/components/StoryCard'
+import { useCommentTrees } from '~/contexts/hooks/useCommentTrees'
+import { useComments } from '~/contexts/hooks/useComments'
+import { useDescendants } from '~/contexts/hooks/useDescendants'
+import { useItem } from '~/contexts/hooks/useStory'
+import { theme } from '~/theme'
 
-export default function Item() {
+export function Item() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   return isMobile ? <MobileItem /> : <DesktopItem />
 }

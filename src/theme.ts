@@ -1,18 +1,8 @@
 import { extendTheme } from '@mui/joy'
 
-export default extendTheme({
+export const theme = extendTheme({
   components: {
     JoyLink: {
-      defaultProps: {
-        color: 'neutral',
-      },
-    },
-    JoyButton: {
-      defaultProps: {
-        color: 'neutral',
-      },
-    },
-    JoyIconButton: {
       defaultProps: {
         color: 'neutral',
       },
@@ -22,12 +12,12 @@ export default extendTheme({
         color: 'neutral',
       },
     },
-    JoyCircularProgress: {
+    JoyLinearProgress: {
       defaultProps: {
         color: 'neutral',
       },
     },
-    JoyLinearProgress: {
+    JoyCircularProgress: {
       defaultProps: {
         color: 'neutral',
       },

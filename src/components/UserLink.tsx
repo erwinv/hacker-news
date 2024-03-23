@@ -4,7 +4,7 @@ interface UserLinkProps {
   username: string
 }
 
-export default function UserLink({ username }: UserLinkProps) {
+export function UserLink({ username }: UserLinkProps) {
   const href = `https://news.ycombinator.com/user?id=${username}`
   return (
     <Link

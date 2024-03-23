@@ -2,8 +2,8 @@ import { CssBaseline, CssVarsProvider } from '@mui/joy'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import router from '~/router'
-import theme from '~/theme'
+import { router } from '~/router'
+import { theme } from '~/theme'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

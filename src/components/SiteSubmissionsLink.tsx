@@ -5,7 +5,7 @@ interface SiteSubmissionsLinkProps {
   site: string
 }
 
-export default function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) {
+export function SiteSubmissionsLink({ site }: SiteSubmissionsLinkProps) {
   return (
     <Link
       href={`https://news.ycombinator.com/from?site=${site}`}
