@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ItemId, Job, Story, fetchItems } from '~/api/hackerNews'
-import db from '~/db'
+import { db } from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useStories(storyIds?: ItemId[], initial = 20) {
+export function useStories(storyIds?: ItemId[], initial = 20) {
   const [stories, setStories] = useState<Array<Job | Story>>()
   const [limit, setLimit] = useState(initial)
 

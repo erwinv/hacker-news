@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Comment, Item, ItemId, fetchItems, isParent } from '~/api/hackerNews'
-import db from '~/db'
+import { db } from '~/db'
 import { ignoreAbortError } from '~/fns'
 
-export default function useComments(item?: Item, initial = 20) {
+export function useComments(item?: Item, initial = 20) {
   const [comments, setComments] = useState<Comment[]>()
   const [limit, setLimit] = useState(initial)
   const [commentIds, setCommentIds] = useState<ItemId[]>()

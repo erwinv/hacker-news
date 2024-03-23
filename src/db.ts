@@ -13,5 +13,4 @@ class DB extends Dexie {
   }
 }
 
-const db = new DB()
-export default db
+export const db = new DB()

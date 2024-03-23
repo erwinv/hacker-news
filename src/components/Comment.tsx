@@ -1,7 +1,7 @@
 import { Stack, Tooltip, Typography } from '@mui/joy'
 import { PropsWithChildren } from 'react'
-import { Comment, isDeletedComment } from '~/api/hackerNews'
-import InlineHtmlText from '~/components/InlineHtmlText'
+import { isDeletedComment, type Comment } from '~/api/hackerNews'
+import { InlineHtmlText } from '~/components/InlineHtmlText'
 import { toTime } from '~/fns'
 
 interface CommentProps {
@@ -9,7 +9,7 @@ interface CommentProps {
   hideContent?: boolean
 }
 
-export default function Comment({
+export function Comment({
   comment,
   hideContent = false,
   children,

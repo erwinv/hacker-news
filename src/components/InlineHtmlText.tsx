@@ -4,7 +4,7 @@ interface InlineHtmlTextProps {
   text: string
 }
 
-export default function InlineHtmlText({ text }: InlineHtmlTextProps) {
+export function InlineHtmlText({ text }: InlineHtmlTextProps) {
   return (
     <Box
       sx={(theme) => {

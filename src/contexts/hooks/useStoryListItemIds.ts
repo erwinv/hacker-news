@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { ItemId, StoryKind, hackerNewsApiBaseUrl } from '~/api/hackerNews'
 import { ignoreAbortError } from '~/fns'
 
-export default function useStoryListItemIds<K extends StoryKind>(kind: K) {
+export function useStoryListItemIds<K extends StoryKind>(kind: K) {
   const [storyIds, setStoryIds] = useState<ItemId[]>()
   const [refetchHack, setRefetchHack] = useState(false)
 

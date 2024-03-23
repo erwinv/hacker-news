@@ -2,15 +2,15 @@ import { Card, CardContent, CardOverflow, Link, Stack, Tooltip, Typography } fro
 import { PropsWithChildren } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Comment, isDeletedComment, isValidComment } from '~/api/hackerNews'
-import InlineHtmlText from '~/components/InlineHtmlText'
-import useStoryKind from '~/contexts/hooks/useStoryKind'
+import { InlineHtmlText } from '~/components/InlineHtmlText'
+import { useStoryKind } from '~/contexts/hooks/useStoryKind'
 import { toTime } from '~/fns'
 
 interface CommentCardProps {
   comment: Comment
 }
 
-export default function CommentCard({ comment }: PropsWithChildren<CommentCardProps>) {
+export function CommentCard({ comment }: PropsWithChildren<CommentCardProps>) {
   const navigate = useNavigate()
   const kind = useStoryKind()
   const time = toTime(comment.time)

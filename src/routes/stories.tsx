@@ -1,68 +1,51 @@
-import { Refresh } from '@mui/icons-material'
-import { IconButton, LinearProgress, List, ListItem } from '@mui/joy'
-import { forwardRef, useEffect, useRef } from 'react'
-import { Virtuoso, VirtuosoHandle } from 'react-virtuoso'
+import { Box, Container, LinearProgress, List } from '@mui/joy'
+import { useMediaQuery } from '@mui/system'
+import { useEffect } from 'react'
+import { Job, Story, isJob } from '~/api/hackerNews'
+import { JobCard } from '~/components/JobCard'
+import { StoryCard } from '~/components/StoryCard'
 import { StoryListItem } from '~/components/StoryListItem'
-import useStories from '~/contexts/hooks/useStories'
-import useStoryKind from '~/contexts/hooks/useStoryKind'
-import useStoryListItemIds from '~/contexts/hooks/useStoryListItemIds'
-import theme from '~/theme'
+import { useStories } from '~/contexts/hooks/useStories'
+import { useStoryKind } from '~/contexts/hooks/useStoryKind'
+import { useStoryListItemIds } from '~/contexts/hooks/useStoryListItemIds'
+import { theme } from '~/theme'
 
-export default function Stories() {
+export function Stories() {
   const kind = useStoryKind()
-  const { storyIds, refetch } = useStoryListItemIds(kind)
-  const { stories, hasMore, loaded, total, loadMore, invalidateCache } = useStories(storyIds, 20)
-  const virtualListRef = useRef<VirtuosoHandle>(null)
+  const { storyIds } = useStoryListItemIds(kind)
+  const { stories, loaded, total } = useStories(storyIds, 40)
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => console.debug(loaded, '/', total), [loaded, total])
-  if (!stories) return <LinearProgress sx={{ maxWidth: 'sm', mx: 'auto' }} />
+  if (!stories) return <LinearProgress />
 
-  return (
-    <Virtuoso
-      ref={virtualListRef}
-      style={{ height: '100%', maxWidth: theme.breakpoints.values.sm, margin: '0 auto' }}
-      components={{
-        // TODO pull-to-reload
-        Header: () => (
-          <ListItem>
-            <IconButton
-              variant="plain"
-              sx={{ mx: 'auto' }}
-              onClick={async () => {
-                await invalidateCache()
-                refetch()
-              }}
-            >
-              <Refresh />
-            </IconButton>
-          </ListItem>
-        ),
-        List: forwardRef(({ children, style }, ref) => (
-          <List component="div" style={style} sx={{ gap: 0.5 }} ref={ref}>
-            {children}
-          </List>
-        )),
-        // TODO FIXME this footer casuses endReached callback to be called repeatedly
-        // Footer: hasMore
-        //   ? () => (
-        //       <ListItem>
-        //         {isFetching ? (
-        //           <CircularProgress sx={{ mx: 'auto' }} />
-        //         ) : (
-        //           <ListItemButton onClick={() => loadMore(stories.length - 1, 20)}>
-        //             <IconButton variant="plain" sx={{ mx: 'auto' }}>
-        //               <Refresh />
-        //             </IconButton>
-        //           </ListItemButton>
-        //         )}
-        //       </ListItem>
-        //     )
-        //   : undefined,
-      }}
-      data={stories}
-      computeItemKey={(_, story) => story.id}
-      itemContent={(_, story) => <StoryListItem story={story} />}
-      endReached={(i) => hasMore && loadMore(i, 20)}
-    />
-  )
+  return isMobile ? <StoryList stories={stories} /> : <StoryCards stories={stories} />
+}
+
+interface StoriesProps {
+  stories: Array<Story | Job>
+}
+
+function StoryList({ stories }: StoriesProps) {
+  return <List>
+    {stories.map(story => <StoryListItem key={story.id} story={story} />)}
+  </List>
+}
+
+function StoryCards({ stories }: StoriesProps) {
+  return <Container>
+    <Box sx={{
+      py: 2,
+      display: 'grid',
+      gap: 2,
+      gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+    }}>
+      {stories.map(story =>
+        isJob(story) ?
+          <JobCard key={story.id} job={story} />
+          : <StoryCard key={story.id} story={story} reload={() => { }} />
+
+      )}
+    </Box>
+  </Container>
 }
