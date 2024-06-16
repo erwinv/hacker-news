@@ -11,35 +11,39 @@
     "deploy": "s3cmd --no-mime-magic --acl-public sync --delete-removed ./dist/ s3://hn.erwinv.dev/"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
-    "@mui/icons-material": "^5.11.16",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.16",
     "@mui/joy": "5.0.0-alpha.78",
-    "@mui/material": "^5.13.2",
-    "dayjs": "^1.11.7",
-    "dexie": "^3.2.3",
-    "dexie-react-hooks": "^1.1.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1",
-    "react-virtuoso": "^4.3.6"
+    "@mui/material": "^5.15.16",
+    "dayjs": "^1.11.11",
+    "dexie": "^3.2.7",
+    "dexie-react-hooks": "^1.1.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.0",
+    "react-virtuoso": "^4.7.10"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.7",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "@vitejs/plugin-react-swc": "^3.3.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.3.5",
     "prettier": "^2.8.8",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.2",
-    "vite-tsconfig-paths": "^4.2.0"
+    "typescript": "^5.4.5",
+    "vite": "^4.5.3",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "engines": {
     "node": ">=19.0.0 <20.0.0"
+  },
+  "volta": {
+    "node": "20.14.0",
+    "pnpm": "9.3.0"
   }
 }
