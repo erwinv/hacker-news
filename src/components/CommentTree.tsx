@@ -13,7 +13,7 @@ import {
 } from '@mui/joy'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { CommentTree } from '~/api/hackerNews'
+import { type CommentTree } from '~/api/hackerNews'
 import Comment from '~/components/Comment'
 
 interface CommentTreeProps {
